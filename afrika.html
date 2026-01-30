@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MİLİTANATLASIAFRİKA</title>
+  <title>MİLİTAN ATLASI AFRİKA</title>
   <style>
     * { box-sizing: border-box; margin:0; padding:0; }
     body {
@@ -308,30 +308,39 @@
 
     /* Sekmeler */
     .tabs {
-      display: flex;
-      border-bottom: 1px solid #444;
-      margin: 20px 0 16px;
-      overflow-x: auto;
-    }
+  display: flex;
+  border-bottom: 1px solid #444;
+  margin: 20px 0 16px;
+  overflow-x: hidden;          /* ← kaydırmayı tamamen kaldırdık */
+  flex-wrap: wrap;             /* ← ekran daralınca alta geçsin */
+  gap: 4px;                    /* sekmeler arası boşluk */
+  justify-content: center;     /* ortalamak için güzel durur */
+  padding: 0 8px;
+}
     .tab {
-      padding: 10px 18px;
-      background: #2a2a2a;
-      border: 1px solid #444;
-      border-bottom: none;
-      border-radius: 8px 8px 0 0;
-      margin-right: 4px;
-      cursor: pointer;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-    .tab.active {
-      background: #3a3a3a;
-      color: #4ade80;
-      border-color: #4ade80;
-    }
+  padding: 10px 18px;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  margin-right: 0;             /* eskiden vardı, kaldırdık */
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  flex: 1 1 auto;              /* eşit genişlik + esneme */
+  min-width: 90px;             /* çok küçülmesin */
+  max-width: 180px;            /* aşırı genişlemesin */
+  text-align: center;
+  box-sizing: border-box;
+}
+   .tab.active {
+  background: #3a3a3a;
+  color: #4ade80;
+  border-color: #4ade80;
+}
     .tab:hover:not(.active) {
-      background: #333;
-    }
+  background: #333;
+}
     .tab-content {
       padding: 16px;
       background: #2a2a2a;
@@ -345,9 +354,19 @@
 
     @media (max-width: 480px) {
       .modal-content { padding: 20px; width: 96%; }
-      .tabs { flex-wrap: wrap; }
-      .tab { font-size: 13px; padding: 8px 14px; }
-    }
+     .tab {
+    padding: 8px 12px;
+    font-size: 13px;
+    min-width: 70px;
+    max-width: 120px;
+  }
+  
+  .tabs {
+    justify-content: flex-start;   /* soldan başlasın */
+    padding: 0 4px;
+    gap: 3px;
+  }
+}
   </style>
 </head>
 <body>
