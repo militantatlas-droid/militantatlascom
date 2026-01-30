@@ -488,7 +488,7 @@ const backToCountry   = document.getElementById("back-to-country");
 // ──────────────────────────────────────────────
 // VERİ YÜKLEME
 // ──────────────────────────────────────────────
-fetch("data.json")
+fetch("turkdata.json")
   .then(res => res.json())
   .then(data => {
     countryData = data;
