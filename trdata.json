@@ -131,12 +131,12 @@
     {"name_tr": "IS Sahel", "details": {"kurulus_yili": "2015", "grup_durumu": "Aktif", "saldiri_taktikleri": "Sınır pusu"}}
   ]},
   "NG": {"name_tr": "Nijerya", "groups": [
-    {"name_tr": "Boko Haram (JAS)", "details": {
+    {"name_tr": "Boko Haram (DENEME)", "details": {
       "kurulus_yili": "2002",
       "ilk_eylem": "2009",
       "grup_turu": "Cihatçı Selefi",
       "grup_durumu": "2025-2026'da yeniden yükseliş – Lake Chad, Borno",
-      "saldiri_taktikleri": "İntihar bombası, köy katliamı, drone, gece saldırısı"
+      "saldiri_taktikleri": "İntihar bombası, köy katliamı, drone, gece saldırısı, TAKTİK AKIN"
     }},
     {"name_tr": "ISWAP", "details": {
       "kurulus_yili": "2016",
