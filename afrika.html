@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MİLİTAN ATLASI (gün)</title>
+  <title>MİLİTAN ATLASI (GÜNCEL)</title>
   <style>
     * { box-sizing: border-box; margin:0; padding:0; }
     body {
@@ -415,66 +415,32 @@ function showSearchSuggestions(term) {
   }
 
   let html = `<h3 style="margin: 0 0 12px 0; color:#4ade80;">Eşleşen Ülkeler:</h3>`;
+
   const matches = [];
 
-  // 1. countryData'dan eşleşen ülkeler
+  // countryData'dan eşleşenler
   Object.keys(countryData).forEach(id => {
     const country = countryData[id];
     const nameLower = (country.name_tr || id).toLowerCase();
     if (nameLower.includes(term)) {
       matches.push({
-        id: id.toUpperCase(),           // SVG id'leri büyük harf
-        name: country.name_tr || id,
-        pathElement: document.getElementById(id)
+        id,
+        name: country.name_tr || id
       });
     }
   });
 
-  // 2. JSON yoksa SVG path'lerin data-name'inden eşleşenler
+  // JSON yoksa data-name'den de bak
   document.querySelectorAll("svg path").forEach(path => {
     const id = path.id;
-    if (!countryData[id]) {  // Sadece countryData'da olmayanları ekle (tekrar olmasın)
+    if (!countryData[id]) {
       const nameLower = (path.getAttribute("data-name") || id).toLowerCase();
       if (nameLower.includes(term) && !matches.some(m => m.id === id)) {
         matches.push({
-          id: id.toUpperCase(),
-          name: path.getAttribute("data-name") || id,
-          pathElement: path
+          id,
+          name: path.getAttribute("data-name") || id
         });
       }
-    }
-  });
-
-  if (matches.length === 0) {
-    html += `<p style="color:#888; padding:10px;">Sonuç bulunamadı</p>`;
-  } else {
-    matches.forEach(item => {
-      // En güvenli yöntem: pathElement'ı doğrudan geçiriyoruz
-      const safeName = item.name.replace(/'/g, "\\'");
-      html += `
-        <div class="suggestion-item"
-             onclick="activateCountry('${item.id}', '${safeName}', document.getElementById('${item.id}'))">
-          ${item.name}
-        </div>`;
-    });
-  }
-
-  sidebarContent.innerHTML = html;
-  sidebar.classList.add("active");   // Arama sonuçları çıkınca sidebar açılsın
-}
-  });
-
-  if (matches.length === 0) {
-    html += `<p style="color:#888; padding:10px;">Sonuç bulunamadı</p>`;
-  } else {
-    matches.forEach(item => {
-      html += `
-        <div class="suggestion-item" 
-             onclick="activateCountry('${item.id}', '${item.name.replace(/'/g, "\\'")}', document.getElementById('${item.id}'))">
-          ${item.name}
-        </div>`;
-    });
-  }
     }
   });
 
