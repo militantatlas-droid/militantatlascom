@@ -223,6 +223,57 @@
       stroke: currentColor;
     }
 
+    /* İstatistik Paneli Stili */
+#stats-panel {
+  position: fixed;
+  top: 70px; /* Geri dön butonunun hemen altında başlar */
+  left: 16px;
+  z-index: 490;
+  background: rgba(30, 30, 30, 0.85);
+  border: 1px solid #444;
+  border-radius: 12px;
+  padding: 12px 16px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 140px;
+  pointer-events: none; /* Haritaya tıklamayı engellememesi için */
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.stat-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #888;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: bold;
+  color: #4ade80;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* Mobil Uyumluluk */
+@media (max-width: 768px) {
+  #stats-panel {
+    top: auto;
+    bottom: 24px;
+    left: 24px;
+    padding: 8px 12px;
+    min-width: 120px;
+  }
+}
+
     /* MODAL STİLLERİ */
     .modal {
       position: fixed;
@@ -409,6 +460,16 @@
 
 <div id="container">
   <a href="https://militantatlas-droid.github.io/militantatlascom" id="back-to-home" aria-label="Back to Home" title="Back to Home" target="_self">
+    <div id="stats-panel">
+  <div class="stat-item">
+    <span class="stat-label">Ülke Sayısı</span>
+    <span id="total-countries" class="stat-value">54</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-label">Örgüt Sayısı</span>
+    <span id="total-groups" class="stat-value">0</span>
+  </div>
+</div>
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
     </svg>
@@ -895,6 +956,24 @@ function removeBackdrop() {
     setTimeout(() => b.remove(), 420);
   }
 }
+   function updateStats() {
+    // Toplam Ülke: Haritadaki 'path' sayısı (id'si olanlar)
+    const countryCount = document.querySelectorAll('#svg-map path[id]').length;
+    document.getElementById('total-countries').textContent = countryCount;
+
+    // Toplam Örgüt: Veri setindeki (countriesData) tüm grupların toplamı
+    let groupCount = 0;
+    Object.values(countriesData).forEach(country => {
+        if (country.groups) {
+            groupCount += country.groups.length;
+        }
+    });
+    document.getElementById('total-groups').textContent = groupCount;
+}
+
+// Sayfa hazır olduğunda çalıştır
+window.addEventListener('DOMContentLoaded', updateStats);
 </script>
+ 
 </body>
 </html>
