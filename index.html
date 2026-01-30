@@ -38,7 +38,7 @@
 
     .lang-switch {
       position:absolute;
-      top:20px; /* biraz aşağı kaydırdık */
+      top:20px;
       right:15px;
       z-index:10;
       display:flex;
@@ -71,7 +71,7 @@
     }
     h1 {
       font-size:clamp(2.6rem, 9vw, 4.8rem);
-      margin:0.8rem 0 1.8rem; /* başlık ile butonlar arasında daha fazla boşluk */
+      margin:0.8rem 0 1.8rem;
       color:#4ade80;
       text-shadow:0 0 20px rgba(74,222,128,0.5);
       letter-spacing:2px;
@@ -165,12 +165,12 @@
         avrupa: "EUROPE",
         kuzey: "NORTH AMERICA",
         guney: "SOUTH AMERICA",
-        africaPage: "africamap.html",
+        africaPage: "africa.html",
         alertSuffix: " map is coming soon!"
       }
     };
 
-    let currentLang = localStorage.getItem('lang') || 'en';
+    let currentLang = localStorage.getItem('lang') || 'en'; // Varsayılan İngilizce
 
     function setLanguage(lang) {
       currentLang = lang;
@@ -200,8 +200,9 @@
 
     function goTo(continent) {
       const t = translations[currentLang];
+      // Continent anahtarını doğru eşleştir (küçük harf + boşluk kaldırma)
       const key = continent.toLowerCase().replace(/\s+/g, '');
-      const continentName = t[key] || continent;
+      const continentName = t[key] || continent; // Eğer key yoksa continent'ı direkt kullan
       alert(continentName + t.alertSuffix);
     }
 
