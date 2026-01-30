@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MİLİTAN ATLASI (GÜNCEL)</title>
+  <title>MİLİTAN ATLASI (DEĞİŞ)</title>
   <style>
     * { box-sizing: border-box; margin:0; padding:0; }
     body {
@@ -160,7 +160,6 @@
     }
     #search-button:hover { transform: scale(1.15); background: #00ff88; }
     #search-button.hidden { opacity: 0; pointer-events: none; transform: scale(0.7); }
-
     #sidebar-backdrop {
       position: fixed; inset: 0;
       background: rgba(0,0,0,0.4);
@@ -170,8 +169,6 @@
       backdrop-filter: blur(4px);
       pointer-events: none;
     }
-
-    /* Öneri satırları için stil */
     .suggestion-item {
       padding: 12px 14px;
       background: #2a2a2a;
@@ -186,7 +183,6 @@
       transform: translateX(4px);
       box-shadow: 0 2px 10px rgba(74,222,128,0.2);
     }
-
     @media (max-width: 768px) {
       #container { flex-direction: column; }
       #map-area { flex: 1 1 60%; }
@@ -265,7 +261,6 @@
     </svg>
     <div class="tooltip" id="tooltip"></div>
   </div>
-
   <div id="sidebar">
     <button id="sidebar-close">×</button>
     <div id="search-container">
@@ -275,12 +270,12 @@
     <div id="sidebar-content"></div>
   </div>
 </div>
-
 <button id="search-button">ARAMA YAP</button>
 
 <script>
 let countryData = {};
 let activePath = null;
+
 const tooltip = document.getElementById("tooltip");
 const sidebar = document.getElementById("sidebar");
 const sidebarContent = document.getElementById("sidebar-content");
@@ -306,10 +301,8 @@ function initMap() {
   paths.forEach(path => {
     const id = path.id;
     if (!id) return;
-
     const fallbackName = path.getAttribute("data-name") || id || "Bilinmeyen";
     const country = countryData[id] || {};
-
     path.addEventListener("mouseover", (e) => {
       const displayName = country.name_tr || fallbackName;
       const groupsText = country.groups?.length
@@ -319,24 +312,19 @@ function initMap() {
       tooltip.classList.add("visible");
       moveTooltip(e);
     });
-
     path.addEventListener("mousemove", moveTooltip);
     path.addEventListener("mouseout", hideTooltip);
-
     path.addEventListener("click", () => activateCountry(id, fallbackName, path));
-
     path.addEventListener("touchend", (e) => {
       e.preventDefault();
       activateCountry(id, fallbackName, path);
     }, { passive: false });
   });
 
-  // Arama + öneri listesi
   searchInput.addEventListener("input", () => {
     const term = searchInput.value.trim().toLowerCase();
     clearSearch.style.display = term ? "block" : "none";
 
-    // Haritayı filtrele
     document.querySelectorAll("svg path").forEach(path => {
       const name = (countryData[path.id]?.name_tr || path.getAttribute("data-name") || path.id || "").toLowerCase();
       const matches = !term || name.includes(term);
@@ -344,7 +332,6 @@ function initMap() {
       path.style.pointerEvents = matches ? "all" : "none";
     });
 
-    // Öneri listesini göster
     showSearchSuggestions(term);
   });
 
@@ -360,15 +347,14 @@ function initMap() {
   });
 
   document.addEventListener('click', function(e) {
-    if (sidebar.classList.contains('active') && 
-        !sidebar.contains(e.target) && 
-        !searchButton.contains(e.target) && 
+    if (sidebar.classList.contains('active') &&
+        !sidebar.contains(e.target) &&
+        !searchButton.contains(e.target) &&
         !svg.contains(e.target)) {
       closeSidebar();
     }
   });
 
-  // Mobil aşağı swipe kapatma
   let touchStartY = 0;
   sidebar.addEventListener('touchstart', e => {
     touchStartY = e.changedTouches[0].screenY;
@@ -400,6 +386,8 @@ function activateCountry(id, fallbackName, pathElement = null) {
     svg.appendChild(targetPath);
     targetPath.classList.add("active");
     activePath = targetPath;
+  } else {
+    console.warn(`Ülke path'i bulunamadı: ${id}`);
   }
 
   showSidebar(id, fallbackName);
@@ -408,37 +396,37 @@ function activateCountry(id, fallbackName, pathElement = null) {
 function showSearchSuggestions(term) {
   if (!term) {
     sidebarContent.innerHTML = "";
-    if (!sidebar.classList.contains("active")) {
-      sidebar.classList.remove("active");
-    }
+    sidebar.classList.remove("active");
     return;
   }
 
   let html = `<h3 style="margin: 0 0 12px 0; color:#4ade80;">Eşleşen Ülkeler:</h3>`;
-
   const matches = [];
 
   // countryData'dan eşleşenler
-  Object.keys(countryData).forEach(id => {
-    const country = countryData[id];
-    const nameLower = (country.name_tr || id).toLowerCase();
+  Object.keys(countryData).forEach(key => {
+    const country = countryData[key];
+    const nameLower = (country.name_tr || key).toLowerCase();
     if (nameLower.includes(term)) {
-      matches.push({
-        id,
-        name: country.name_tr || id
-      });
+      const upperId = key.toUpperCase();
+      if (!matches.some(m => m.id === upperId)) {
+        matches.push({
+          id: upperId,
+          name: country.name_tr || key
+        });
+      }
     }
   });
 
-  // JSON yoksa data-name'den de bak
+  // SVG path'lerden (data-name ile) eşleşenler
   document.querySelectorAll("svg path").forEach(path => {
-    const id = path.id;
-    if (!countryData[id]) {
-      const nameLower = (path.getAttribute("data-name") || id).toLowerCase();
-      if (nameLower.includes(term) && !matches.some(m => m.id === id)) {
+    const id = path.id.toUpperCase();  // büyük harf garantisi
+    const nameLower = (path.getAttribute("data-name") || path.id).toLowerCase();
+    if (nameLower.includes(term) && !countryData[path.id] && !countryData[path.id.toLowerCase()]) {
+      if (!matches.some(m => m.id === id)) {
         matches.push({
-          id,
-          name: path.getAttribute("data-name") || id
+          id: id,
+          name: path.getAttribute("data-name") || path.id
         });
       }
     }
@@ -448,20 +436,21 @@ function showSearchSuggestions(term) {
     html += `<p style="color:#888; padding:10px;">Sonuç bulunamadı</p>`;
   } else {
     matches.forEach(item => {
+      const safeName = item.name.replace(/'/g, "\\'");
       html += `
-        <div class="suggestion-item" 
-             onclick="activateCountry('${item.id}', '${item.name.replace(/'/g, "\\'")}')">
+        <div class="suggestion-item"
+             onclick="activateCountry('${item.id}', '${safeName}', document.getElementById('${item.id}'))">
           ${item.name}
         </div>`;
     });
   }
 
   sidebarContent.innerHTML = html;
-  sidebar.classList.add("active");   // Arama yapınca sidebar otomatik açılsın
+  sidebar.classList.add("active");
 }
 
 function showSidebar(id, fallbackName) {
-  const country = countryData[id] || {};
+  const country = countryData[id] || countryData[id.toLowerCase()] || {};
   const displayName = country.name_tr || fallbackName;
   let html = `<h2 style="margin-top:0;">${displayName}</h2>`;
 
@@ -478,7 +467,6 @@ function showSidebar(id, fallbackName) {
   sidebarContent.innerHTML = html;
   sidebar.classList.add("active");
   sidebarContent.scrollTop = 0;
-
   createBackdrop();
   setTimeout(() => searchInput.focus(), 300);
 }
@@ -503,13 +491,10 @@ function moveTooltip(e) {
   const offset = 16;
   let x = (e.clientX || 0) - rect.left + offset;
   let y = (e.clientY || 0) - rect.top + offset;
-
   if (x + tooltip.offsetWidth > rect.width - 10) x = rect.width - tooltip.offsetWidth - 10;
   if (y + tooltip.offsetHeight > rect.height - 10) y = rect.height - tooltip.offsetHeight - 10;
-
   x = Math.max(10, x);
   y = Math.max(10, y);
-
   tooltip.style.left = `${rect.left + x}px`;
   tooltip.style.top = `${rect.top + y}px`;
 }
@@ -522,9 +507,9 @@ function createBackdrop() {
     document.body.appendChild(backdrop);
     backdrop.addEventListener('click', closeSidebar);
   }
-  setTimeout(() => { 
-    backdrop.style.opacity = "1"; 
-    backdrop.style.pointerEvents = "all"; 
+  setTimeout(() => {
+    backdrop.style.opacity = "1";
+    backdrop.style.pointerEvents = "all";
   }, 50);
 }
 
