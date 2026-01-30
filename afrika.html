@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MİLİTAN ATLASI AFRİKA</title>
+  <title>MİLİTAN ATLASI AFRİKA - GELİŞMİŞ ARAMA</title>
   <style>
     * { box-sizing: border-box; margin:0; padding:0; }
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #111;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0f0f0f;
       color: #eee;
       height: 100vh;
       overflow: hidden;
@@ -18,233 +18,184 @@
     #map-area {
       flex: 1;
       position: relative;
-      background: #1a1a1a;
+      background: #151515;
       overflow: hidden;
-      cursor: default;
     }
     svg {
       width: 100%;
       height: 100%;
       display: block;
-      user-select: none;
-      touch-action: manipulation;
+      transition: transform 0.3s ease-out;
     }
     svg path {
-      fill: #ffffff;
+      fill: #2a2a2a;
       stroke: #000000;
-      stroke-width: 2.0;
+      stroke-width: 1.5;
       vector-effect: non-scaling-stroke;
-      pointer-events: all;
+      cursor: pointer;
+      transition: fill 0.3s, stroke-width 0.2s;
     }
     svg path:hover {
       fill: #4ade80 !important;
-      stroke: #000;
       stroke-width: 2.5;
     }
     svg path.active {
       fill: #ff4444 !important;
-      stroke: #000;
-      stroke-width: 3.0;
+      filter: drop-shadow(0 0 8px rgba(255,68,68,0.5));
     }
+    
+    /* TOOLTIP */
     .tooltip {
       position: absolute;
-      background: rgba(0,0,0,0.92);
+      background: rgba(0,0,0,0.95);
       color: white;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-size: 13.5px;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: 14px;
       pointer-events: none;
-      z-index: 100;
-      max-width: 280px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+      z-index: 1000;
       display: none;
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(74,222,128,0.3);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
     .tooltip.visible { display: block; }
-    .tooltip strong {
-      display: block;
-      font-size: 16px;
-      margin-bottom: 6px;
-      color: #4ade80;
-    }
+    .tooltip strong { color: #4ade80; display: block; margin-bottom: 4px; font-size: 16px; }
 
+    /* SIDEBAR (ARAMA MENÜSÜ) */
     #sidebar {
-      width: 340px;
-      background: #1f1f1f;
+      width: 380px;
+      background: #1a1a1a;
       border-left: 1px solid #333;
-      color: #ddd;
-      padding: 20px;
-      position: relative;
-      overflow-y: auto;
-      display: none;
-      transition: transform 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+      padding: 25px;
+      position: fixed;
+      right: 0; top: 0; bottom: 0;
       transform: translateX(100%);
-      box-shadow: -10px 0 30px rgba(0,0,0,0.6);
-      z-index: 300;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 2000;
+      box-shadow: -15px 0 40px rgba(0,0,0,0.8);
+      overflow-y: auto;
     }
-    #sidebar.active { display: block; transform: translateX(0); }
+    #sidebar.active { transform: translateX(0); }
 
     #sidebar-close {
-      position: absolute;
-      top: 12px; right: 12px;
-      width: 28px; height: 28px;
-      background: #444;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      font-size: 20px;
-      line-height: 26px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-      z-index: 310;
+      position: absolute; top: 20px; right: 20px;
+      background: #333; color: white; border: none;
+      width: 35px; height: 35px; border-radius: 50%;
+      cursor: pointer; font-size: 20px; transition: 0.3s;
     }
-    #sidebar-close:hover { background: #666; transform: scale(1.08); }
+    #sidebar-close:hover { background: #ff4444; transform: rotate(90deg); }
 
-    /* Yenilenmiş Arama Butonu (İkonlu) */
-    #search-button {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      width: 60px;
-      height: 60px;
-      background: #4ade80;
-      color: #111;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      box-shadow: 0 8px 25px rgba(74,222,128,0.4);
-      z-index: 150;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    #search-button svg {
-      width: 28px;
-      height: 28px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2.5;
-    }
-    #search-button:hover { 
-      transform: scale(1.1) rotate(5deg); 
-      background: #6ee7a5; 
-      box-shadow: 0 10px 30px rgba(74,222,128,0.6);
-    }
-    #search-button.hidden { opacity: 0; pointer-events: none; transform: scale(0.7); }
-
-    #sidebar-backdrop {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.4);
-      z-index: 250;
-      opacity: 0;
-      transition: opacity 0.4s;
-      backdrop-filter: blur(4px);
-      pointer-events: none;
-    }
-    #sidebar-backdrop.visible { opacity: 1; pointer-events: auto; }
-
-    /* Sidebar İçindeki Grup Başlıkları */
-    .sidebar-section-title {
-        font-size: 12px;
-        color: #888;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin: 20px 0 10px 5px;
-    }
-
-    .group-item {
-      color: #4ade80;
-      text-decoration: none;
-      font-size: 14.5px;
-      cursor: pointer;
-      display: block;
-      padding: 10px 12px;
-      background: #2a2a2a;
-      margin-bottom: 6px;
-      border-radius: 6px;
-      transition: all 0.2s;
-    }
-    .group-item:hover {
-      background: #333;
-      transform: translateX(5px);
-    }
-
+    /* GELİŞMİŞ ARAMA INPUT STİLİ */
+    .search-wrapper { position: relative; margin-top: 40px; }
     #search-input {
       width: 100%;
-      padding: 12px;
-      background: #2a2a2a;
-      border: 1px solid #444;
+      padding: 15px 20px;
+      padding-left: 45px;
+      background: #252525;
+      border: 2px solid #333;
+      border-radius: 12px;
       color: white;
-      border-radius: 8px;
-      font-size: 15px;
-      margin-bottom: 10px;
+      font-size: 16px;
+      outline: none;
+      transition: 0.3s;
     }
+    #search-input:focus { border-color: #4ade80; box-shadow: 0 0 15px rgba(74,222,128,0.2); }
+    .search-icon-inner { position: absolute; left: 15px; top: 15px; color: #888; pointer-events: none; }
 
-    .suggestion-item {
-      padding: 12px 14px;
-      background: #2a2a2a;
-      margin: 6px 0;
-      border-radius: 6px;
+    /* ARAMA SONUÇLARI */
+    .results-section { margin-top: 25px; }
+    .section-label { font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; display: block; }
+    .result-item {
+      padding: 12px 15px;
+      background: #252525;
+      margin-bottom: 8px;
+      border-radius: 10px;
       cursor: pointer;
-      transition: all 0.2s;
-      border-left: 4px solid #4ade80;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: 0.2s;
+      border: 1px solid transparent;
     }
-    .suggestion-item:hover {
-      background: #333;
-      transform: translateX(4px);
+    .result-item:hover {
+      background: #303030;
+      border-color: #4ade80;
+      transform: translateX(5px);
     }
+    .result-item .region-tag { font-size: 10px; background: #333; padding: 3px 8px; border-radius: 4px; color: #888; }
 
-    #back-to-home {
-      position: fixed; top: 16px; left: 16px;
-      z-index: 500; width: 44px; height: 44px;
+    /* GRUP BUTONLARI */
+    .group-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 25px; }
+    .group-btn {
+      padding: 8px 14px;
+      background: #252525;
+      border: 1px solid #333;
+      border-radius: 20px;
+      color: #aaa;
+      font-size: 13px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .group-btn:hover, .group-btn.active { background: #4ade80; color: #000; border-color: #4ade80; font-weight: 600; }
+
+    /* YENİ ARAMA İKONU (SAĞ ALT) */
+    #search-toggle {
+      position: fixed; bottom: 30px; right: 30px;
+      width: 65px; height: 65px;
+      background: #4ade80;
+      border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      background: rgba(30, 30, 30, 0.85); color: #4ade80;
-      border: 1px solid #444; border-radius: 50%;
-      text-decoration: none; transition: all 0.25s ease;
-      backdrop-filter: blur(8px);
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(74,222,128,0.4);
+      z-index: 1500;
+      transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
+    #search-toggle:hover { transform: scale(1.1) rotate(15deg); background: #6ee7a5; }
+    #search-toggle svg { width: 30px; height: 30px; fill: none; stroke: #111; stroke-width: 2.5; }
 
-    /* MODAL VE DİĞERLERİ */
+    /* BACKDROP */
+    #sidebar-backdrop {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(5px); z-index: 1900;
+      display: none; opacity: 0; transition: 0.4s;
+    }
+    #sidebar-backdrop.active { display: block; opacity: 1; }
+
+    /* MODAL (DETAYLAR) */
     .modal {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.75);
-      display: none; align-items: center; justify-content: center;
-      z-index: 400; backdrop-filter: blur(6px);
+      position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+      z-index: 3000; display: none; align-items: center; justify-content: center;
+      backdrop-filter: blur(10px);
     }
     .modal.active { display: flex; }
     .modal-content {
-      background: #1f1f1f; border: 1px solid #444; border-radius: 12px;
-      width: 90%; max-width: 460px; padding: 24px; position: relative;
+      background: #1a1a1a; width: 90%; max-width: 800px;
+      border-radius: 20px; padding: 40px; position: relative;
+      border: 1px solid #333; animation: slideUp 0.4s ease;
     }
-    .modal-close {
-      position: absolute; top: 14px; right: 16px;
-      background: #333; color: #ccc; border: none;
-      width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
+    @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal-close { position: absolute; top: 20px; right: 20px; font-size: 30px; cursor: pointer; color: #666; }
+    
+    #back-to-home {
+      position: fixed; top: 20px; left: 20px; z-index: 1000;
+      width: 50px; height: 50px; background: rgba(255,255,255,0.05);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      color: #4ade80; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s;
     }
-
-    .detail-tabs { display: flex; border-bottom: 1px solid #444; margin: 24px 0 20px; gap: 6px; justify-content: center; }
-    .detail-tab { padding: 12px 24px; background: #2a2a2a; border: 1px solid #444; border-bottom: none; border-radius: 10px 10px 0 0; cursor: pointer; }
-    .detail-tab.active { background: #3a3a3a; color: #6ee7a5; border-color: #6ee7a5; }
-    .detail-tab-pane { display: none; }
-    .detail-tab-pane.active { display: block; }
-    #long-detail-modal .modal-content { width: 92%; max-width: 1180px; max-height: 94vh; padding: 28px 36px; overflow-y: auto; }
-
-    @media (max-width: 768px) {
-      #sidebar { width: 100%; position: fixed; bottom: 0; left: 0; transform: translateY(100%); border-top: 1px solid #444; }
-      #sidebar.active { transform: translateY(0); }
-      #search-button { bottom: 100px; right: 24px; }
-    }
+    #back-to-home:hover { background: #4ade80; color: #000; }
   </style>
 </head>
 <body>
 
 <div id="container">
-  <a href="https://militantatlas-droid.github.io/militantatlascom" id="back-to-home" title="Giriş Sayfası">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-      <path id="AO" data-name="Angola" data-id="AO" d="m 495.3,598.6 -36,-0.2 -4.3,1.7 -3.5,-0.3 -5.1,1.9 -1.1,2.7 6,8.7 2.4,9.3 3.6,13.4 -3.8,5.5 -0.6,2.8 2.9,8.3 3.1,8.4 3.6,5 0.6,7.8 -1.4,10.3 -4,6.1 -7.1,9.1 -2.9,5.6 -4.1,12.5 -0.8,5.9 -4.3,12.7 -1.9,12.2 1,8.7 5.9,-2.7 7.2,-2.3 7.8,0.4 7.1,6.3 1.9,-1 48.8,-0.6 8.2,6.6 29.1,2 22.4,-5.7 -7.6,-8.6 -7.8,-11.3 1.6,-44 25.3,0.1 -1,-4.7 2,-5.2 -2,-6.5 1.5,-6.7 -1.2,-4.3 -5.5,-0.8 -7.6,2 -5.3,-0.3 -3,1.3 0.9,-16.5 -3.9,-5.1 -0.8,-8.5 1.9,-8.4 -2.4,-5.3 -0.1,-8.7 -14.8,0.1 1.1,-5 -6.2,0.1 -0.7,2.4 -7.6,0.5 -3.1,8.1 -1.9,3.4 -6.7,-1.9 -4,1.9 -8.1,1.1 -4.6,-7.2 -2.7,-4.5 -3.5,-8.3 -2.9,-10.3 z m -47.4,-2.7 0.4,-6 2,-3.5 4.5,-2.9 -4.6,-4.8 -3.7,2.3 -5,6 3.3,10.4 3.1,-1.5 z" />
+  <a href="#" id="back-to-home" title="Giriş Sayfası">
+    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+  </a>
+
+  <div id="map-area">
+    <svg id="svg-map" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+        <path id="AO" data-name="Angola" data-id="AO" d="m 495.3,598.6 -36,-0.2 -4.3,1.7 -3.5,-0.3 -5.1,1.9 -1.1,2.7 6,8.7 2.4,9.3 3.6,13.4 -3.8,5.5 -0.6,2.8 2.9,8.3 3.1,8.4 3.6,5 0.6,7.8 -1.4,10.3 -4,6.1 -7.1,9.1 -2.9,5.6 -4.1,12.5 -0.8,5.9 -4.3,12.7 -1.9,12.2 1,8.7 5.9,-2.7 7.2,-2.3 7.8,0.4 7.1,6.3 1.9,-1 48.8,-0.6 8.2,6.6 29.1,2 22.4,-5.7 -7.6,-8.6 -7.8,-11.3 1.6,-44 25.3,0.1 -1,-4.7 2,-5.2 -2,-6.5 1.5,-6.7 -1.2,-4.3 -5.5,-0.8 -7.6,2 -5.3,-0.3 -3,1.3 0.9,-16.5 -3.9,-5.1 -0.8,-8.5 1.9,-8.4 -2.4,-5.3 -0.1,-8.7 -14.8,0.1 1.1,-5 -6.2,0.1 -0.7,2.4 -7.6,0.5 -3.1,8.1 -1.9,3.4 -6.7,-1.9 -4,1.9 -8.1,1.1 -4.6,-7.2 -2.7,-4.5 -3.5,-8.3 -2.9,-10.3 z m -47.4,-2.7 0.4,-6 2,-3.5 4.5,-2.9 -4.6,-4.8 -3.7,2.3 -5,6 3.3,10.4 3.1,-1.5 z" />
       <path id="BI" data-name="Burundi" data-id="BI" d="m 669,556.1 -0.6,-5.4 0,0 -6.5,-0.9 -3.8,7.9 -7.4,-1.1 3,6.3 0.1,2.4 4.3,13.2 0,0.6 1.2,-0.2 4.5,-5 4.9,-7.2 3,-2.9 -0.1,-4.5 -2.6,-3.2 z" />
       <path id="BJ" data-name="Benin" data-id="BJ" d="m 340,356 -9.3,-8 -4.3,0.1 -4.1,4 -2.6,4.2 -6,1.2 -2.5,6.1 -4.1,1.6 -1.6,7.2 3.7,4.1 4.3,4.9 0.4,6.8 2.5,2.8 -0.5,31.8 3,9.5 10.1,-1.6 0.6,-22.3 -0.3,-8.8 2.3,-8.7 3.7,-4.3 5.9,-8.5 -1.3,-3.7 2.4,-5.6 -2.8,-8.2 0.5,-4.6 z" />
       <path id="BF" data-name="Burkina Faso" data-id="BF" d="m 300.7,310.8 -7.8,0 -3,-2.6 -6.7,1.9 -11.3,5.8 -2.3,4.3 -9.4,6.2 -1.7,3.6 -5.1,2.8 -5.8,-1.9 -3.4,3.4 -1.8,9.5 -9.7,11.4 0.3,4.7 -3.4,5.9 0.8,8 5.5,3 2.1,4.6 5.4,2.9 4.3,-3.4 5.7,-0.6 8.3,3.6 -1.6,-10.4 0.3,-7.9 21.1,-0.6 5.4,1 3.9,-2.2 5.6,1.1 10.7,0.3 4.1,-1.6 2.5,-6.1 6,-1.2 2.6,-4.2 0.3,-9.5 -14,-3.1 -0.4,-6.7 -6.9,-9 -1.6,-6.3 1,-6.7 z" />
@@ -295,220 +246,137 @@
       <path id="ZW" data-name="Zimbabwe" data-id="ZW" d="m 669.1,825.1 13.4,-15.7 3.6,-9.9 1.9,-1.3 1.7,-8.1 -1.7,-4.1 1,-10.4 2.8,-9.6 0.8,-17.5 -6.1,-4.4 -5.7,-1 -2.5,-3.4 -5.5,-3 -10,0.3 -0.6,-5.1 -9.3,1.9 -7,5.5 -1.7,4.8 -4.4,1 -10.9,11.4 -7,9 -4.1,0.3 -3.8,-1.6 -13.4,-1.5 4.2,11.1 2.3,2.4 3.5,8 13,15.2 5.1,1.5 -0.2,4.9 3.1,8.8 9.2,2.1 7.3,6.2 4.9,0.2 5.7,2.3 4.1,-1.6 6.3,1.3 z" />
       <path id="SO" data-name="Somalia" data-id="SO" d="m 832.6,372.8 -5.7,-5.8 -2.5,-5.7 -4.1,-2.6 -4.2,7.4 -2.5,4.9 4.8,7.7 4.6,6.6 4.8,5 40.3,16.4 10.3,-0.1 -33.5,41.5 -15.9,0.6 -10.7,9.8 -7.8,0.2 -3.3,4.4 -10.5,15.7 0.4,50.4 7.2,11.4 2.7,-3.3 2.9,-7.3 13.4,-16.7 11.4,-10.6 18.1,-13.7 12.1,-11.2 14.1,-18.9 10.1,-15.5 10,-20.2 7,-17.7 5.4,-15.5 2.9,-14.9 2.4,-5 -0.4,-7.3 0.8,-8 -0.5,-3.9 -4.6,0.1 -5.5,4.7 -6.4,1.4 -5.5,2.1 -3.9,0.2 0,0 -6.9,0.5 -4.2,2.6 -6,0.9 -10.5,4.3 -13.2,1.6 -11.3,3.5 -6.1,0 z" />
     </svg>
-  </a>
-
-  <div id="map-area">
-    <svg id="svg-map" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-       <path id="AO" data-name="Angola" data-id="AO" d="m 495.3,598.6 -36,-0.2 -4.3,1.7 -3.5,-0.3 -5.1,1.9 -1.1,2.7 6,8.7 2.4,9.3 3.6,13.4 -3.8,5.5 -0.6,2.8 2.9,8.3 3.1,8.4 3.6,5 0.6,7.8 -1.4,10.3 -4,6.1 -7.1,9.1 -2.9,5.6 -4.1,12.5 -0.8,5.9 -4.3,12.7 -1.9,12.2 1,8.7 5.9,-2.7 7.2,-2.3 7.8,0.4 7.1,6.3 1.9,-1 48.8,-0.6 8.2,6.6 29.1,2 22.4,-5.7 -7.6,-8.6 -7.8,-11.3 1.6,-44 25.3,0.1 -1,-4.7 2,-5.2 -2,-6.5 1.5,-6.7 -1.2,-4.3 -5.5,-0.8 -7.6,2 -5.3,-0.3 -3,1.3 0.9,-16.5 -3.9,-5.1 -0.8,-8.5 1.9,-8.4 -2.4,-5.3 -0.1,-8.7 -14.8,0.1 1.1,-5 -6.2,0.1 -0.7,2.4 -7.6,0.5 -3.1,8.1 -1.9,3.4 -6.7,-1.9 -4,1.9 -8.1,1.1 -4.6,-7.2 -2.7,-4.5 -3.5,-8.3 -2.9,-10.3 z m -47.4,-2.7 0.4,-6 2,-3.5 4.5,-2.9 -4.6,-4.8 -3.7,2.3 -5,6 3.3,10.4 3.1,-1.5 z" />
-       </svg>
     <div id="tooltip" class="tooltip"></div>
   </div>
 
   <div id="sidebar">
     <button id="sidebar-close">&times;</button>
-    <div id="sidebar-content">
-        </div>
-  </div>
-</div>
-
-<button id="search-button" title="Arama ve Gruplar">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-</button>
-
-<div id="group-modal" class="modal">
-  <div class="modal-content">
-    <button class="modal-close">&times;</button>
-    <h2 id="group-modal-title">Grup Ülkeleri</h2>
-    <div id="country-groups"></div>
-  </div>
-</div>
-
-<div id="long-detail-modal" class="modal">
-  <div class="modal-content">
-    <button class="modal-close">&times;</button>
-    <h2 id="detail-title">Ülke Detayı</h2>
-    <div class="detail-tabs">
-      <div class="detail-tab active" data-target="tab-genel">Genel Bilgi</div>
-      <div class="detail-tab" data-target="tab-militan">Militan Gruplar</div>
-      <div class="detail-tab" data-target="tab-olaylar">Son Olaylar</div>
+    
+    <div class="search-wrapper">
+      <span class="search-icon-inner"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></span>
+      <input type="text" id="search-input" placeholder="Ülke veya bölge ara...">
     </div>
-    <div class="detail-tab-content">
-       <div id="tab-genel" class="detail-tab-pane active"></div>
-       <div id="tab-militan" class="detail-tab-pane"></div>
-       <div id="tab-olaylar" class="detail-tab-pane"></div>
+
+    <div class="results-section">
+      <span class="section-label">Bölgeler</span>
+      <div class="group-filters">
+        <button class="group-btn" data-region="all">Hepsi</button>
+        <button class="group-btn" data-region="Kuzey">Kuzey Afrika</button>
+        <button class="group-btn" data-region="Batı">Batı Afrika</button>
+        <button class="group-btn" data-region="Doğu">Doğu Afrika</button>
+        <button class="group-btn" data-region="Güney">Güney Afrika</button>
+      </div>
+
+      <span class="section-label">Arama Sonuçları</span>
+      <div id="search-results-list">
+        </div>
+    </div>
+  </div>
+</div>
+
+<div id="sidebar-backdrop"></div>
+
+<div id="search-toggle">
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+</div>
+
+<div id="detail-modal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close">&times;</span>
+    <h1 id="m-title" style="color:#4ade80; margin-bottom:15px;">Ülke İsmi</h1>
+    <div id="m-body" style="line-height:1.6; color:#ccc;">
+      Buraya militan gruplar, olaylar ve stratejik analizler gelecek...
     </div>
   </div>
 </div>
 
 <script>
-  // VERİLER
-  const countries = [
-    { id: "AO", name: "Angola", region: "South" },
-    { id: "BI", name: "Burundi", region: "East" },
-    { id: "BJ", name: "Benin", region: "West" },
-    { id: "BF", name: "Burkina Faso", region: "West" },
-    { id: "DZ", name: "Cezayir", region: "North" },
-    { id: "EG", name: "Mısır", region: "North" },
-    { id: "LY", name: "Libya", region: "North" },
-    { id: "NG", name: "Nijerya", region: "West" },
-    { id: "SO", name: "Somali", region: "East" }
-    // Buraya listenin geri kalanını ekle...
-  ];
+  const countries = Array.from(document.querySelectorAll('path')).map(p => ({
+    id: p.id,
+    name: p.getAttribute('data-name'),
+    region: p.getAttribute('data-region') || 'Bilinmiyor'
+  }));
 
-  const groupData = {
-    "North": { name: "Kuzey Afrika", members: ["DZ", "EG", "LY", "MA", "TN"] },
-    "West": { name: "Batı Afrika", members: ["BJ", "BF", "CI", "GH", "GN", "ML", "NE", "NG", "SN"] },
-    "East": { name: "Doğu Afrika", members: ["BI", "ET", "KE", "RW", "SO", "SS", "TZ", "UG"] }
+  const sidebar = document.getElementById('sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
+  const searchInput = document.getElementById('search-input');
+  const resultsList = document.getElementById('search-results-list');
+  const tooltip = document.getElementById('tooltip');
+  const modal = document.getElementById('detail-modal');
+
+  // MENÜYÜ AÇ/KAPAT
+  document.getElementById('search-toggle').onclick = () => {
+    sidebar.classList.add('active');
+    backdrop.classList.add('active');
+    setTimeout(() => searchInput.focus(), 500);
+    renderResults(countries);
   };
 
-  // DOM ELEMENTLERİ
-  const svgMap = document.getElementById("svg-map");
-  const tooltip = document.getElementById("tooltip");
-  const sidebar = document.getElementById("sidebar");
-  const sidebarContent = document.getElementById("sidebar-content");
-  const searchButton = document.getElementById("search-button");
-  const sidebarClose = document.getElementById("sidebar-close");
+  const closeMenu = () => {
+    sidebar.classList.remove('active');
+    backdrop.classList.remove('active');
+  };
 
-  // ETKİLEŞİM FONKSİYONLARI
-  function openCombinedSearch() {
-    sidebarContent.innerHTML = `
-      <h3 style="color:#4ade80; margin-bottom:15px;">Arama Menüsü</h3>
-      
-      <div class="sidebar-section-title">Ülke Arama</div>
-      <input type="text" id="search-input" placeholder="Ülke ismi yazın..." autocomplete="off">
-      <div id="search-results"></div>
+  document.getElementById('sidebar-close').onclick = closeMenu;
+  backdrop.onclick = closeMenu;
 
-      <div class="sidebar-section-title">Bölgesel Gruplar</div>
-      <div class="group-list">
-        ${Object.keys(groupData).map(key => `
-          <div class="group-item" onclick="showGroup('${key}')">${groupData[key].name}</div>
-        `).join('')}
-      </div>
-    `;
-
-    sidebar.classList.add("active");
-    searchButton.classList.add("hidden");
-    createBackdrop();
-
-    const sInput = document.getElementById("search-input");
-    sInput.focus();
-    sInput.addEventListener("input", (e) => {
-        const term = e.target.value.toLowerCase();
-        handleLiveSearch(term);
-    });
-  }
-
-  function handleLiveSearch(term) {
-    const resultsDiv = document.getElementById("search-results");
-    if(!term) { resultsDiv.innerHTML = ""; return; }
-    
-    const filtered = countries.filter(c => c.name.toLowerCase().includes(term));
-    resultsDiv.innerHTML = filtered.map(c => `
-      <div class="suggestion-item" onclick="activateCountry('${c.id}', '${c.name}')">
-        ${c.name}
+  // GELİŞMİŞ ARAMA VE FİLTRELEME
+  function renderResults(list) {
+    resultsList.innerHTML = list.map(c => `
+      <div class="result-item" onclick="selectCountry('${c.id}')">
+        <span>${c.name}</span>
+        <span class="region-tag">${c.region}</span>
       </div>
     `).join('');
   }
 
-  function showGroup(key) {
-    const group = groupData[key];
-    const modal = document.getElementById("group-modal");
-    document.getElementById("group-modal-title").innerText = group.name;
-    const container = document.getElementById("country-groups");
-    
-    container.innerHTML = group.members.map(id => {
-        const c = countries.find(x => x.id === id) || {name: id};
-        return `<div class="group-item" onclick="activateCountry('${id}', '${c.name}')">${c.name}</div>`;
-    }).join('');
-    
-    modal.classList.add("active");
-  }
+  searchInput.oninput = (e) => {
+    const term = e.target.value.toLocaleLowerCase('tr');
+    const filtered = countries.filter(c => 
+      c.name.toLocaleLowerCase('tr').includes(term) || 
+      c.region.toLocaleLowerCase('tr').includes(term)
+    );
+    renderResults(filtered);
+  };
 
-  function activateCountry(id, name) {
-    document.querySelectorAll("path").forEach(p => p.classList.remove("active"));
+  // BÖLGE FİLTRESİ
+  document.querySelectorAll('.group-btn').forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll('.group-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const reg = btn.dataset.region;
+      const filtered = reg === 'all' ? countries : countries.filter(c => c.region === reg);
+      renderResults(filtered);
+    };
+  });
+
+  // ÜLKE SEÇİMİ VE ODAKLANMA
+  function selectCountry(id) {
     const path = document.getElementById(id);
-    if(path) {
-        path.classList.add("active");
-        showDetailModal(name);
-    }
-    closeSidebar();
-    closeAllModals();
+    if(!path) return;
+
+    document.querySelectorAll('path').forEach(p => p.classList.remove('active'));
+    path.classList.add('active');
+    
+    document.getElementById('m-title').innerText = path.getAttribute('data-name');
+    modal.classList.add('active');
+    closeMenu();
   }
 
-  function showDetailModal(name) {
-    const modal = document.getElementById("long-detail-modal");
-    document.getElementById("detail-title").innerText = name;
-    document.getElementById("tab-genel").innerHTML = `<p>${name} hakkında stratejik analiz verileri...</p>`;
-    modal.classList.add("active");
-  }
-
-  // YARDIMCI ARAÇLAR
-  function closeSidebar() {
-    sidebar.classList.remove("active");
-    searchButton.classList.remove("hidden");
-    removeBackdrop();
-  }
-
-  function closeAllModals() {
-    document.querySelectorAll(".modal").forEach(m => m.classList.remove("active"));
-  }
-
-  function createBackdrop() {
-    let b = document.getElementById("sidebar-backdrop");
-    if (!b) {
-      b = document.createElement("div");
-      b.id = "sidebar-backdrop";
-      document.body.appendChild(b);
-      b.addEventListener("click", closeSidebar);
-    }
-    setTimeout(() => b.classList.add("visible"), 10);
-  }
-
-  function removeBackdrop() {
-    const b = document.getElementById("sidebar-backdrop");
-    if(b) {
-        b.classList.remove("visible");
-        setTimeout(() => b.remove(), 400);
-    }
-  }
-
-  // EVENT LISTENERS
-  searchButton.addEventListener("click", openCombinedSearch);
-  sidebarClose.addEventListener("click", closeSidebar);
-  document.querySelectorAll(".modal-close").forEach(btn => btn.addEventListener("click", closeAllModals));
-
-  // Tooltip Mantığı
-  svgMap.addEventListener("mouseover", e => {
-    if(e.target.tagName === "path") {
-        tooltip.innerHTML = `<strong>${e.target.dataset.name}</strong>`;
-        tooltip.classList.add("visible");
-    }
-  });
-
-  svgMap.addEventListener("mousemove", e => {
-    tooltip.style.left = (e.pageX + 15) + "px";
-    tooltip.style.top = (e.pageY + 15) + "px";
-  });
-
-  svgMap.addEventListener("mouseout", () => tooltip.classList.remove("visible"));
-
-  svgMap.addEventListener("click", e => {
-    if(e.target.tagName === "path") {
-        activateCountry(e.target.id, e.target.dataset.name);
-    }
-  });
-
-  // Tab Mantığı
-  document.querySelectorAll(".detail-tab").forEach(tab => {
-    tab.addEventListener("click", () => {
-        document.querySelectorAll(".detail-tab, .detail-tab-pane").forEach(x => x.classList.remove("active"));
-        tab.classList.add("active");
-        document.getElementById(tab.dataset.target).classList.add("active");
+  // TOOLTIP & MAP EVENTS
+  document.querySelectorAll('path').forEach(path => {
+    path.addEventListener('mousemove', (e) => {
+      tooltip.innerHTML = `<strong>${path.getAttribute('data-name')}</strong><span>${path.getAttribute('data-region') || ''} Bölgesi</span>`;
+      tooltip.classList.add('visible');
+      tooltip.style.left = e.pageX + 15 + 'px';
+      tooltip.style.top = e.pageY + 15 + 'px';
     });
+    path.addEventListener('mouseleave', () => tooltip.classList.remove('visible'));
+    path.addEventListener('click', () => selectCountry(path.id));
   });
 
+  document.querySelector('.modal-close').onclick = () => modal.classList.remove('active');
+  window.onclick = (e) => { if(e.target == modal) modal.classList.remove('active'); };
 </script>
 
 </body>
