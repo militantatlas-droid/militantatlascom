@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MİLİTAN ATLASI AFRİKA</title>
+  <title>MİLİTAN ATLASI güncel</title>
   <style>
     * { box-sizing: border-box; margin:0; padding:0; }
     body {
@@ -466,14 +466,11 @@
     <h2 id="group-detail-title"></h2>
 
     <div class="tabs">
-      <div class="tab active" data-tab="kurulus">Kuruluş Yılı</div>
-      <div class="tab" data-tab="ilk-eylem">İlk Eylem</div>
-      <div class="tab" data-tab="tur">Grup Türü</div>
-      <div class="tab" data-tab="durum">Grup Durumu</div>
-      <div class="tab" data-tab="taktik">Saldırı Taktikleri</div>
-    </div>
-
-    <div id="tab-content" class="tab-content">
+  <div class="tab active" data-tab="temel">Temel Bilgiler</div>
+  <div class="tab" data-tab="durum">Grup Durumu</div>
+  <div class="tab" data-tab="detay">Detay Sekmesi</div>
+</div>
+<div id="tab-content" class="tab-content"></div>
       <p>Seçili sekme içeriği burada görünecek.</p>
     </div>
   </div>
@@ -696,7 +693,7 @@ function showGroupDetailModal(group, countryName) {
   currentGroup = group;
 
   // Varsayılan ilk sekme
-  document.querySelector('[data-tab="kurulus"]').click();
+  document.querySelector('[data-tab="temel"]').click();
 
   groupModal.classList.add("active");
 }
@@ -711,21 +708,26 @@ function showTabContent(tabKey) {
   let content = "";
 
   switch(tabKey) {
-    case "kurulus":
-      content = `<p><strong>Kuruluş Yılı:</strong><br>${d.kurulus_yili || "Bilgi mevcut değil"}</p>`;
+    case "temel":
+      content = `
+        <p><strong>Kuruluş Yılı:</strong><br>${d.kurulus_yili || "Bilgi mevcut değil"}</p>
+        <p><strong>İlk Eylem:</strong><br>${d.ilk_eylem || "Bilgi mevcut değil"}</p>
+        <p><strong>Grup Türü:</strong><br>${d.grup_turu || "Bilgi mevcut değil"}</p>
+      `;
       break;
-    case "ilk-eylem":
-      content = `<p><strong>İlk Eylem:</strong><br>${d.ilk_eylem || "Bilgi mevcut değil"}</p>`;
-      break;
-    case "tur":
-      content = `<p><strong>Grup Türü:</strong><br>${d.grup_turu || "Bilgi mevcut değil"}</p>`;
-      break;
+
     case "durum":
-      content = `<p><strong>Grup Durumu:</strong><br>${d.grup_durumu || "Bilgi mevcut değil"}</p>`;
+      content = `
+        <p><strong>Grup Durumu:</strong><br>${d.grup_durumu || "Bilgi mevcut değil"}</p>
+      `;
       break;
-    case "taktik":
-      content = `<p><strong>Saldırı Taktikleri:</strong><br>${d.saldiri_taktikleri || "Bilgi mevcut değil"}</p>`;
+
+    case "detay":
+      content = `
+        <p><strong>Saldırı Taktikleri:</strong><br>${d.saldiri_taktikleri || "Bilgi mevcut değil"}</p>
+      `;
       break;
+
     default:
       content = "<p>Geçersiz sekme.</p>";
   }
