@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MİLİTAN ATLASI (AFRİKA)</title>
+  <title>MİLİTAN ATLASI -AFRİKA</title>
   <style>
     * { box-sizing: border-box; margin:0; padding:0; }
     body {
@@ -29,6 +29,8 @@
       user-select: none;
     }
     svg path {
+      cursor: pointer; /* Tıklanabilir olduğunu göster */
+  pointer-events: all !important; /* Zorla tıklanabilir yap */}
       fill: #ffffff; /* Harita beyaz */
       stroke: #000000; /* Sınırlar siyah */
       stroke-width: 1.8;
@@ -296,15 +298,21 @@ function initMap() {
     path.addEventListener("mousemove", moveTooltip);
     path.addEventListener("mouseleave", hideTooltip);
 
-    path.addEventListener("click", () => {
+    // Tıklama için hem mouse hem touch desteği
+    const handleClick = () => {
       if (activePath) activePath.classList.remove("active");
-      svg.appendChild(path); // Küçük ülke üstte kalsın
+      svg.appendChild(path); // Üst katmana taşı
       path.classList.add("active");
       activePath = path;
       showSidebar(id, fallbackName);
-    });
-  });
+    };
 
+    path.addEventListener("click", handleClick);
+    path.addEventListener("touchend", (e) => {
+      e.preventDefault(); // Touch'un çift tıklamasını engelle
+      handleClick();
+    }, { passive: false });
+  });
   mapArea.addEventListener("mouseleave", hideTooltip);
 
   // Arama filtreleme
