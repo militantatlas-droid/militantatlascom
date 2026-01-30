@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MİLİTAN ATLASI (asjhkd)</title>
+  <title>MİLİTAN ATLASI AFRİKA</title>
   <style>
     * { box-sizing: border-box; margin:0; padding:0; }
     body {
@@ -35,9 +35,10 @@
       stroke-width: 2.0;
       vector-effect: non-scaling-stroke;
       pointer-events: all;
+      transition: fill 0.18s ease, stroke-width 0.18s ease;
     }
     svg path:hover {
-      fill: #4ade80 !important;
+      fill: #4ade80;
       stroke: #000;
       stroke-width: 2.5;
     }
@@ -45,6 +46,10 @@
       fill: #ff4444 !important;
       stroke: #000;
       stroke-width: 3.0;
+    }
+    svg path.filtered {
+      visibility: hidden;
+      pointer-events: none;
     }
     .tooltip {
       position: absolute;
@@ -97,7 +102,6 @@
       text-align: center;
       cursor: pointer;
       transition: all 0.2s;
-      z-index: 310;
     }
     #sidebar-close:hover { background: #666; transform: scale(1.08); }
     #search-container { margin-bottom: 18px; position: relative; z-index: 305; }
@@ -113,7 +117,7 @@
     #search-input::placeholder { color: #888; }
     #clear-search {
       position: absolute;
-      right: 50px;
+      right: 12px;
       top: 50%;
       transform: translateY(-50%);
       background: none;
@@ -145,7 +149,7 @@
       color: #111;
       border: none;
       border-radius: 50%;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: bold;
       cursor: pointer;
       box-shadow: 0 8px 25px rgba(74,222,128,0.6);
@@ -155,8 +159,8 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 0 6px;
-      line-height: 1.15;
+      padding: 0 8px;
+      line-height: 1.2;
     }
     #search-button:hover { transform: scale(1.15); background: #00ff88; }
     #search-button.hidden { opacity: 0; pointer-events: none; transform: scale(0.7); }
@@ -189,8 +193,7 @@
       #sidebar {
         width: 100%;
         height: auto;
-        max-height: 60%;
-        min-height: 40%;
+        max-height: 65%;
         position: fixed;
         bottom: 0; left: 0; right: 0;
         transform: translateY(100%);
@@ -200,15 +203,14 @@
       }
       #sidebar.active { transform: translateY(0); }
       #search-button { bottom: 100px; right: 24px; }
-      #clear-search { right: 50px; }
     }
   </style>
 </head>
 <body>
 <div id="container">
   <div id="map-area">
-    <svg id="svg-map" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-       <path id="AO" data-name="Angola" data-id="AO" d="m 495.3,598.6 -36,-0.2 -4.3,1.7 -3.5,-0.3 -5.1,1.9 -1.1,2.7 6,8.7 2.4,9.3 3.6,13.4 -3.8,5.5 -0.6,2.8 2.9,8.3 3.1,8.4 3.6,5 0.6,7.8 -1.4,10.3 -4,6.1 -7.1,9.1 -2.9,5.6 -4.1,12.5 -0.8,5.9 -4.3,12.7 -1.9,12.2 1,8.7 5.9,-2.7 7.2,-2.3 7.8,0.4 7.1,6.3 1.9,-1 48.8,-0.6 8.2,6.6 29.1,2 22.4,-5.7 -7.6,-8.6 -7.8,-11.3 1.6,-44 25.3,0.1 -1,-4.7 2,-5.2 -2,-6.5 1.5,-6.7 -1.2,-4.3 -5.5,-0.8 -7.6,2 -5.3,-0.3 -3,1.3 0.9,-16.5 -3.9,-5.1 -0.8,-8.5 1.9,-8.4 -2.4,-5.3 -0.1,-8.7 -14.8,0.1 1.1,-5 -6.2,0.1 -0.7,2.4 -7.6,0.5 -3.1,8.1 -1.9,3.4 -6.7,-1.9 -4,1.9 -8.1,1.1 -4.6,-7.2 -2.7,-4.5 -3.5,-8.3 -2.9,-10.3 z m -47.4,-2.7 0.4,-6 2,-3.5 4.5,-2.9 -4.6,-4.8 -3.7,2.3 -5,6 3.3,10.4 3.1,-1.5 z" />
+    <svg id="svg-map" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Afrika ülkeleri militan gruplar haritası">
+      <path id="AO" data-name="Angola" data-id="AO" d="m 495.3,598.6 -36,-0.2 -4.3,1.7 -3.5,-0.3 -5.1,1.9 -1.1,2.7 6,8.7 2.4,9.3 3.6,13.4 -3.8,5.5 -0.6,2.8 2.9,8.3 3.1,8.4 3.6,5 0.6,7.8 -1.4,10.3 -4,6.1 -7.1,9.1 -2.9,5.6 -4.1,12.5 -0.8,5.9 -4.3,12.7 -1.9,12.2 1,8.7 5.9,-2.7 7.2,-2.3 7.8,0.4 7.1,6.3 1.9,-1 48.8,-0.6 8.2,6.6 29.1,2 22.4,-5.7 -7.6,-8.6 -7.8,-11.3 1.6,-44 25.3,0.1 -1,-4.7 2,-5.2 -2,-6.5 1.5,-6.7 -1.2,-4.3 -5.5,-0.8 -7.6,2 -5.3,-0.3 -3,1.3 0.9,-16.5 -3.9,-5.1 -0.8,-8.5 1.9,-8.4 -2.4,-5.3 -0.1,-8.7 -14.8,0.1 1.1,-5 -6.2,0.1 -0.7,2.4 -7.6,0.5 -3.1,8.1 -1.9,3.4 -6.7,-1.9 -4,1.9 -8.1,1.1 -4.6,-7.2 -2.7,-4.5 -3.5,-8.3 -2.9,-10.3 z m -47.4,-2.7 0.4,-6 2,-3.5 4.5,-2.9 -4.6,-4.8 -3.7,2.3 -5,6 3.3,10.4 3.1,-1.5 z" />
       <path id="BI" data-name="Burundi" data-id="BI" d="m 669,556.1 -0.6,-5.4 0,0 -6.5,-0.9 -3.8,7.9 -7.4,-1.1 3,6.3 0.1,2.4 4.3,13.2 0,0.6 1.2,-0.2 4.5,-5 4.9,-7.2 3,-2.9 -0.1,-4.5 -2.6,-3.2 z" />
       <path id="BJ" data-name="Benin" data-id="BJ" d="m 340,356 -9.3,-8 -4.3,0.1 -4.1,4 -2.6,4.2 -6,1.2 -2.5,6.1 -4.1,1.6 -1.6,7.2 3.7,4.1 4.3,4.9 0.4,6.8 2.5,2.8 -0.5,31.8 3,9.5 10.1,-1.6 0.6,-22.3 -0.3,-8.8 2.3,-8.7 3.7,-4.3 5.9,-8.5 -1.3,-3.7 2.4,-5.6 -2.8,-8.2 0.5,-4.6 z" />
       <path id="BF" data-name="Burkina Faso" data-id="BF" d="m 300.7,310.8 -7.8,0 -3,-2.6 -6.7,1.9 -11.3,5.8 -2.3,4.3 -9.4,6.2 -1.7,3.6 -5.1,2.8 -5.8,-1.9 -3.4,3.4 -1.8,9.5 -9.7,11.4 0.3,4.7 -3.4,5.9 0.8,8 5.5,3 2.1,4.6 5.4,2.9 4.3,-3.4 5.7,-0.6 8.3,3.6 -1.6,-10.4 0.3,-7.9 21.1,-0.6 5.4,1 3.9,-2.2 5.6,1.1 10.7,0.3 4.1,-1.6 2.5,-6.1 6,-1.2 2.6,-4.2 0.3,-9.5 -14,-3.1 -0.4,-6.7 -6.9,-9 -1.6,-6.3 1,-6.7 z" />
@@ -259,18 +261,21 @@
       <path id="ZW" data-name="Zimbabwe" data-id="ZW" d="m 669.1,825.1 13.4,-15.7 3.6,-9.9 1.9,-1.3 1.7,-8.1 -1.7,-4.1 1,-10.4 2.8,-9.6 0.8,-17.5 -6.1,-4.4 -5.7,-1 -2.5,-3.4 -5.5,-3 -10,0.3 -0.6,-5.1 -9.3,1.9 -7,5.5 -1.7,4.8 -4.4,1 -10.9,11.4 -7,9 -4.1,0.3 -3.8,-1.6 -13.4,-1.5 4.2,11.1 2.3,2.4 3.5,8 13,15.2 5.1,1.5 -0.2,4.9 3.1,8.8 9.2,2.1 7.3,6.2 4.9,0.2 5.7,2.3 4.1,-1.6 6.3,1.3 z" />
       <path id="SO" data-name="Somalia" data-id="SO" d="m 832.6,372.8 -5.7,-5.8 -2.5,-5.7 -4.1,-2.6 -4.2,7.4 -2.5,4.9 4.8,7.7 4.6,6.6 4.8,5 40.3,16.4 10.3,-0.1 -33.5,41.5 -15.9,0.6 -10.7,9.8 -7.8,0.2 -3.3,4.4 -10.5,15.7 0.4,50.4 7.2,11.4 2.7,-3.3 2.9,-7.3 13.4,-16.7 11.4,-10.6 18.1,-13.7 12.1,-11.2 14.1,-18.9 10.1,-15.5 10,-20.2 7,-17.7 5.4,-15.5 2.9,-14.9 2.4,-5 -0.4,-7.3 0.8,-8 -0.5,-3.9 -4.6,0.1 -5.5,4.7 -6.4,1.4 -5.5,2.1 -3.9,0.2 0,0 -6.9,0.5 -4.2,2.6 -6,0.9 -10.5,4.3 -13.2,1.6 -11.3,3.5 -6.1,0 z" />
     </svg>
+    </svg>
     <div class="tooltip" id="tooltip"></div>
   </div>
+
   <div id="sidebar">
     <button id="sidebar-close">×</button>
     <div id="search-container">
-      <input type="text" id="search-input" placeholder="Ülke veya grup ara...">
-      <button id="clear-search">×</button>
+      <input type="text" id="search-input" placeholder="Ülke veya grup ara..." aria-label="Ülke veya grup arama">
+      <button id="clear-search" aria-label="Aramayı temizle">×</button>
     </div>
     <div id="sidebar-content"></div>
   </div>
 </div>
-<button id="search-button">ARAMA YAP</button>
+
+<button id="search-button" aria-label="Arama panelini aç">ARAMA YAP</button>
 
 <script>
 let countryData = {};
@@ -286,23 +291,33 @@ const svg = document.getElementById("svg-map");
 const mapArea = document.getElementById("map-area");
 
 fetch("data.json")
-  .then(res => res.json())
+  .then(res => {
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.json();
+  })
   .then(data => {
-    countryData = data;
+    // JSON anahtarlarını küçük harfe çeviriyoruz (en güvenli yol)
+    countryData = {};
+    Object.keys(data).forEach(key => {
+      countryData[key.toLowerCase()] = data[key];
+    });
     initMap();
   })
-  .catch(() => {
-    sidebarContent.innerHTML = `<p style="color:#ff4444; font-weight:bold;">Veri dosyası yüklenemedi.</p>`;
-    initMap();
+  .catch(err => {
+    console.error("JSON yükleme hatası:", err);
+    sidebarContent.innerHTML = `<p style="color:#ff4444; font-weight:bold;">Veri dosyası yüklenemedi: ${err.message}</p>`;
+    initMap(); // fallback ile devam et
   });
 
 function initMap() {
   const paths = document.querySelectorAll("svg path");
   paths.forEach(path => {
-    const id = path.id;
+    const id = path.id?.toLowerCase();
     if (!id) return;
-    const fallbackName = path.getAttribute("data-name") || id || "Bilinmeyen";
+
+    const fallbackName = path.getAttribute("data-name") || id.toUpperCase() || "Bilinmeyen";
     const country = countryData[id] || {};
+
     path.addEventListener("mouseover", (e) => {
       const displayName = country.name_tr || fallbackName;
       const groupsText = country.groups?.length
@@ -312,8 +327,10 @@ function initMap() {
       tooltip.classList.add("visible");
       moveTooltip(e);
     });
+
     path.addEventListener("mousemove", moveTooltip);
     path.addEventListener("mouseout", hideTooltip);
+
     path.addEventListener("click", () => activateCountry(id, fallbackName, path));
     path.addEventListener("touchend", (e) => {
       e.preventDefault();
@@ -321,23 +338,12 @@ function initMap() {
     }, { passive: false });
   });
 
-  searchInput.addEventListener("input", () => {
-    const term = searchInput.value.trim().toLowerCase();
-    clearSearch.style.display = term ? "block" : "none";
-
-    document.querySelectorAll("svg path").forEach(path => {
-      const name = (countryData[path.id]?.name_tr || path.getAttribute("data-name") || path.id || "").toLowerCase();
-      const matches = !term || name.includes(term);
-      path.style.display = matches ? "" : "none";
-      path.style.pointerEvents = matches ? "all" : "none";
-    });
-
-    showSearchSuggestions(term);
-  });
+  searchInput.addEventListener("input", debounce(handleSearch, 180));
 
   clearSearch.addEventListener("click", () => {
     searchInput.value = "";
-    searchInput.dispatchEvent(new Event("input"));
+    searchInput.focus();
+    handleSearch();
   });
 
   document.addEventListener('keydown', e => {
@@ -346,26 +352,24 @@ function initMap() {
     }
   });
 
-  document.addEventListener('click', function(e) {
+  document.addEventListener('click', e => {
     if (sidebar.classList.contains('active') &&
         !sidebar.contains(e.target) &&
         !searchButton.contains(e.target) &&
-        !svg.contains(e.target)) {
+        !mapArea.contains(e.target)) {
       closeSidebar();
     }
   });
 
+  // Mobil aşağı kaydırarak kapatma
   let touchStartY = 0;
   sidebar.addEventListener('touchstart', e => {
     touchStartY = e.changedTouches[0].screenY;
   }, { passive: true });
 
   sidebar.addEventListener('touchend', e => {
-    const touchEndY = e.changedTouches[0].screenY;
-    const diff = touchStartY - touchEndY;
-    if (diff < -100) {
-      closeSidebar();
-    }
+    const diff = touchStartY - e.changedTouches[0].screenY;
+    if (diff < -100) closeSidebar();
   }, { passive: true });
 
   document.getElementById("sidebar-close")?.addEventListener("click", closeSidebar);
@@ -378,20 +382,32 @@ function initMap() {
   });
 }
 
-function activateCountry(id, fallbackName, pathElement = null) {
+function handleSearch() {
+  const term = searchInput.value.trim().toLowerCase();
+  clearSearch.style.display = term ? "block" : "none";
+
+  // Filtreleme için class kullanıyoruz (çok daha performanslı)
+  document.querySelectorAll("svg path").forEach(path => {
+    const name = (countryData[path.id.toLowerCase()]?.name_tr ||
+                  path.getAttribute("data-name") ||
+                  path.id || "").toLowerCase();
+    path.classList.toggle("filtered", term && !name.includes(term));
+  });
+
+  showSearchSuggestions(term);
+}
+
+function activateCountry(lowerId, fallbackName, pathElement = null) {
   if (activePath) activePath.classList.remove("active");
 
-  const targetPath = pathElement || document.getElementById(id.toUpperCase()); // ekstra büyük harf garantisi
-
+  const targetPath = pathElement || document.getElementById(lowerId.toUpperCase());
   if (targetPath) {
-    svg.appendChild(targetPath); // z-index için en öne getir
+    svg.appendChild(targetPath); // öne getir
     targetPath.classList.add("active");
     activePath = targetPath;
-  } else {
-    console.warn(`Path bulunamadı: ${id} — SVG path id'si büyük harf mi?`);
   }
 
-  showSidebar(id, fallbackName);
+  showSidebar(lowerId, fallbackName);
 }
 
 function showSearchSuggestions(term) {
@@ -401,11 +417,10 @@ function showSearchSuggestions(term) {
     return;
   }
 
-  sidebarContent.innerHTML = `<h3 style="margin: 0 0 12px 0; color:#4ade80;">Eşleşen Ülkeler:</h3>`;
-
+  let html = `<h3 style="margin:0 0 12px 0; color:#4ade80;">Eşleşen Ülkeler:</h3>`;
   const matches = [];
 
-  // countryData'dan (JSON'dan gelen id'ler büyük harf olsun)
+  // JSON'dan eşleşenler
   Object.keys(countryData).forEach(key => {
     const country = countryData[key];
     const nameLower = (country.name_tr || key).toLowerCase();
@@ -417,11 +432,11 @@ function showSearchSuggestions(term) {
     }
   });
 
-  // SVG path'lerden (id zaten büyük harf olmalı)
-  document.querySelectorAll("svg path").forEach(path => {
+  // SVG path'lerden kalanlar (JSON'da yoksa)
+  document.querySelectorAll("svg path:not(.filtered)").forEach(path => {
     const id = path.id.toUpperCase();
     const nameLower = (path.getAttribute("data-name") || path.id).toLowerCase();
-    if (nameLower.includes(term) && !countryData[path.id] && !countryData[path.id.toLowerCase()]) {
+    if (nameLower.includes(term) && !countryData[path.id.toLowerCase()]) {
       if (!matches.some(m => m.id === id)) {
         matches.push({ id, name: path.getAttribute("data-name") || path.id });
       }
@@ -429,40 +444,49 @@ function showSearchSuggestions(term) {
   });
 
   if (matches.length === 0) {
-    sidebarContent.innerHTML += `<p style="color:#888; padding:10px;">Sonuç bulunamadı</p>`;
+    html += `<p style="color:#888; padding:10px;">Sonuç bulunamadı</p>`;
   } else {
     matches.forEach(item => {
-      const div = document.createElement("div");
-      div.className = "suggestion-item";
-      div.textContent = item.name;
-      div.addEventListener("click", () => {
-        const pathElem = document.getElementById(item.id); // item.id büyük harf
-        if (pathElem) {
-          activateCountry(item.id, item.name, pathElem);
-        } else {
-          console.error(`Path bulunamadı: ${item.id} — SVG'de id="${item.id}" var mı?`);
-        }
-      });
-      sidebarContent.appendChild(div);
+      html += `
+        <div class="suggestion-item" data-id="${item.id}">
+          ${item.name}
+        </div>
+      `;
     });
   }
 
   sidebarContent.innerHTML = html;
   sidebar.classList.add("active");
+
+  // Suggestion click
+  sidebarContent.querySelectorAll(".suggestion-item").forEach(el => {
+    el.addEventListener("click", () => {
+      const id = el.dataset.id;
+      const pathElem = document.getElementById(id);
+      if (pathElem) {
+        activateCountry(id.toLowerCase(), el.textContent.trim(), pathElem);
+      }
+    });
+  });
 }
 
-function showSidebar(id, fallbackName) {
-  const upperId = id.toUpperCase();
-  const lowerId = id.toLowerCase();  
-  const country = countryData[id] || countryData[id.toLowerCase()] || {};
+function showSidebar(lowerId, fallbackName) {
+  const country = countryData[lowerId] || {};
   const displayName = country.name_tr || fallbackName;
+
   let html = `<h2 style="margin-top:0;">${displayName}</h2>`;
 
   if (Object.keys(countryData).length === 0) {
     html += `<p style="color:#ff4444; font-weight:bold;">Veri dosyası yüklenemedi.</p>`;
   } else if (country.groups?.length > 0) {
     country.groups.forEach(group => {
-      html += `<div class="group"><a href="${group.url || '#'}" target="_blank">${group.name_tr || "Bilinmeyen Grup"}</a></div>`;
+      html += `
+        <div class="group">
+          <a href="${group.url || '#'}" target="_blank" rel="noopener noreferrer">
+            ${group.name_tr || "Bilinmeyen Grup"}
+          </a>
+        </div>
+      `;
     });
   } else {
     html += "<p>Bu bölge için grup bilgisi bulunmuyor.</p>";
@@ -472,7 +496,6 @@ function showSidebar(id, fallbackName) {
   sidebar.classList.add("active");
   sidebarContent.scrollTop = 0;
   createBackdrop();
-  setTimeout(() => searchInput.focus(), 300);
 }
 
 function closeSidebar() {
@@ -493,14 +516,17 @@ function hideTooltip() {
 function moveTooltip(e) {
   const rect = mapArea.getBoundingClientRect();
   const offset = 16;
-  let x = (e.clientX || 0) - rect.left + offset;
-  let y = (e.clientY || 0) - rect.top + offset;
+  let x = (e.clientX || e.touches?.[0]?.clientX || 0) - rect.left + offset;
+  let y = (e.clientY || e.touches?.[0]?.clientY || 0) - rect.top + offset;
+
   if (x + tooltip.offsetWidth > rect.width - 10) x = rect.width - tooltip.offsetWidth - 10;
   if (y + tooltip.offsetHeight > rect.height - 10) y = rect.height - tooltip.offsetHeight - 10;
+
   x = Math.max(10, x);
   y = Math.max(10, y);
-  tooltip.style.left = `${rect.left + x}px`;
-  tooltip.style.top = `${rect.top + y}px`;
+
+  tooltip.style.left = `${x}px`;
+  tooltip.style.top  = `${y}px`;
 }
 
 function createBackdrop() {
@@ -524,6 +550,15 @@ function removeBackdrop() {
     backdrop.style.pointerEvents = "none";
     setTimeout(() => backdrop.remove(), 420);
   }
+}
+
+// Küçük debounce fonksiyonu (arama performansını artırır)
+function debounce(fn, delay) {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
 }
 </script>
 </body>
