@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MİLİTAN ATLASI (GÜNCEL)</title>
+  <title>MİLİTAN ATLASI (MURA)</title>
   <style>
     * { box-sizing: border-box; margin:0; padding:0; }
     body {
@@ -204,7 +204,6 @@
     }
   </style>
 </head>
-<body>
 <div id="container">
   <div id="map-area">
     <svg id="svg-map" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
@@ -261,6 +260,8 @@
     </svg>
     <div class="tooltip" id="tooltip"></div>
   </div>
+
+  <!-- Sidebar (sadece arama için kalıyor) -->
   <div id="sidebar">
     <button id="sidebar-close">×</button>
     <div id="search-container">
@@ -270,20 +271,44 @@
     <div id="sidebar-content"></div>
   </div>
 </div>
+
+<!-- ARAMA BUTONU -->
 <button id="search-button">ARAMA YAP</button>
 
+<!-- YENİ MODAL (ülke tıklayınca açılacak) -->
+<div id="country-modal" class="modal">
+  <div class="modal-content">
+    <button id="modal-close" class="modal-close">×</button>
+    <h2 id="modal-title"></h2>
+    <div id="modal-groups"></div>
+  </div>
+</div>
+
 <script>
+// ──────────────────────────────────────────────
+// DEĞİŞKENLER
+// ──────────────────────────────────────────────
 let countryData = {};
 let activePath = null;
-const tooltip = document.getElementById("tooltip");
-const sidebar = document.getElementById("sidebar");
-const sidebarContent = document.getElementById("sidebar-content");
-const searchInput = document.getElementById("search-input");
-const clearSearch = document.getElementById("clear-search");
-const searchButton = document.getElementById("search-button");
-const svgMap = document.getElementById("svg-map");
-const mapArea = document.getElementById("map-area");
 
+const tooltip       = document.getElementById("tooltip");
+const sidebar       = document.getElementById("sidebar");
+const sidebarContent= document.getElementById("sidebar-content");
+const searchInput   = document.getElementById("search-input");
+const clearSearch   = document.getElementById("clear-search");
+const searchButton  = document.getElementById("search-button");
+const svgMap        = document.getElementById("svg-map");
+const mapArea       = document.getElementById("map-area");
+
+// MODAL
+const modal         = document.getElementById("country-modal");
+const modalTitle    = document.getElementById("modal-title");
+const modalGroups   = document.getElementById("modal-groups");
+const modalClose    = document.getElementById("modal-close");
+
+// ──────────────────────────────────────────────
+// VERİ YÜKLEME
+// ──────────────────────────────────────────────
 fetch("data.json")
   .then(res => res.json())
   .then(data => {
@@ -296,14 +321,17 @@ fetch("data.json")
     initMap();
   });
 
+// ──────────────────────────────────────────────
+// HARİTA BAŞLATMA
+// ──────────────────────────────────────────────
 function initMap() {
   document.querySelectorAll("svg path").forEach(path => {
     const id = path.id;
     if (!id) return;
     const fallbackName = path.getAttribute("data-name") || id || "Bilinmeyen";
-    const country = countryData[id] || {};
 
     path.addEventListener("mouseover", e => {
+      const country = countryData[id] || {};
       const name = country.name_tr || fallbackName;
       const groups = country.groups?.length 
         ? country.groups.map(g => g.name_tr || "Bilinmeyen").join("<br>")
@@ -316,13 +344,20 @@ function initMap() {
     path.addEventListener("mousemove", moveTooltip);
     path.addEventListener("mouseout", () => tooltip.classList.remove("visible"));
     
-    path.addEventListener("click", () => activateCountry(id, fallbackName, path));
-    path.addEventListener("touchend", e => {
+    // TIKLAMA → MODAL AÇ
+    path.addEventListener("click", (e) => {
+      e.stopPropagation();
+      activateCountry(id, fallbackName, path);
+    });
+
+    path.addEventListener("touchend", (e) => {
       e.preventDefault();
+      e.stopPropagation();
       activateCountry(id, fallbackName, path);
     }, { passive: false });
   });
 
+  // Arama input
   searchInput.addEventListener("input", () => {
     const term = searchInput.value.trim().toLowerCase();
     clearSearch.style.display = term ? "block" : "none";
@@ -334,30 +369,26 @@ function initMap() {
     searchInput.dispatchEvent(new Event("input"));
   });
 
+  // Escape ile sidebar kapatma
   document.addEventListener("keydown", e => {
-    if (e.key === "Escape" && sidebar.classList.contains("active")) {
+    if (e.key === "Escape") {
+      if (sidebar.classList.contains("active")) closeSidebar();
+      if (modal.classList.contains("active")) closeModal();
+    }
+  });
+
+  // Sidebar dışında tıklama → kapatma (modal hariç)
+  document.addEventListener("click", e => {
+    if (sidebar.classList.contains("active") && !sidebar.contains(e.target) && !searchButton.contains(e.target) && !e.target.closest(".suggestion-item")) {
       closeSidebar();
     }
-  });
 
-  // Dışarı tıklama kapanmasını iyileştirdik
-  document.addEventListener("click", e => {
-    if (!sidebar.classList.contains("active")) return;
-
-    // Öneri satırları, sidebar içi, search button ve harita tıklanmalarını hariç tut
-    if (
-      e.target.closest(".suggestion-item") ||
-      sidebar.contains(e.target) ||
-      searchButton.contains(e.target) ||
-      mapArea.contains(e.target)
-    ) {
-      return;
+    if (modal.classList.contains("active") && e.target === modal) {
+      closeModal();
     }
-
-    closeSidebar();
   });
 
-  // Mobil swipe kapatma
+  // Sidebar mobil swipe kapatma
   let touchStartY = 0;
   sidebar.addEventListener("touchstart", e => {
     touchStartY = e.changedTouches[0].screenY;
@@ -370,18 +401,23 @@ function initMap() {
 
   document.getElementById("sidebar-close")?.addEventListener("click", closeSidebar);
 
+  // Arama butonu → sidebar aç
   searchButton.addEventListener("click", () => {
     sidebar.classList.add("active");
     searchButton.classList.add("hidden");
     createBackdrop();
     setTimeout(() => searchInput.focus(), 100);
   });
+
+  // MODAL KAPATMA
+  modalClose.addEventListener("click", closeModal);
 }
 
+// ──────────────────────────────────────────────
+// AKTİF ÜLKE + MODAL AÇMA
+// ──────────────────────────────────────────────
 function activateCountry(id, fallbackName, pathElement = null) {
-  if (activePath) {
-    activePath.classList.remove("active");
-  }
+  if (activePath) activePath.classList.remove("active");
 
   const targetPath = pathElement || document.getElementById(id);
   if (targetPath) {
@@ -389,9 +425,39 @@ function activateCountry(id, fallbackName, pathElement = null) {
     activePath = targetPath;
   }
 
-  showSidebar(id, fallbackName);
+  showCountryModal(id, fallbackName);
 }
 
+function showCountryModal(id, fallbackName) {
+  const country = countryData[id] || {};
+  const name = country.name_tr || fallbackName;
+
+  modalTitle.textContent = name;
+
+  let html = "";
+  if (country.groups?.length > 0) {
+    country.groups.forEach(g => {
+      html += `<div class="group"><a href="${g.url || '#'}" target="_blank">${g.name_tr || "Bilinmeyen Grup"}</a></div>`;
+    });
+  } else {
+    html = "<p style='color:#888; text-align:center; padding:20px 0;'>Bu ülke için grup bilgisi bulunmuyor.</p>";
+  }
+
+  modalGroups.innerHTML = html;
+  modal.classList.add("active");
+}
+
+function closeModal() {
+  modal.classList.remove("active");
+  if (activePath) {
+    activePath.classList.remove("active");
+    activePath = null;
+  }
+}
+
+// ──────────────────────────────────────────────
+// ESKİ FONKSİYONLAR (ARMA İÇİN) – DEĞİŞMEDİ
+// ──────────────────────────────────────────────
 function showSearchSuggestions(term) {
   if (!term || term.length < 1) {
     sidebarContent.innerHTML = "";
@@ -422,9 +488,7 @@ function showSearchSuggestions(term) {
   } else {
     matches.forEach(m => {
       html += `
-        <div class="suggestion-item" 
-             data-id="${m.id}"
-             data-name="${m.name.replace(/"/g,'&quot;')}">
+        <div class="suggestion-item" data-id="${m.id}" data-name="${m.name.replace(/"/g,'&quot;')}">
           ${m.name}
         </div>`;
     });
@@ -433,46 +497,19 @@ function showSearchSuggestions(term) {
   sidebarContent.innerHTML = html;
   sidebar.classList.add("active");
 
-  // Event listener'ları dinamik olarak bağla
   document.querySelectorAll(".suggestion-item").forEach(el => {
     el.addEventListener("click", e => {
-      e.stopPropagation();           // ← En önemli kısım: bubbling'i durdur
+      e.stopPropagation();
       const id = el.dataset.id;
       const name = el.dataset.name;
-      activateCountry(id, name);
+      activateCountry(id, name);   // ← burası da modal açacak
     });
   });
-}
-
-function showSidebar(id, fallbackName) {
-  const country = countryData[id] || {};
-  const name = country.name_tr || fallbackName;
-
-  let html = `<h2 style="margin-top:0;">${name}</h2>`;
-
-  if (Object.keys(countryData).length === 0) {
-    html += `<p style="color:#ff4444; font-weight:bold;">Veri dosyası yüklenemedi.</p>`;
-  } else if (country.groups?.length > 0) {
-    country.groups.forEach(g => {
-      html += `<div class="group"><a href="${g.url || '#'}" target="_blank">${g.name_tr || "Bilinmeyen Grup"}</a></div>`;
-    });
-  } else {
-    html += "<p>Bu bölge için grup bilgisi bulunmuyor.</p>";
-  }
-
-  sidebarContent.innerHTML = html;
-  sidebarContent.scrollTop = 0;
-  createBackdrop();
 }
 
 function closeSidebar() {
   sidebar.classList.remove("active");
   searchButton.classList.remove("hidden");
-  if (activePath) {
-    activePath.classList.remove("active");
-    activePath = null;
-  }
-  tooltip.classList.remove("visible");
   removeBackdrop();
 }
 
@@ -480,10 +517,8 @@ function moveTooltip(e) {
   const rect = mapArea.getBoundingClientRect();
   let x = e.clientX - rect.left + 16;
   let y = e.clientY - rect.top + 16;
-
   x = Math.max(10, Math.min(x, rect.width - tooltip.offsetWidth - 10));
   y = Math.max(10, Math.min(y, rect.height - tooltip.offsetHeight - 10));
-
   tooltip.style.left = `${rect.left + x}px`;
   tooltip.style.top  = `${rect.top + y}px`;
 }
@@ -511,5 +546,82 @@ function removeBackdrop() {
   }
 }
 </script>
+
+<!-- CSS – mevcut <style> bloğunun en altına ekle -->
+<style>
+/* ... mevcut stiller ... */
+
+/* ────────────── MODAL ────────────── */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 400;
+  backdrop-filter: blur(6px);
+}
+
+.modal.active { display: flex; }
+
+.modal-content {
+  background: #1f1f1f;
+  border: 1px solid #444;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 420px;
+  padding: 24px;
+  position: relative;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.7);
+  color: #eee;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: #333;
+  color: #ccc;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 22px;
+  line-height: 28px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.modal-close:hover {
+  background: #555;
+  color: white;
+  transform: scale(1.1);
+}
+
+#modal-groups .group {
+  background: #2a2a2a;
+  padding: 12px 16px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border-left: 4px solid #4ade80;
+}
+
+#modal-groups a {
+  color: #4ade80;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+#modal-groups a:hover { text-decoration: underline; }
+
+@media (max-width: 480px) {
+  .modal-content { padding: 20px; width: 94%; }
+}
+</style>
+
 </body>
+
 </html>
