@@ -35,12 +35,13 @@
       stroke: #333;
       stroke-width: 0.7;
       transition: fill 0.3s ease, stroke 0.3s ease;
-      vector-effect: non-scaling-stroke; /* zoom'da stroke kalınlığı sabit kalsın */
+      vector-effect: non-scaling-stroke;
       pointer-events: all;
     }
     svg path:hover, svg path:focus { fill: #4ade80; outline: none; }
     svg path:focus-visible { outline: 3px solid #4ade80; outline-offset: 2px; }
     svg path.active { fill: #ff4444 !important; stroke: #fff; stroke-width: 1.8; }
+    
     .tooltip {
       position: absolute;
       background: rgba(0,0,0,0.88);
@@ -58,6 +59,7 @@
     }
     .tooltip.visible { opacity: 1; display: block; }
     .tooltip strong { display: block; font-size: 15px; margin-bottom: 5px; }
+
     #sidebar {
       width: 320px;
       background: #1f1f1f;
@@ -109,6 +111,7 @@
       font-size: 14.5px;
     }
     .group a:hover { text-decoration: underline; }
+
     #search-button {
       position: fixed;
       bottom: 20px;
@@ -164,7 +167,7 @@
 <div id="container">
   <div id="map-area">
     <svg id="svg-map" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-      <path
+       <path
      inkscape:connector-curvature="0"
      id="AO"
      data-name="Angola"
@@ -521,7 +524,7 @@
   <div id="sidebar">
     <button id="sidebar-close">×</button>
     <div id="search-container">
-      <input type="text" id="search-input" placeholder="Ülke ara...">
+      <input type="text" id="search-input" placeholder="Ülke veya grup ara...">
     </div>
     <div id="sidebar-content"></div>
   </div>
@@ -548,7 +551,7 @@ let startX, startY;
 let lastScale = 1;
 let lastTouchDistance = 0;
 
-const minScale = 0.8;
+const minScale = 0.5;   // biraz daha uzaklaşmaya izin verelim
 const maxScale = 8;
 
 fetch("data.json")
@@ -560,7 +563,7 @@ fetch("data.json")
   .catch(err => {
     console.error("data.json yüklenemedi:", err);
     sidebarContent.innerHTML = `<p style="color:#ff4444; font-weight:bold;">Veri dosyası yüklenemedi.</p>`;
-    initMap(); // fallback ile devam et
+    initMap();
   });
 
 function initMap() {
@@ -595,23 +598,23 @@ function initMap() {
     });
 
     path.addEventListener("touchend", (e) => {
-      if (e.touches.length === 0) path.click();
+      if (e.touches?.length === 0) path.click();
     }, { passive: true });
   });
 
   mapArea.addEventListener("mouseleave", hideTooltip);
-  mapArea.addEventListener("touchend", (e) => {
+  mapArea.addEventListener("touchend", e => {
     if (e.touches?.length === 0) hideTooltip();
   }, { passive: true });
 
   // Wheel zoom (PC)
   mapArea.addEventListener('wheel', e => {
     e.preventDefault();
-    const delta = e.deltaY > 0 ? -0.15 : 0.15;
-    changeScale(delta, e.clientX - mapArea.offsetLeft, e.clientY - mapArea.offsetTop);
+    const delta = e.deltaY > 0 ? -0.12 : 0.12;
+    zoomAtPoint(delta, e.clientX - mapArea.offsetLeft, e.clientY - mapArea.offsetTop);
   }, { passive: false });
 
-  // Mouse drag (PC)
+  // Mouse drag
   mapArea.addEventListener('mousedown', e => {
     if (e.button !== 0) return;
     isDragging = true;
@@ -625,7 +628,7 @@ function initMap() {
     e.preventDefault();
     translateX = e.clientX - startX;
     translateY = e.clientY - startY;
-    applyTransform();
+    applyBounds();
   });
 
   document.addEventListener('mouseup', () => {
@@ -633,7 +636,7 @@ function initMap() {
     mapArea.style.cursor = 'grab';
   });
 
-  // Touch (mobil pinch + drag)
+  // Touch pinch & drag
   mapArea.addEventListener('touchstart', e => {
     if (e.touches.length === 2) {
       e.preventDefault();
@@ -656,54 +659,67 @@ function initMap() {
         e.touches[0].clientX - e.touches[1].clientX,
         e.touches[0].clientY - e.touches[1].clientY
       );
-      const newScale = Math.max(minScale, Math.min(maxScale, lastScale * (dist / lastTouchDistance)));
-      const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2 - mapArea.offsetLeft;
-      const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2 - mapArea.offsetTop;
-      changeScale(newScale - scale, midX, midY);
+      const newScale = lastScale * (dist / lastTouchDistance);
+      zoomAtPoint(newScale - scale, 
+        (e.touches[0].clientX + e.touches[1].clientX)/2 - mapArea.offsetLeft,
+        (e.touches[0].clientY + e.touches[1].clientY)/2 - mapArea.offsetTop
+      );
     } else if (e.touches.length === 1 && isDragging) {
       e.preventDefault();
       translateX = e.touches[0].clientX - startX;
       translateY = e.touches[0].clientY - startY;
-      applyTransform();
+      applyBounds();
     }
   }, { passive: false });
 
   mapArea.addEventListener('touchend', () => isDragging = false);
 
-  // Çift dokunma zoom
+  // Çift dokunma → zoom in
   let lastTap = 0;
   mapArea.addEventListener('touchend', e => {
     const now = Date.now();
-    if (now - lastTap < 500 && now - lastTap > 0) {
+    if (now - lastTap < 400 && now - lastTap > 50) {
       e.preventDefault();
       const touch = e.changedTouches[0];
-      changeScale(1, touch.clientX - mapArea.offsetLeft, touch.clientY - mapArea.offsetTop);
+      zoomAtPoint(0.8, touch.clientX - mapArea.offsetLeft, touch.clientY - mapArea.offsetTop);
     }
     lastTap = now;
   });
 }
 
-function changeScale(delta, mouseX, mouseY) {
-  const newScale = Math.max(minScale, Math.min(maxScale, scale + delta));
-  const factor = newScale / scale;
+function zoomAtPoint(deltaScale, mouseX, mouseY) {
+  const oldScale = scale;
+  scale = Math.max(minScale, Math.min(maxScale, scale + deltaScale));
+  
+  const factor = scale / oldScale;
   translateX = mouseX - (mouseX - translateX) * factor;
   translateY = mouseY - (mouseY - translateY) * factor;
-  scale = newScale;
-  applyTransform();
+
+  applyBounds();
 }
 
-function applyTransform() {
+function applyBounds() {
   const rect = mapArea.getBoundingClientRect();
   const scaledW = 1000 * scale;
   const scaledH = 1000 * scale;
 
-  translateX = scaledW < rect.width
-    ? (rect.width - scaledW) / 2
-    : Math.max(rect.width - scaledW, Math.min(0, translateX));
+  // Harita ekranı doldurmuyorsa ortala
+  if (scaledW <= rect.width) {
+    translateX = (rect.width - scaledW) / 2;
+  } else {
+    // Harita büyükse kenarlara yapışmasın → sınırlandır
+    const minX = rect.width - scaledW;
+    const maxX = 0;
+    translateX = Math.max(minX, Math.min(maxX, translateX));
+  }
 
-  translateY = scaledH < rect.height
-    ? (rect.height - scaledH) / 2
-    : Math.max(rect.height - scaledH, Math.min(0, translateY));
+  if (scaledH <= rect.height) {
+    translateY = (rect.height - scaledH) / 2;
+  } else {
+    const minY = rect.height - scaledH;
+    const maxY = 0;
+    translateY = Math.max(minY, Math.min(maxY, translateY));
+  }
 
   svg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
   svg.style.transformOrigin = '0 0';
@@ -716,17 +732,17 @@ function showSidebar(id, fallbackName) {
 
   if (Object.keys(countryData).length === 0) {
     html += `<p style="color:#ff4444; font-weight:bold;">Veri dosyası yüklenemedi.</p>`;
-  } else if (country.groups?.length > 0) {
-    country.groups.forEach(group => {
+  } else if (country.groups?.length) {
+    country.groups.forEach(g => {
       html += `
         <div class="group">
-          <a href="${group.url || '#'}" target="_blank" rel="noopener noreferrer">
-            ${group.name_tr || "Bilinmeyen Grup"}
+          <a href="${g.url || '#'}" target="_blank" rel="noopener noreferrer">
+            ${g.name_tr || "Bilinmeyen Grup"}
           </a>
         </div>`;
     });
   } else {
-    html += "<p>Bu bölge için grup bilgisi bulunmuyor.</p>";
+    html += "<p>Bu bölge için grup bilgisi yok.</p>";
   }
 
   sidebarContent.innerHTML = html;
@@ -741,15 +757,18 @@ function hideTooltip() {
 function moveTooltip(e) {
   const rect = mapArea.getBoundingClientRect();
   const offset = 16;
-  let x = (e.clientX || e.touches?.[0]?.clientX || 0) - rect.left + offset;
-  let y = (e.clientY || e.touches?.[0]?.clientY || 0) - rect.top + offset;
+  let clientX = e.clientX || (e.touches && e.touches[0]?.clientX) || 0;
+  let clientY = e.clientY || (e.touches && e.touches[0]?.clientY) || 0;
 
-  // Harita içinde kalmasını sağla
+  let x = clientX - rect.left + offset;
+  let y = clientY - rect.top + offset;
+
+  // Tooltip harita içinde kalsın
   x = Math.max(offset, Math.min(rect.width - tooltip.offsetWidth - offset, x));
   y = Math.max(offset, Math.min(rect.height - tooltip.offsetHeight - offset, y));
 
-  tooltip.style.left = `${rect.left + x}px`;
-  tooltip.style.top  = `${rect.top + y}px`;
+  tooltip.style.left = (rect.left + x) + "px";
+  tooltip.style.top  = (rect.top + y) + "px";
 }
 
 document.getElementById("sidebar-close")?.addEventListener("click", () => {
@@ -766,14 +785,13 @@ searchButton.addEventListener("click", () => {
 });
 
 searchInput?.addEventListener("input", e => {
-  if (Object.keys(countryData).length === 0) return;
-
+  if (!Object.keys(countryData).length) return;
   const term = e.target.value.trim().toLowerCase();
   document.querySelectorAll("svg path").forEach(path => {
     const name = (countryData[path.id]?.name_tr || path.getAttribute("data-name") || path.id || "").toLowerCase();
-    const matches = term === "" || name.includes(term);
-    path.style.display = matches ? "" : "none";
-    path.style.pointerEvents = matches ? "all" : "none";
+    const match = term === "" || name.includes(term);
+    path.style.display = match ? "" : "none";
+    path.style.pointerEvents = match ? "all" : "none";
   });
 });
 </script>
