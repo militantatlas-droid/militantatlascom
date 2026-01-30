@@ -200,9 +200,16 @@
 
     function goTo(continent) {
       const t = translations[currentLang];
-      // Continent anahtarını doğru eşleştir (küçük harf + boşluk kaldırma)
-      const key = continent.toLowerCase().replace(/\s+/g, '');
-      const continentName = t[key] || continent; // Eğer key yoksa continent'ı direkt kullan
+      // Continent anahtarını doğru eşleştir
+      let key = continent.toLowerCase().replace(/\s+/g, '');
+      // Türkçe için özel eşleştirme (İngilizce continent parametresiyle Türkçe key bul)
+      if (currentLang === 'tr') {
+        if (continent === 'Asia') key = 'asya';
+        else if (continent === 'Europe') key = 'avrupa';
+        else if (continent === 'North America') key = 'kuzey';
+        else if (continent === 'South America') key = 'guney';
+      }
+      const continentName = t[key] || continent;
       alert(continentName + t.alertSuffix);
     }
 
