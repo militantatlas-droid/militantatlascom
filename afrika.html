@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MİLİTAN ATLASI (asjhkd)</title>
+  <title>MİLİTAN ATLASI (GAS)</title>
   <style>
     * { box-sizing: border-box; margin:0; padding:0; }
     body {
@@ -320,20 +320,13 @@ function initMap() {
       activateCountry(id, fallbackName, path);
     }, { passive: false });
   });
+searchInput.addEventListener("input", () => {
+  const term = searchInput.value.trim().toLowerCase();
+  clearSearch.style.display = term ? "block" : "none";
 
-  searchInput.addEventListener("input", () => {
-    const term = searchInput.value.trim().toLowerCase();
-    clearSearch.style.display = term ? "block" : "none";
-
-    document.querySelectorAll("svg path").forEach(path => {
-      const name = (countryData[path.id]?.name_tr || path.getAttribute("data-name") || path.id || "").toLowerCase();
-      const matches = !term || name.includes(term);
-      path.style.display = matches ? "" : "none";
-      path.style.pointerEvents = matches ? "all" : "none";
-    });
-
-    showSearchSuggestions(term);
-  });
+  // Sadece önerileri göster/güncelle
+  showSearchSuggestions(term);
+});
 
   clearSearch.addEventListener("click", () => {
     searchInput.value = "";
