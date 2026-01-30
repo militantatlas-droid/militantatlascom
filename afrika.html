@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MİLİTAN ATLASI (AFRİKA)</title>
+  <title>MİLİTAN ATLASI AFRİKA</title>
   <style>
     * { box-sizing: border-box; margin:0; padding:0; }
     body {
@@ -34,7 +34,7 @@
       stroke: #000000;
       stroke-width: 1.8;
       vector-effect: non-scaling-stroke;
-      pointer-events: bounding-box; /* Tıklama için en stabil yöntem */
+      pointer-events: bounding-box;
     }
     svg path:hover {
       fill: #4ade80 !important;
@@ -86,13 +86,13 @@
     #sidebar-close {
       position: absolute;
       top: 12px; right: 12px;
-      width: 36px; height: 36px;
+      width: 28px; height: 28px;
       background: #444;
       color: white;
       border: none;
       border-radius: 50%;
-      font-size: 24px;
-      line-height: 34px;
+      font-size: 20px;
+      line-height: 26px;
       text-align: center;
       cursor: pointer;
       transition: all 0.2s;
@@ -185,6 +185,7 @@
 <div id="container">
   <div id="map-area">
     <svg id="svg-map" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+      <!-- BURAYA TÜM ÜLKE PATH'LERİNİ KOPYALA -->
       <path id="AO" data-name="Angola" data-id="AO" d="m 495.3,598.6 -36,-0.2 -4.3,1.7 -3.5,-0.3 -5.1,1.9 -1.1,2.7 6,8.7 2.4,9.3 3.6,13.4 -3.8,5.5 -0.6,2.8 2.9,8.3 3.1,8.4 3.6,5 0.6,7.8 -1.4,10.3 -4,6.1 -7.1,9.1 -2.9,5.6 -4.1,12.5 -0.8,5.9 -4.3,12.7 -1.9,12.2 1,8.7 5.9,-2.7 7.2,-2.3 7.8,0.4 7.1,6.3 1.9,-1 48.8,-0.6 8.2,6.6 29.1,2 22.4,-5.7 -7.6,-8.6 -7.8,-11.3 1.6,-44 25.3,0.1 -1,-4.7 2,-5.2 -2,-6.5 1.5,-6.7 -1.2,-4.3 -5.5,-0.8 -7.6,2 -5.3,-0.3 -3,1.3 0.9,-16.5 -3.9,-5.1 -0.8,-8.5 1.9,-8.4 -2.4,-5.3 -0.1,-8.7 -14.8,0.1 1.1,-5 -6.2,0.1 -0.7,2.4 -7.6,0.5 -3.1,8.1 -1.9,3.4 -6.7,-1.9 -4,1.9 -8.1,1.1 -4.6,-7.2 -2.7,-4.5 -3.5,-8.3 -2.9,-10.3 z m -47.4,-2.7 0.4,-6 2,-3.5 4.5,-2.9 -4.6,-4.8 -3.7,2.3 -5,6 3.3,10.4 3.1,-1.5 z" />
       <path id="BI" data-name="Burundi" data-id="BI" d="m 669,556.1 -0.6,-5.4 0,0 -6.5,-0.9 -3.8,7.9 -7.4,-1.1 3,6.3 0.1,2.4 4.3,13.2 0,0.6 1.2,-0.2 4.5,-5 4.9,-7.2 3,-2.9 -0.1,-4.5 -2.6,-3.2 z" />
       <path id="BJ" data-name="Benin" data-id="BJ" d="m 340,356 -9.3,-8 -4.3,0.1 -4.1,4 -2.6,4.2 -6,1.2 -2.5,6.1 -4.1,1.6 -1.6,7.2 3.7,4.1 4.3,4.9 0.4,6.8 2.5,2.8 -0.5,31.8 3,9.5 10.1,-1.6 0.6,-22.3 -0.3,-8.8 2.3,-8.7 3.7,-4.3 5.9,-8.5 -1.3,-3.7 2.4,-5.6 -2.8,-8.2 0.5,-4.6 z" />
@@ -275,13 +276,31 @@ fetch("data.json")
   });
 
 function initMap() {
-  // Tooltip için mouse hareketleri
-  mapArea.addEventListener("mousemove", moveTooltip);
-  mapArea.addEventListener("mouseleave", hideTooltip);
+  // Tooltip için mouse hareketleri (SVG üzerinden yakala)
+  svg.addEventListener("mousemove", (e) => {
+    const path = e.target.closest("path");
+    if (path) {
+      const id = path.id;
+      const country = countryData[id] || {};
+      const fallbackName = path.getAttribute("data-name") || id || "Bilinmeyen";
+      const displayName = country.name_tr || fallbackName;
+      const groupsText = country.groups?.length
+        ? country.groups.map(g => g.name_tr || "Bilinmeyen").join("<br>")
+        : "Grup bilgisi yok";
 
-  // Event delegation: tüm tıklama ve hover'ları SVG üzerinden yakala
+      tooltip.innerHTML = `<strong>${displayName}</strong><br>${groupsText}`;
+      tooltip.classList.add("visible");
+      moveTooltip(e);
+    }
+  });
+
+  svg.addEventListener("mouseleave", () => {
+    hideTooltip();
+  });
+
+  // Tıklama için event delegation
   svg.addEventListener("click", (e) => {
-    let path = e.target.closest("path");
+    const path = e.target.closest("path");
     if (!path) return;
 
     const id = path.id;
@@ -296,17 +315,23 @@ function initMap() {
     showSidebar(id, fallbackName);
   });
 
-  svg.addEventListener("mouseenter", (e) => {
-    let path = e.target.closest("path");
-    if (path) showTooltip(e);
-  });
+  // Mobil için touch desteği
+  svg.addEventListener("touchend", (e) => {
+    const path = e.target.closest("path");
+    if (!path) return;
 
-  svg.addEventListener("mousemove", (e) => {
-    let path = e.target.closest("path");
-    if (path) moveTooltip(e);
-  });
+    e.preventDefault();
+    const id = path.id;
+    if (!id) return;
 
-  svg.addEventListener("mouseleave", hideTooltip);
+    if (activePath) activePath.classList.remove("active");
+    svg.appendChild(path);
+    path.classList.add("active");
+    activePath = path;
+
+    const fallbackName = path.getAttribute("data-name") || id || "Bilinmeyen";
+    showSidebar(id, fallbackName);
+  }, { passive: false });
 
   // Arama filtreleme
   searchInput.addEventListener("input", e => {
@@ -316,7 +341,7 @@ function initMap() {
       const name = (countryData[path.id]?.name_tr || path.getAttribute("data-name") || path.id || "").toLowerCase();
       const matches = term === "" || name.includes(term);
       path.style.display = matches ? "" : "none";
-      path.style.pointerEvents = matches ? "all" : "none";
+      path.style.pointerEvents = matches ? "bounding-box" : "none";
     });
   });
 
