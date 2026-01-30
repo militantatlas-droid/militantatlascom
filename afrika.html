@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MİLİTAN ATLASI AFRİKA</title>
+  <title>MİLİTAN ATLASI afr</title>
   <style>
     * { box-sizing: border-box; margin:0; padding:0; }
     body {
@@ -383,6 +383,9 @@ function initMap() {
 }
 
 function handleSearch() {
+  if (term) {
+  sidebar.classList.add("active");
+}
   const term = searchInput.value.trim().toLowerCase();
   clearSearch.style.display = term ? "block" : "none";
 
@@ -398,16 +401,22 @@ function handleSearch() {
 }
 
 function activateCountry(lowerId, fallbackName, pathElement = null) {
+  console.log("activateCountry çağrıldı → lowerId:", lowerId, "path:", pathElement?.id);
+
   if (activePath) activePath.classList.remove("active");
 
   const targetPath = pathElement || document.getElementById(lowerId.toUpperCase());
   if (targetPath) {
-    svg.appendChild(targetPath); // öne getir
+    console.log("Aktif path bulundu:", targetPath.id);
+    svg.appendChild(targetPath);
     targetPath.classList.add("active");
     activePath = targetPath;
+  } else {
+    console.warn(`Path hala bulunamadı: #${lowerId.toUpperCase()}`);
   }
 
   showSidebar(lowerId, fallbackName);
+  // BURADA closeSidebar() YOK – sidebar açık kalsın!
 }
 
 function showSearchSuggestions(term) {
@@ -460,14 +469,16 @@ function showSearchSuggestions(term) {
 
   // Suggestion click
   sidebarContent.querySelectorAll(".suggestion-item").forEach(el => {
-    el.addEventListener("click", () => {
-      const id = el.dataset.id;
-      const pathElem = document.getElementById(id);
-      if (pathElem) {
-        activateCountry(id.toLowerCase(), el.textContent.trim(), pathElem);
-      }
-    });
-  });
+ el.addEventListener("click", () => {
+  const upperId = el.dataset.id;               // "AO"
+  const lowerId = upperId.toLowerCase();       // "ao"
+  const pathElem = document.getElementById(upperId);
+  if (pathElem) {
+    activateCountry(lowerId, el.textContent.trim(), pathElem);
+  } else {
+    console.warn(`Path bulunamadı: #${upperId}`);
+  }
+    });  
 }
 
 function showSidebar(lowerId, fallbackName) {
