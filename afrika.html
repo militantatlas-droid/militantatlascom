@@ -3,11 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>MİLİTAN Atlas - AFRİKA</title>
+  <title>MİLİTAN ATLASI - AFRİKA</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; margin:0; padding:0; }
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
@@ -17,10 +15,7 @@
       overflow: hidden;
       touch-action: none;
     }
-    #container {
-      display: flex;
-      height: 100%;
-    }
+    #container { display: flex; height: 100%; }
     #map-area {
       flex: 1;
       position: relative;
@@ -43,20 +38,9 @@
       transition: fill 0.3s ease, stroke 0.3s ease;
       pointer-events: all;
     }
-    svg path:hover,
-    svg path:focus {
-      fill: #4ade80;
-      outline: none;
-    }
-    svg path:focus-visible {
-      outline: 3px solid #4ade80;
-      outline-offset: 2px;
-    }
-    svg path.active {
-      fill: #ff4444 !important;
-      stroke: #fff;
-      stroke-width: 1.8;
-    }
+    svg path:hover, svg path:focus { fill: #4ade80; outline: none; }
+    svg path:focus-visible { outline: 3px solid #4ade80; outline-offset: 2px; }
+    svg path.active { fill: #ff4444 !important; stroke: #fff; stroke-width: 1.8; }
     .tooltip {
       position: absolute;
       background: rgba(0,0,0,0.88);
@@ -72,14 +56,8 @@
       opacity: 0;
       transition: opacity 0.18s ease;
     }
-    .tooltip.visible {
-      opacity: 1;
-    }
-    .tooltip strong {
-      display: block;
-      font-size: 15px;
-      margin-bottom: 5px;
-    }
+    .tooltip.visible { opacity: 1; }
+    .tooltip strong { display: block; font-size: 15px; margin-bottom: 5px; }
     #sidebar {
       width: 320px;
       background: #1f1f1f;
@@ -93,16 +71,11 @@
       transform: translateX(100%);
       touch-action: auto;
     }
-    #sidebar.active {
-      display: block;
-      transform: translateX(0);
-    }
+    #sidebar.active { display: block; transform: translateX(0); }
     #sidebar-close {
       position: absolute;
-      top: 12px;
-      right: 12px;
-      width: 36px;
-      height: 36px;
+      top: 12px; right: 12px;
+      width: 36px; height: 36px;
       background: #444;
       color: white;
       border: none;
@@ -113,13 +86,8 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-    #sidebar-close:hover {
-      background: #666;
-      transform: scale(1.08);
-    }
-    #search-container {
-      margin-bottom: 18px;
-    }
+    #sidebar-close:hover { background: #666; transform: scale(1.08); }
+    #search-container { margin-bottom: 18px; }
     #search-input {
       width: 100%;
       padding: 10px 12px;
@@ -129,9 +97,7 @@
       border-radius: 6px;
       font-size: 15px;
     }
-    #search-input::placeholder {
-      color: #888;
-    }
+    #search-input::placeholder { color: #888; }
     .group {
       margin: 14px 0;
       padding: 10px;
@@ -143,22 +109,18 @@
       text-decoration: none;
       font-size: 14.5px;
     }
-    .group a:hover {
-      text-decoration: underline;
-    }
-
-    /* === SABİT ARAMA BUTONU === */
+    .group a:hover { text-decoration: underline; }
     #search-button {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      width: 60px;
-      height: 60px;
+      width: 70px;
+      height: 70px;
       background: #4ade80;
       color: #111;
       border: none;
       border-radius: 50%;
-      font-size: 13px;
+      font-size: 11px;
       font-weight: bold;
       cursor: pointer;
       box-shadow: 0 4px 12px rgba(0,0,0,0.6);
@@ -166,37 +128,23 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s ease;
       text-align: center;
-      line-height: 1.2;
+      padding: 0 6px;
+      line-height: 1.15;
+      transition: all 0.3s ease;
     }
-    #search-button:hover {
-      background: #27ae60;
-      transform: scale(1.1);
-    }
-    #search-button.hidden {
-      opacity: 0;
-      pointer-events: none;
-      transform: scale(0.7);
-    }
-
-    /* MOBİL UYUMLULUK */
+    #search-button:hover { background: #27ae60; transform: scale(1.1); }
+    #search-button.hidden { opacity: 0; pointer-events: none; transform: scale(0.7); }
     @media (max-width: 768px) {
-      #container {
-        flex-direction: column;
-      }
-      #map-area {
-        flex: 1 1 60%;
-      }
+      #container { flex-direction: column; }
+      #map-area { flex: 1 1 60%; }
       #sidebar {
         width: 100%;
         height: auto;
         max-height: 60%;
         min-height: 40%;
         position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
+        bottom: 0; left: 0; right: 0;
         transform: translateY(100%);
         border-left: none;
         border-top: 1px solid #444;
@@ -204,22 +152,11 @@
         z-index: 200;
         overflow-y: auto;
         touch-action: pan-y pinch-zoom;
-        -webkit-overflow-scrolling: touch;
       }
-      #sidebar.active {
-        transform: translateY(0);
-      }
-      #sidebar-close {
-        top: 12px;
-        right: 12px;
-        z-index: 201;
-      }
-      #sidebar-content {
-        padding-bottom: 60px;
-      }
-      #search-button {
-        bottom: 90px;
-      }
+      #sidebar.active { transform: translateY(0); }
+      #sidebar-close { top: 12px; right: 12px; z-index: 201; }
+      #sidebar-content { padding-bottom: 60px; }
+      #search-button { bottom: 90px; }
     }
   </style>
 </head>
@@ -583,7 +520,6 @@
      d="m 832.6,372.8 -5.7,-5.8 -2.5,-5.7 -4.1,-2.6 -4.2,7.4 -2.5,4.9 4.8,7.7 4.6,6.6 4.8,5 40.3,16.4 10.3,-0.1 -33.5,41.5 -15.9,0.6 -10.7,9.8 -7.8,0.2 -3.3,4.4 -10.5,15.7 0.4,50.4 7.2,11.4 2.7,-3.3 2.9,-7.3 13.4,-16.7 11.4,-10.6 18.1,-13.7 12.1,-11.2 14.1,-18.9 10.1,-15.5 10,-20.2 7,-17.7 5.4,-15.5 2.9,-14.9 2.4,-5 -0.4,-7.3 0.8,-8 -0.5,-3.9 -4.6,0.1 -5.5,4.7 -6.4,1.4 -5.5,2.1 -3.9,0.2 0,0 -6.9,0.5 -4.2,2.6 -6,0.9 -10.5,4.3 -13.2,1.6 -11.3,3.5 -6.1,0 z"
       />
 </svg>
-   
     <div class="tooltip" id="tooltip"></div>
   </div>
   <div id="sidebar">
@@ -591,19 +527,14 @@
     <div id="search-container">
       <input type="text" id="search-input" placeholder="ARAMA YAP...">
     </div>
-    <div id="sidebar-content">
-      <!-- dinamik içerik buraya gelecek -->
-    </div>
+    <div id="sidebar-content"></div>
   </div>
 </div>
-
-<!-- SABİT ARAMA BUTONU -->
 <button id="search-button">ARAMA YAP</button>
 
 <script>
-// ================================================
-// DEĞİŞKENLER
-// ================================================
+let countryData = {};
+let activePath = null;
 const tooltip = document.getElementById("tooltip");
 const sidebar = document.getElementById("sidebar");
 const sidebarContent = document.getElementById("sidebar-content");
@@ -611,20 +542,13 @@ const searchInput = document.getElementById("search-input");
 const searchButton = document.getElementById("search-button");
 const svg = document.getElementById("svg-map");
 const mapArea = document.getElementById("map-area");
-let countryData = {};
-let activePath = null;
-// Zoom & Pan değişkenleri
-let viewBox = { x: 0, y: 0, w: 1000, h: 1000 };
-let isPanning = false;
-let startPoint = { x: 0, y: 0 };
-const originalWidth = 1000;
-const originalHeight = 1000;
-let prevDist = 0;
-let prevMid = { x: 0, y: 0 };
 
-// ================================================
-// VERİ YÜKLEME
-// ================================================
+// Dil okuma
+const lang = localStorage.getItem('lang') || 'tr';
+const nameKey = lang === 'en' ? 'name_en' : 'name_tr';
+const groupKey = lang === 'en' ? 'name_en' : 'name_tr';
+
+// Veri yükleme
 fetch("data.json")
   .then(res => res.json())
   .then(data => {
@@ -633,89 +557,68 @@ fetch("data.json")
   })
   .catch(err => {
     console.error("data.json yüklenemedi:", err);
-    sidebarContent.innerHTML = "<p style='color:#f66;'>Veri dosyası yüklenemedi.</p>";
+    sidebarContent.innerHTML = `<p style="color:#ff4444; font-weight:bold;">Veri dosyası yüklenemedi.</p>`;
+    initMap();
   });
 
-// ================================================
-// HARİTA OLAYLARI (öncekiyle aynı)
-// ================================================
 function initMap() {
   const paths = document.querySelectorAll("svg path");
   paths.forEach(path => {
     const id = path.id;
-    if (!countryData[id]) return;
+    const fallbackName = path.getAttribute("data-name") || id || "Bilinmeyen";
+    const country = countryData[id] || {};
+
+    // Hover / Tooltip
     const enterHandler = (e) => {
       if (e.touches && e.touches.length > 1) return;
-      tooltip.innerHTML = `
-        <strong>${countryData[id].name || id}</strong><br>
-        ${countryData[id].groups?.map(g => g.name).join("<br>") || "Grup bilgisi yok"}
-      `;
-      tooltip.classList.add("visible");
+      const displayName = country[nameKey] || fallbackName;
+      const groupsText = country.groups?.length
+        ? country.groups.map(g => g[groupKey] || g.name_tr || g.name || "Bilinmeyen").join("<br>")
+        : "Grup bilgisi yok";
+      tooltip.innerHTML = `<strong>${displayName}</strong><br>${groupsText}`;
       tooltip.style.display = "block";
+      tooltip.classList.add("visible");
       moveTooltip(e);
     };
+
     path.addEventListener("mouseenter", enterHandler);
     path.addEventListener("touchstart", enterHandler, { passive: true });
     path.addEventListener("mousemove", moveTooltip);
     path.addEventListener("touchmove", moveTooltip, { passive: true });
+
+    // Tıklama
     path.addEventListener("click", () => {
       if (activePath) activePath.classList.remove("active");
       path.classList.add("active");
       activePath = path;
-      showSidebar(id);
+      showSidebar(id, fallbackName);
     });
+
     path.addEventListener("touchend", (e) => {
-      if (e.touches.length === 0) {
-        path.dispatchEvent(new Event("click"));
-      }
+      if (e.touches.length === 0) path.dispatchEvent(new Event("click"));
     }, { passive: true });
   });
+
   mapArea.addEventListener("mouseleave", hideTooltip);
   mapArea.addEventListener("touchend", (e) => {
     if (e.touches.length === 0) hideTooltip();
   }, { passive: true });
-  function hideTooltip() {
-    tooltip.classList.remove("visible");
-    setTimeout(() => { tooltip.style.display = "none"; }, 180);
-  }
-  mapArea.addEventListener("wheel", onWheel, { passive: false });
-  mapArea.addEventListener("pointerdown", onPointerDown);
-  mapArea.addEventListener("pointermove", onPointerMove);
-  mapArea.addEventListener("pointerup", onPointerUp);
-  mapArea.addEventListener("pointercancel", onPointerUp);
-  mapArea.addEventListener("touchstart", onTouchStart, { passive: false });
-  mapArea.addEventListener("touchmove", onTouchMove, { passive: false });
-  mapArea.addEventListener("touchend", onTouchEnd, { passive: false });
 }
 
-// ... (zoom/pan fonksiyonları aynı kaldı: updateViewBox, clampViewBox, onWheel, getMousePos, onPointerDown vs.) ...
+function showSidebar(id, fallbackName) {
+  const country = countryData[id] || {};
+  const displayName = country[nameKey] || fallbackName;
 
-function moveTooltip(e) {
-  const offset = 16;
-  const x = (e.clientX || e.touches?.[0]?.clientX || 0) + offset;
-  const y = (e.clientY || e.touches?.[0]?.clientY || 0) + offset;
-  let left = x;
-  let top = y;
-  if (left + tooltip.offsetWidth > window.innerWidth - 10) {
-    left = x - tooltip.offsetWidth - offset * 2;
-  }
-  if (top + tooltip.offsetHeight > window.innerHeight - 10) {
-    top = y - tooltip.offsetHeight - offset * 2;
-  }
-  tooltip.style.left = left + "px";
-  tooltip.style.top = top + "px";
-}
-
-function showSidebar(id) {
-  if (!countryData[id]) return;
-  const data = countryData[id];
-  let html = `<h2 style="margin-top:0;">${data.name || id}</h2>`;
-  if (data.groups && data.groups.length > 0) {
-    data.groups.forEach(group => {
+  let html = `<h2 style="margin-top:0;">${displayName}</h2>`;
+  if (Object.keys(countryData).length === 0) {
+    html += `<p style="color:#ff4444; font-weight:bold;">Veri dosyası yüklenemedi.</p>`;
+  } else if (country.groups && country.groups.length > 0) {
+    country.groups.forEach(group => {
+      const groupName = group[groupKey] || group.name_tr || group.name || "Bilinmeyen Grup";
       html += `
         <div class="group">
           <a href="${group.url || '#'}" target="_blank" rel="noopener noreferrer">
-            ${group.name}
+            ${groupName}
           </a>
         </div>
       `;
@@ -723,60 +626,52 @@ function showSidebar(id) {
   } else {
     html += "<p>Bu bölge için grup bilgisi bulunmuyor.</p>";
   }
+
   sidebarContent.innerHTML = html;
   sidebar.classList.add("active");
   sidebarContent.scrollTop = 0;
 }
 
-// ================================================
-// SIDEBAR KAPATMA + BUTON KONTROLÜ
-// ================================================
-function closeSidebar() {
-  sidebar.classList.remove("active");
-  if (activePath) {
-    activePath.classList.remove("active");
-    activePath = null;
-  }
+function hideTooltip() {
   tooltip.classList.remove("visible");
   setTimeout(() => { tooltip.style.display = "none"; }, 180);
-  searchButton.classList.remove("hidden"); // butonu geri getir
 }
 
-document.getElementById("sidebar-close").addEventListener("click", closeSidebar);
+function moveTooltip(e) {
+  const offset = 16;
+  const x = (e.clientX || e.touches?.[0]?.clientX || 0) + offset;
+  const y = (e.clientY || e.touches?.[0]?.clientY || 0) + offset;
+  let left = x, top = y;
+  if (left + tooltip.offsetWidth > window.innerWidth - 10) left = x - tooltip.offsetWidth - offset * 2;
+  if (top + tooltip.offsetHeight > window.innerHeight - 10) top = y - tooltip.offsetHeight - offset * 2;
+  tooltip.style.left = left + "px";
+  tooltip.style.top = top + "px";
+}
 
-document.addEventListener("click", e => {
-  if (!sidebar.classList.contains("active")) return;
-  if (sidebar.contains(e.target) || e.target.id === "search-button") return;
-  if (e.target.closest("svg path")) return;
-  closeSidebar();
+document.getElementById("sidebar-close")?.addEventListener("click", () => {
+  sidebar.classList.remove("active");
+  if (activePath) activePath.classList.remove("active");
+  activePath = null;
+  hideTooltip();
+  searchButton.classList.remove("hidden");
 });
 
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape" && sidebar.classList.contains("active")) {
-    closeSidebar();
-  }
-});
-
-// ================================================
-// ARAMA BUTONU AÇMA
-// ================================================
 searchButton.addEventListener("click", () => {
   sidebar.classList.add("active");
   searchButton.classList.add("hidden");
 });
 
-// ================================================
-// ÜLKE ARAMA / FİLTRE
-// ================================================
 searchInput?.addEventListener("input", e => {
   const term = e.target.value.trim().toLowerCase();
   document.querySelectorAll("svg path").forEach(path => {
-    const name = (countryData[path.id]?.name || path.id || "").toLowerCase();
+    const name = (countryData[path.id]?.[nameKey] || path.getAttribute("data-name") || path.id || "").toLowerCase();
     const matches = name.includes(term) || term === "";
     path.style.visibility = matches ? "visible" : "hidden";
     path.style.pointerEvents = matches ? "all" : "none";
   });
 });
+
+// Senin zoom/pan kodun varsa buraya ekle (mevcut kodunda varsa bozulmaz)
 </script>
 </body>
 </html>
