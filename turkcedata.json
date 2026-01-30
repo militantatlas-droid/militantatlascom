@@ -1,0 +1,50 @@
+{
+  "AO": {
+    "name_tr": "Angola",
+    "groups": [
+      {
+        "name_tr": "MPLA fraksiyonları (tarihsel)",
+        "name_en": "MPLA factions (historical)",
+        "url": "#",                  // eski link, istersen kaldırabilirsin
+        "details": {
+          "kurulus_yili": "1960 (örnek placeholder)",
+          "ilk_eylem": "1961-1965 bağımsızlık savaşı eylemleri",
+          "grup_turu": "Marksist-Leninist gerilla / tarihsel siyasi fraksiyon",
+          "grup_durumu": "Aktif değil, tarihsel",
+          "saldiri_taktikleri": "Konvansiyonel gerilla savaşı, sabotaj (tarihsel)"
+        }
+      },
+      {
+        "name_tr": "UNITA kalıntıları",
+        "name_en": "UNITA remnants",
+        "url": "#",
+        "details": {
+          "kurulus_yili": "",
+          "ilk_eylem": "",
+          "grup_turu": "",
+          "grup_durumu": "",
+          "saldiri_taktikleri": "deeenee"
+        }
+      }
+    ]
+  },
+  "BF": {
+    "name_tr": "Burkina Faso",
+    "groups": [
+      {
+        "name_tr": "JNIM (İslam ve Müslümanlar İçin Destek Grubu)",
+        "name_en": "JNIM",
+        "url": "https://... gerçek link istersen",
+        "details": {
+          "kurulus_yili": "2017",
+          "ilk_eylem": "2017'de birleşmeden sonraki ilk büyük saldırı",
+          "grup_turu": "Cihatçı / El Kaide bağlantılı koalisyon",
+          "grup_durumu": "Çok aktif – 2025 itibarıyla Sahel'de en dominant grup",
+          "saldiri_taktikleri": " karmaşık saldırılar, drone kullanımı, IED, toplu infaz, köylere baskın"
+        }
+      }
+      // diğer gruplar...
+    ]
+  }
+  // diğer ülkeler...
+}
