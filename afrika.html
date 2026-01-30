@@ -32,29 +32,28 @@
     }
     svg path {
       fill: #ffffff;
-      stroke: #333;
-      stroke-width: 1.2; /* Sınırlar daha belirgin - kalınlaştırıldı */
+      stroke: #444;
+      stroke-width: 1.3;           /* Sınırlar daha belirgin */
       vector-effect: non-scaling-stroke;
       pointer-events: all;
-      transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: all 0.3s ease-out;
       transform: translateY(0) scale(1);
-      filter: drop-shadow(0 0 4px transparent);
+      filter: drop-shadow(0 0 3px transparent);
     }
-    /* HOVER EFEKTİ - YEŞİL + HAFİF KALKIYOR (düşürüldü) */
     svg path:hover {
       fill: #4ade80 !important;
       stroke: #222;
-      stroke-width: 1.6; /* Sınırlar hover'da daha belirgin */
-      transform: translateY(-4px) scale(1.01); /* Animasyon düşürüldü */
-      filter: drop-shadow(0 6px 10px rgba(74, 222, 128, 0.3)); /* Gölge hafifletildi */
+      stroke-width: 1.8;
+      transform: translateY(-5px) scale(1.015);
+      filter: drop-shadow(0 8px 12px rgba(74,222,128,0.35));
     }
-    /* TIKLANINCA - KIRMIZI + DAHA ÇOK KALKIYOR (düşürüldü) */
     svg path.active {
       fill: #ff4444 !important;
       stroke: #fff;
-      stroke-width: 2.6; /* Sınırlar active'de daha belirgin */
-      transform: translateY(-8px) scale(1.02); /* Animasyon düşürüldü */
-      filter: drop-shadow(0 10px 15px rgba(255, 68, 68, 0.4)); /* Gölge hafifletildi */
+      stroke-width: 2.8;
+      transform: translateY(-8px) scale(1.02);   /* Kalkma düşürüldü */
+      filter: drop-shadow(0 12px 18px rgba(255,68,68,0.45));
+      z-index: 50;   /* Küçük ülkeler altta kalmasın diye yüksek z-index */
     }
     .tooltip {
       position: absolute;
@@ -67,15 +66,12 @@
       z-index: 100;
       max-width: 280px;
       box-shadow: 0 8px 25px rgba(0,0,0,0.7);
-      opacity: 0;
-      transform: translateY(10px);
-      transition: all 0.25s ease;
+      display: none;                /* Animasyon yok, direkt aç/kapat */
       backdrop-filter: blur(8px);
       border: 1px solid rgba(255,255,255,0.1);
     }
     .tooltip.visible {
-      opacity: 1;
-      transform: translateY(0);
+      display: block;
     }
     .tooltip strong {
       display: block;
@@ -189,7 +185,7 @@
 <div id="container">
   <div id="map-area">
     <svg id="svg-map" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-      <path id="AO" data-name="Angola" data-id="AO" d="m 495.3,598.6 -36,-0.2 -4.3,1.7 -3.5,-0.3 -5.1,1.9 -1.1,2.7 6,8.7 2.4,9.3 3.6,13.4 -3.8,5.5 -0.6,2.8 2.9,8.3 3.1,8.4 3.6,5 0.6,7.8 -1.4,10.3 -4,6.1 -7.1,9.1 -2.9,5.6 -4.1,12.5 -0.8,5.9 -4.3,12.7 -1.9,12.2 1,8.7 5.9,-2.7 7.2,-2.3 7.8,0.4 7.1,6.3 1.9,-1 48.8,-0.6 8.2,6.6 29.1,2 22.4,-5.7 -7.6,-8.6 -7.8,-11.3 1.6,-44 25.3,0.1 -1,-4.7 2,-5.2 -2,-6.5 1.5,-6.7 -1.2,-4.3 -5.5,-0.8 -7.6,2 -5.3,-0.3 -3,1.3 0.9,-16.5 -3.9,-5.1 -0.8,-8.5 1.9,-8.4 -2.4,-5.3 -0.1,-8.7 -14.8,0.1 1.1,-5 -6.2,0.1 -0.7,2.4 -7.6,0.5 -3.1,8.1 -1.9,3.4 -6.7,-1.9 -4,1.9 -8.1,1.1 -4.6,-7.2 -2.7,-4.5 -3.5,-8.3 -2.9,-10.3 z m -47.4,-2.7 0.4,-6 2,-3.5 4.5,-2.9 -4.6,-4.8 -3.7,2.3 -5,6 3.3,10.4 3.1,-1.5 z" />
+       <path id="AO" data-name="Angola" data-id="AO" d="m 495.3,598.6 -36,-0.2 -4.3,1.7 -3.5,-0.3 -5.1,1.9 -1.1,2.7 6,8.7 2.4,9.3 3.6,13.4 -3.8,5.5 -0.6,2.8 2.9,8.3 3.1,8.4 3.6,5 0.6,7.8 -1.4,10.3 -4,6.1 -7.1,9.1 -2.9,5.6 -4.1,12.5 -0.8,5.9 -4.3,12.7 -1.9,12.2 1,8.7 5.9,-2.7 7.2,-2.3 7.8,0.4 7.1,6.3 1.9,-1 48.8,-0.6 8.2,6.6 29.1,2 22.4,-5.7 -7.6,-8.6 -7.8,-11.3 1.6,-44 25.3,0.1 -1,-4.7 2,-5.2 -2,-6.5 1.5,-6.7 -1.2,-4.3 -5.5,-0.8 -7.6,2 -5.3,-0.3 -3,1.3 0.9,-16.5 -3.9,-5.1 -0.8,-8.5 1.9,-8.4 -2.4,-5.3 -0.1,-8.7 -14.8,0.1 1.1,-5 -6.2,0.1 -0.7,2.4 -7.6,0.5 -3.1,8.1 -1.9,3.4 -6.7,-1.9 -4,1.9 -8.1,1.1 -4.6,-7.2 -2.7,-4.5 -3.5,-8.3 -2.9,-10.3 z m -47.4,-2.7 0.4,-6 2,-3.5 4.5,-2.9 -4.6,-4.8 -3.7,2.3 -5,6 3.3,10.4 3.1,-1.5 z" />
       <path id="BI" data-name="Burundi" data-id="BI" d="m 669,556.1 -0.6,-5.4 0,0 -6.5,-0.9 -3.8,7.9 -7.4,-1.1 3,6.3 0.1,2.4 4.3,13.2 0,0.6 1.2,-0.2 4.5,-5 4.9,-7.2 3,-2.9 -0.1,-4.5 -2.6,-3.2 z" />
       <path id="BJ" data-name="Benin" data-id="BJ" d="m 340,356 -9.3,-8 -4.3,0.1 -4.1,4 -2.6,4.2 -6,1.2 -2.5,6.1 -4.1,1.6 -1.6,7.2 3.7,4.1 4.3,4.9 0.4,6.8 2.5,2.8 -0.5,31.8 3,9.5 10.1,-1.6 0.6,-22.3 -0.3,-8.8 2.3,-8.7 3.7,-4.3 5.9,-8.5 -1.3,-3.7 2.4,-5.6 -2.8,-8.2 0.5,-4.6 z" />
       <path id="BF" data-name="Burkina Faso" data-id="BF" d="m 300.7,310.8 -7.8,0 -3,-2.6 -6.7,1.9 -11.3,5.8 -2.3,4.3 -9.4,6.2 -1.7,3.6 -5.1,2.8 -5.8,-1.9 -3.4,3.4 -1.8,9.5 -9.7,11.4 0.3,4.7 -3.4,5.9 0.8,8 5.5,3 2.1,4.6 5.4,2.9 4.3,-3.4 5.7,-0.6 8.3,3.6 -1.6,-10.4 0.3,-7.9 21.1,-0.6 5.4,1 3.9,-2.2 5.6,1.1 10.7,0.3 4.1,-1.6 2.5,-6.1 6,-1.2 2.6,-4.2 0.3,-9.5 -14,-3.1 -0.4,-6.7 -6.9,-9 -1.6,-6.3 1,-6.7 z" />
@@ -273,8 +269,8 @@ let startX, startY;
 let lastScale = 1;
 let lastTouchDistance = 0;
 
-const minScale = 1; /* Uzaklaştırma yok - minScale 1 yapıldı */
-const maxScale = 8;
+const minScale = 1;      // Uzaklaştırma yok
+const maxScale = 8;      // Yakınlaştırma sınırı
 
 fetch("data.json")
   .then(res => res.json())
@@ -330,7 +326,7 @@ function initMap() {
     if (e.touches?.length === 0) hideTooltip();
   }, { passive: true });
 
-  // Wheel zoom (PC)
+  // Wheel zoom (PC) - sadece yakınlaştırma, mouse konumuna göre
   mapArea.addEventListener('wheel', e => {
     e.preventDefault();
     const delta = e.deltaY > 0 ? -0.12 : 0.12;
@@ -359,7 +355,7 @@ function initMap() {
     mapArea.style.cursor = 'grab';
   });
 
-  // Touch (mobil pinch + drag)
+  // Touch pinch + drag (mobil)
   mapArea.addEventListener('touchstart', e => {
     if (e.touches.length === 2) {
       e.preventDefault();
@@ -397,18 +393,6 @@ function initMap() {
 
   mapArea.addEventListener('touchend', () => isDragging = false);
 
-  // Çift dokunma zoom in
-  let lastTap = 0;
-  mapArea.addEventListener('touchend', e => {
-    const now = Date.now();
-    if (now - lastTap < 400 && now - lastTap > 50) {
-      e.preventDefault();
-      const touch = e.changedTouches[0];
-      zoomAtPoint(0.8, touch.clientX - mapArea.offsetLeft, touch.clientY - mapArea.offsetTop);
-    }
-    lastTap = now;
-  });
-
   // Arama filtreleme
   searchInput.addEventListener("input", e => {
     const term = e.target.value.trim().toLowerCase();
@@ -435,6 +419,7 @@ function applyBounds() {
   const scaledW = 1000 * scale;
   const scaledH = 1000 * scale;
 
+  // Harita her zaman ortalı kalsın
   translateX = scaledW <= rect.width
     ? (rect.width - scaledW) / 2
     : Math.max(rect.width - scaledW, Math.min(0, translateX));
