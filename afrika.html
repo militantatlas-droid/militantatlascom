@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>MİLİTAN ATLASI AFRİKA</title>
+  <title>MİLİTAN ATLASI - AFRİKA</title>
   <style>
     * { box-sizing: border-box; margin:0; padding:0; }
     body {
@@ -31,12 +31,12 @@
       touch-action: none;
     }
     svg path {
-      fill: #2a2a2a;               /* Hafif gri dolgu - ülkeler ayırt edilsin */
-      stroke: #555;                /* Sınırlar daha koyu ve belirgin */
-      stroke-width: 1.8;           /* Kalınlaştırıldı */
+      fill: #3a3a3a;               /* Hafif açık gri - ülkeler ayırt edilsin */
+      stroke: #666;                /* Sınırlar koyu ve belirgin */
+      stroke-width: 1.8;
       vector-effect: non-scaling-stroke;
       pointer-events: all;
-      transition: all 0.25s ease-out; /* Daha hızlı geçiş */
+      transition: all 0.25s ease-out;
       transform: translateY(0) scale(1);
       filter: drop-shadow(0 0 3px transparent);
     }
@@ -50,10 +50,9 @@
     svg path.active {
       fill: #ff4444 !important;
       stroke: #fff;
-      stroke-width: 3.0;
-      transform: translateY(-6px) scale(1.015); /* Kalkma hafifletildi */
-      filter: drop-shadow(0 8px 12px rgba(255,68,68,0.4));
-      /* z-index SVG'de çalışmaz, onun yerine DOM sırasını değiştireceğiz */
+      stroke-width: 2.8;
+      transform: translateY(-4px) scale(1.01); /* Hafif kalkma */
+      filter: drop-shadow(0 6px 10px rgba(255,68,68,0.35));
     }
     .tooltip {
       position: absolute;
@@ -107,10 +106,10 @@
       transition: all 0.2s;
     }
     #sidebar-close:hover { background: #666; transform: scale(1.08); }
-    #search-container { margin-bottom: 18px; }
+    #search-container { margin-bottom: 18px; position: relative; }
     #search-input {
       width: 100%;
-      padding: 10px 12px;
+      padding: 10px 36px 10px 12px;
       background: #2a2a2a;
       border: 1px solid #444;
       color: white;
@@ -118,6 +117,18 @@
       font-size: 15px;
     }
     #search-input::placeholder { color: #888; }
+    #clear-search {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #888;
+      font-size: 18px;
+      cursor: pointer;
+      display: none;
+    }
     .group {
       margin: 14px 0;
       padding: 10px;
@@ -180,7 +191,8 @@
 <div id="container">
   <div id="map-area">
     <svg id="svg-map" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-      <path id="AO" data-name="Angola" data-id="AO" d="m 495.3,598.6 -36,-0.2 -4.3,1.7 -3.5,-0.3 -5.1,1.9 -1.1,2.7 6,8.7 2.4,9.3 3.6,13.4 -3.8,5.5 -0.6,2.8 2.9,8.3 3.1,8.4 3.6,5 0.6,7.8 -1.4,10.3 -4,6.1 -7.1,9.1 -2.9,5.6 -4.1,12.5 -0.8,5.9 -4.3,12.7 -1.9,12.2 1,8.7 5.9,-2.7 7.2,-2.3 7.8,0.4 7.1,6.3 1.9,-1 48.8,-0.6 8.2,6.6 29.1,2 22.4,-5.7 -7.6,-8.6 -7.8,-11.3 1.6,-44 25.3,0.1 -1,-4.7 2,-5.2 -2,-6.5 1.5,-6.7 -1.2,-4.3 -5.5,-0.8 -7.6,2 -5.3,-0.3 -3,1.3 0.9,-16.5 -3.9,-5.1 -0.8,-8.5 1.9,-8.4 -2.4,-5.3 -0.1,-8.7 -14.8,0.1 1.1,-5 -6.2,0.1 -0.7,2.4 -7.6,0.5 -3.1,8.1 -1.9,3.4 -6.7,-1.9 -4,1.9 -8.1,1.1 -4.6,-7.2 -2.7,-4.5 -3.5,-8.3 -2.9,-10.3 z m -47.4,-2.7 0.4,-6 2,-3.5 4.5,-2.9 -4.6,-4.8 -3.7,2.3 -5,6 3.3,10.4 3.1,-1.5 z" />
+      <!-- TÜM ÜLKE PATH'LERİNİ BURAYA KOPYALA -->
+       <path id="AO" data-name="Angola" data-id="AO" d="m 495.3,598.6 -36,-0.2 -4.3,1.7 -3.5,-0.3 -5.1,1.9 -1.1,2.7 6,8.7 2.4,9.3 3.6,13.4 -3.8,5.5 -0.6,2.8 2.9,8.3 3.1,8.4 3.6,5 0.6,7.8 -1.4,10.3 -4,6.1 -7.1,9.1 -2.9,5.6 -4.1,12.5 -0.8,5.9 -4.3,12.7 -1.9,12.2 1,8.7 5.9,-2.7 7.2,-2.3 7.8,0.4 7.1,6.3 1.9,-1 48.8,-0.6 8.2,6.6 29.1,2 22.4,-5.7 -7.6,-8.6 -7.8,-11.3 1.6,-44 25.3,0.1 -1,-4.7 2,-5.2 -2,-6.5 1.5,-6.7 -1.2,-4.3 -5.5,-0.8 -7.6,2 -5.3,-0.3 -3,1.3 0.9,-16.5 -3.9,-5.1 -0.8,-8.5 1.9,-8.4 -2.4,-5.3 -0.1,-8.7 -14.8,0.1 1.1,-5 -6.2,0.1 -0.7,2.4 -7.6,0.5 -3.1,8.1 -1.9,3.4 -6.7,-1.9 -4,1.9 -8.1,1.1 -4.6,-7.2 -2.7,-4.5 -3.5,-8.3 -2.9,-10.3 z m -47.4,-2.7 0.4,-6 2,-3.5 4.5,-2.9 -4.6,-4.8 -3.7,2.3 -5,6 3.3,10.4 3.1,-1.5 z" />
       <path id="BI" data-name="Burundi" data-id="BI" d="m 669,556.1 -0.6,-5.4 0,0 -6.5,-0.9 -3.8,7.9 -7.4,-1.1 3,6.3 0.1,2.4 4.3,13.2 0,0.6 1.2,-0.2 4.5,-5 4.9,-7.2 3,-2.9 -0.1,-4.5 -2.6,-3.2 z" />
       <path id="BJ" data-name="Benin" data-id="BJ" d="m 340,356 -9.3,-8 -4.3,0.1 -4.1,4 -2.6,4.2 -6,1.2 -2.5,6.1 -4.1,1.6 -1.6,7.2 3.7,4.1 4.3,4.9 0.4,6.8 2.5,2.8 -0.5,31.8 3,9.5 10.1,-1.6 0.6,-22.3 -0.3,-8.8 2.3,-8.7 3.7,-4.3 5.9,-8.5 -1.3,-3.7 2.4,-5.6 -2.8,-8.2 0.5,-4.6 z" />
       <path id="BF" data-name="Burkina Faso" data-id="BF" d="m 300.7,310.8 -7.8,0 -3,-2.6 -6.7,1.9 -11.3,5.8 -2.3,4.3 -9.4,6.2 -1.7,3.6 -5.1,2.8 -5.8,-1.9 -3.4,3.4 -1.8,9.5 -9.7,11.4 0.3,4.7 -3.4,5.9 0.8,8 5.5,3 2.1,4.6 5.4,2.9 4.3,-3.4 5.7,-0.6 8.3,3.6 -1.6,-10.4 0.3,-7.9 21.1,-0.6 5.4,1 3.9,-2.2 5.6,1.1 10.7,0.3 4.1,-1.6 2.5,-6.1 6,-1.2 2.6,-4.2 0.3,-9.5 -14,-3.1 -0.4,-6.7 -6.9,-9 -1.6,-6.3 1,-6.7 z" />
@@ -238,6 +250,7 @@
     <button id="sidebar-close">×</button>
     <div id="search-container">
       <input type="text" id="search-input" placeholder="Ülke veya grup ara...">
+      <button id="clear-search">×</button>
     </div>
     <div id="sidebar-content"></div>
   </div>
@@ -252,6 +265,7 @@ const tooltip = document.getElementById("tooltip");
 const sidebar = document.getElementById("sidebar");
 const sidebarContent = document.getElementById("sidebar-content");
 const searchInput = document.getElementById("search-input");
+const clearSearch = document.getElementById("clear-search");
 const searchButton = document.getElementById("search-button");
 const svg = document.getElementById("svg-map");
 const mapArea = document.getElementById("map-area");
@@ -261,11 +275,9 @@ let translateX = 0;
 let translateY = 0;
 let isDragging = false;
 let startX, startY;
-let lastScale = 1;
-let lastTouchDistance = 0;
 
 const minScale = 1;   // Uzaklaştırma yok
-const maxScale = 6;   // Yakınlaştırma sınırı (küçük ülkeler için yeterli)
+const maxScale = 6;   // Yakınlaştırma sınırı
 
 fetch("data.json")
   .then(res => res.json())
@@ -305,8 +317,7 @@ function initMap() {
 
     path.addEventListener("click", () => {
       if (activePath) activePath.classList.remove("active");
-      // Önemli: Tıklanan path'i DOM'da en sona taşı → üst katmana çıksın
-      svg.appendChild(path);
+      svg.appendChild(path); // ← Küçük ülke üstte kalsın diye sona taşı
       path.classList.add("active");
       activePath = path;
       showSidebar(id, fallbackName);
@@ -318,16 +329,15 @@ function initMap() {
   });
 
   mapArea.addEventListener("mouseleave", hideTooltip);
-  mapArea.addEventListener("touchend", (e) => {
+  mapArea.addEventListener("touchend", e => {
     if (e.touches?.length === 0) hideTooltip();
   }, { passive: true });
 
-  // Wheel zoom (sadece yakınlaştırma)
+  // Wheel zoom - sadece yakınlaştırma
   mapArea.addEventListener('wheel', e => {
     e.preventDefault();
     const delta = e.deltaY > 0 ? -0.12 : 0.12;
-    // Uzaklaştırma olursa scale'i 1'de tut
-    if (scale + delta < 1) return;
+    if (scale + delta < minScale) return; // Uzaklaştırma engel
     zoomAtPoint(delta, e.clientX - mapArea.offsetLeft, e.clientY - mapArea.offsetTop);
   }, { passive: false });
 
@@ -342,7 +352,6 @@ function initMap() {
 
   document.addEventListener('mousemove', e => {
     if (!isDragging) return;
-    e.preventDefault();
     translateX = e.clientX - startX;
     translateY = e.clientY - startY;
     applyBounds();
@@ -353,11 +362,11 @@ function initMap() {
     mapArea.style.cursor = 'grab';
   });
 
-  // Touch pinch (sadece yakınlaştırma)
+  // Touch (pinch sadece yakınlaştırma)
   mapArea.addEventListener('touchstart', e => {
     if (e.touches.length === 2) {
       e.preventDefault();
-      lastTouchDistance = Math.hypot(
+      const dist = Math.hypot(
         e.touches[0].clientX - e.touches[1].clientX,
         e.touches[0].clientY - e.touches[1].clientY
       );
@@ -376,9 +385,8 @@ function initMap() {
         e.touches[0].clientX - e.touches[1].clientX,
         e.touches[0].clientY - e.touches[1].clientY
       );
-      let newScale = lastScale * (dist / lastTouchDistance);
-      // Uzaklaştırma olursa 1'de tut
-      if (newScale < 1) newScale = 1;
+      let newScale = lastScale * (dist / lastScale);
+      if (newScale < minScale) newScale = minScale;
       zoomAtPoint(newScale - scale,
         (e.touches[0].clientX + e.touches[1].clientX)/2 - mapArea.offsetLeft,
         (e.touches[0].clientY + e.touches[1].clientY)/2 - mapArea.offsetTop
@@ -391,7 +399,15 @@ function initMap() {
     }
   }, { passive: false });
 
-  mapArea.addEventListener('touchend', () => isDragging = false);
+  // Arama temizleme butonu
+  searchInput.addEventListener("input", () => {
+    clearSearch.style.display = searchInput.value ? "block" : "none";
+  });
+
+  clearSearch.addEventListener("click", () => {
+    searchInput.value = "";
+    searchInput.dispatchEvent(new Event("input"));
+  });
 
   // Arama filtreleme
   searchInput.addEventListener("input", e => {
@@ -408,7 +424,7 @@ function initMap() {
 function zoomAtPoint(delta, mouseX, mouseY) {
   const oldScale = scale;
   let newScale = scale + delta;
-  if (newScale < minScale) newScale = minScale; // Uzaklaştırma engellendi
+  if (newScale < minScale) newScale = minScale;
   scale = Math.min(maxScale, newScale);
 
   const factor = scale / oldScale;
@@ -423,7 +439,6 @@ function applyBounds() {
   const scaledW = 1000 * scale;
   const scaledH = 1000 * scale;
 
-  // Her zaman ortala
   translateX = scaledW <= rect.width
     ? (rect.width - scaledW) / 2
     : Math.max(rect.width - scaledW, Math.min(0, translateX));
@@ -469,8 +484,12 @@ function moveTooltip(e) {
   let x = clientX - rect.left + offset;
   let y = clientY - rect.top + offset;
 
-  x = Math.max(offset, Math.min(rect.width - tooltip.offsetWidth - offset, x));
-  y = Math.max(offset, Math.min(rect.height - tooltip.offsetHeight - offset, y));
+  // Tooltip taşmasın
+  if (x + tooltip.offsetWidth > rect.width - 10) x = rect.width - tooltip.offsetWidth - 10;
+  if (y + tooltip.offsetHeight > rect.height - 10) y = rect.height - tooltip.offsetHeight - 10;
+
+  x = Math.max(10, x);
+  y = Math.max(10, y);
 
   tooltip.style.left = (rect.left + x) + "px";
   tooltip.style.top  = (rect.top + y) + "px";
