@@ -641,17 +641,39 @@ const longDetailBack   = document.getElementById("long-detail-back");
 // ──────────────────────────────────────────────
 // VERİ YÜKLEME
 // ──────────────────────────────────────────────
-fetch("trdata.json")
-  .then(res => res.json())
+fetch('trdata.json') // veya veriyi çektiğin URL
+  .then(response => response.json())
   .then(data => {
-    countryData = data;
-    initMap();
+    // 1. Gelen veriyi değişkenine ata (Örn: countriesData)
+    window.countriesData = data; 
+    
+    // 2. Diğer harita işlemlerini yap...
+    renderMap(); 
+
+    // 3. EN ÖNEMLİ ADIM: Veri geldi, şimdi istatistikleri güncelle
+    updateStats(); 
   })
-  .catch(err => {
-    console.error("JSON yüklenemedi:", err);
-    sidebarContent.innerHTML = `<p style="color:#ff4444; font-weight:bold;">Veri dosyası yüklenemedi.</p>`;
-    initMap();
-  });
+  .catch(error => console.error('Veri yüklenirken hata oluştu:', error));
+
+function updateStats() {
+    let totalGroups = 0;
+    
+    // Verinin varlığını kontrol et
+    if (window.countriesData) {
+        Object.values(window.countriesData).forEach(country => {
+            if (country.groups && Array.isArray(country.groups)) {
+                totalGroups += country.groups.length;
+            }
+        });
+    }
+    
+    // HTML'deki sayıları güncelle
+    const groupEl = document.getElementById('total-groups');
+    const countryEl = document.getElementById('total-countries');
+    
+    if (groupEl) groupEl.textContent = totalGroups;
+    if (countryEl) countryEl.textContent = Object.keys(window.countriesData).length;
+}
 
 // ──────────────────────────────────────────────
 // HARİTA BAŞLATMA
