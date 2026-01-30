@@ -709,26 +709,31 @@ function showTabContent(tabKey) {
   switch(tabKey) {
     case "temel":
       content = `
-        <p><strong>Kuruluş Yılı:</strong><br>${d.kurulus_yili || "Bilgi mevcut değil"}</p>
-        <p><strong>İlk Eylem:</strong><br>${d.ilk_eylem || "Bilgi mevcut değil"}</p>
-        <p><strong>Grup Türü:</strong><br>${d.grup_turu || "Bilgi mevcut değil"}</p>
+        <p><strong>Kuruluş Yılı:</strong><br>${d.kurulus_yili || "—"}</p>
+        <p><strong>İlk Eylem:</strong><br>${d.ilk_eylem || "—"}</p>
+        <p><strong>Grup Türü:</strong><br>${d.grup_turu || "—"}</p>
       `;
       break;
 
     case "durum":
       content = `
-        <p><strong>Grup Durumu:</strong><br>${d.grup_durumu || "Bilgi mevcut değil"}</p>
+        <p style="font-size: 1.4em; font-weight: bold; text-align: center; margin: 40px 0; color: #4ade80;">
+          ${d.grup_durumu || "Bilinmiyor"}
+        </p>
       `;
       break;
 
     case "detay":
+      // Detay sekmesi şu an kullanılmıyor, boş bırakıyoruz
       content = `
-        <p><strong>Saldırı Taktikleri:</strong><br>${d.saldiri_taktikleri || "Bilgi mevcut değil"}</p>
+        <p style="color:#888; text-align:center; padding:60px 0; font-style: italic;">
+          Bu grup için ek detay bilgisi bulunmuyor.
+        </p>
       `;
       break;
 
     default:
-      content = "<p>Geçersiz sekme.</p>";
+      content = "<p style='color:#ff4444; text-align:center;'>Geçersiz sekme.</p>";
   }
 
   tabContents.innerHTML = content;
