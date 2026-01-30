@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>MİLİTAN ATLASI</title>
+  <title>MILITANT Atlas</title>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     html, body { height:100%; overflow:hidden; }
@@ -16,95 +16,188 @@
       align-items:center;
       position:relative;
     }
-    body::before {
-      content:"";
-      position:fixed;
-      inset:0;
-      z-index:-2;
-      background-image: url('https://www.ctvnews.ca/resizer/v2/KKXSNHXOERG7DH7I7LFGIYNEXI.jpg?smart=true&auth=970d00daafbefeaa0cfdaf3e0b243a5309ea511a79b01f6105af0974256fe297&width=1600');
-      background-size:cover;
-      background-position:center;
-      filter:blur(8px) brightness(0.45);
-      transform:scale(1.05);
+    .lang-switch {
+      position:absolute;
+      top:15px;
+      right:15px;
+      z-index:10;
+      display:flex;
+      gap:10px;
     }
-    @media (orientation: portrait), (max-aspect-ratio: 9/16) {
-      body::before {
-        background-image: url('https://militantatlas-droid.github.io/militantatlastr/mobilbackground.png');
-      }
+    .lang-switch button {
+      background:#333;
+      color:#eee;
+      border:none;
+      padding:8px 14px;
+      border-radius:6px;
+      cursor:pointer;
+      font-size:1rem;
+      transition:all 0.2s;
+    }
+    .lang-switch button:hover { background:#555; }
+    .lang-switch button.active {
+      background:#4ade80;
+      color:#000;
+      font-weight:bold;
     }
     .container {
-      position:relative;
-      z-index:1;
       text-align:center;
       width:100%;
       max-width:420px;
-      padding:12px;
-      background:rgba(0,0,0,0.45);
-      border-radius:16px;
+      padding:20px;
+      max-height:100vh;
+      overflow:hidden;
     }
     h1 {
-      font-size:clamp(2rem,7vw,3.2rem);
-      margin:0.8rem 0 2rem;
+      font-size:clamp(2.8rem, 10vw, 5rem);
+      margin-bottom:2.5rem;
       color:#4ade80;
-      text-shadow:0 0 12px rgba(74,222,128,0.4);
-      letter-spacing:1.5px;
+      text-shadow:0 0 20px rgba(74,222,128,0.5);
+      letter-spacing:3px;
     }
-    .languages {
+    .continents {
       display:flex;
       flex-direction:column;
       gap:1.5rem;
+      margin:2rem 0;
     }
-    .lang-btn {
+    .continent {
       background:#111;
       border:2px solid #333;
-      border-radius:14px;
-      padding:2rem 1.5rem;
-      font-size:2rem;
-      font-weight:900;
+      border-radius:16px;
+      padding:2.2rem 1.5rem;
+      font-size:clamp(1.6rem,6vw,2.2rem);
+      font-weight:bold;
       cursor:pointer;
-      transition:all 0.3s ease;
+      transition:all 0.25s ease;
+      user-select:none;
       box-shadow:0 4px 15px rgba(0,0,0,0.7);
+      touch-action:manipulation;
+      -webkit-tap-highlight-color:transparent;
     }
-    .lang-btn:hover {
+    .continent:hover,
+    .continent:active {
       background:#4ade80;
       color:#000;
       border-color:#4ade80;
-      transform:translateY(-5px);
-      box-shadow:0 10px 30px rgba(74,222,128,0.5);
+      box-shadow:0 10px 30px rgba(74,222,128,0.6);
+      transform:translateY(-4px);
+    }
+    .africa {
+      background:#27ae60;
+      border-color:#27ae60;
+      color:#111;
+    }
+    .africa:hover,
+    .africa:active {
+      background:#4ade80;
+      border-color:#4ade80;
     }
     .hint {
-      margin-top:3rem;
-      font-size:1.3rem;
+      font-size:clamp(1.2rem,4.5vw,1.6rem);
       color:#888;
+      margin-top:3rem;
+      letter-spacing:1px;
+      font-weight:500;
     }
     .hint strong { color:#4ade80; }
-    @media (max-width:380px) {
-      .lang-btn { padding:1.8rem 1rem; font-size:1.8rem; }
-      h1 { font-size:2.8rem; }
-      .hint { font-size:1.2rem; }
+    @media (max-width:500px) {
+      .container { padding:15px; }
+      .continent { padding:2.8rem 1.2rem; font-size:2.1rem; }
+      h1 { margin-bottom:2rem; }
+      .hint { margin-top:4rem; }
+      .lang-switch { top:10px; right:10px; }
+      .lang-switch button { padding:6px 10px; font-size:0.9rem; }
     }
   </style>
 </head>
 <body>
+  <!-- Dil seçimi üst sağda -->
+  <div class="lang-switch">
+    <button id="btn-tr" class="active" onclick="setLanguage('tr')">TR</button>
+    <button id="btn-en" onclick="setLanguage('en')">EN</button>
+  </div>
+
   <div class="container">
-    <h1>MİLİTAN ATLASI</h1>
-    <div class="languages">
-      <div class="lang-btn" onclick="selectLang('tr')">TÜRKÇE</div>
-      <div class="lang-btn" onclick="selectLang('en')">ENGLISH</div>
+    <h1 id="title">MİLİTAN ATLASI</h1>
+    <div class="continents">
+      <div class="continent africa" onclick="goToAfrica()">AFRİKA</div>
+      <div class="continent" onclick="goTo('Asya')">ASYA</div>
+      <div class="continent" onclick="goTo('Avrupa')">AVRUPA</div>
+      <div class="continent" onclick="goTo('Kuzey Amerika')">KUZEY AMERİKA</div>
+      <div class="continent" onclick="goTo('Güney Amerika')">GÜNEY AMERİKA</div>
     </div>
     <div class="hint">
-      <strong>Lütfen dil seçin / Please select language</strong>
+      <strong id="hint-text">Lütfen bir bölge seçin...</strong>
     </div>
   </div>
 
   <script>
-    function selectLang(lang) {
-      if (lang === 'tr') {
-        window.location.href = 'afrika.html';        // Türkçe harita
-      } else {
-        window.location.href = 'africa.html';        // İngilizce harita
+    // Dil verileri
+    const translations = {
+      tr: {
+        title: "MİLİTAN ATLASI",
+        hint: "Lütfen bir bölge seçin...",
+        africa: "AFRİKA",
+        asya: "ASYA",
+        avrupa: "AVRUPA",
+        kuzey: "KUZEY AMERİKA",
+        guney: "GÜNEY AMERİKA",
+        africaPage: "afrika.html"
+      },
+      en: {
+        title: "MILITANT ATLAS",
+        hint: "Please select a region...",
+        africa: "AFRICA",
+        asya: "ASIA",
+        avrupa: "EUROPE",
+        kuzey: "NORTH AMERICA",
+        guney: "SOUTH AMERICA",
+        africaPage: "africamap.html"
       }
+    };
+
+    let currentLang = localStorage.getItem('lang') || 'tr';
+
+    // Dil değiştirme
+    function setLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem('lang', lang);
+      updateContent();
+
+      document.getElementById('btn-tr').classList.toggle('active', lang === 'tr');
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
     }
+
+    // İçeriği güncelle
+    function updateContent() {
+      const t = translations[currentLang];
+      document.getElementById('title').textContent = t.title;
+      document.getElementById('hint-text').textContent = t.hint;
+
+      document.querySelector('.continent.africa').textContent = t.africa;
+      document.querySelectorAll('.continent:not(.africa)')[0].textContent = t.asya;
+      document.querySelectorAll('.continent:not(.africa)')[1].textContent = t.avrupa;
+      document.querySelectorAll('.continent:not(.africa)')[2].textContent = t.kuzey;
+      document.querySelectorAll('.continent:not(.africa)')[3].textContent = t.guney;
+    }
+
+    // Afrika'ya git (dil bazlı sayfa)
+    function goToAfrica() {
+      const t = translations[currentLang];
+      window.location.href = t.africaPage;
+    }
+
+    // Diğer kıtalar (şimdilik alert, ileride sayfaları ekleyebilirsin)
+    function goTo(continent) {
+      const t = translations[currentLang];
+      alert(t[continent.toLowerCase().replace(/\s/g, '')] + " haritası yakında hazır olacak!");
+    }
+
+    // Sayfa yüklendiğinde dil uygula
+    window.onload = () => {
+      updateContent();
+    };
   </script>
 </body>
 </html>
