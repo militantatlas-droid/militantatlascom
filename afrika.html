@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MİLİTAN ATLASI AFRİKA</title>
+  <title>MİLİTAN ATLASI son</title>
   <style>
     * { box-sizing: border-box; margin:0; padding:0; }
     body {
@@ -35,6 +35,7 @@
       stroke-width: 2.0;
       vector-effect: non-scaling-stroke;
       pointer-events: all;
+      transition: fill 0.25s, stroke 0.25s;
     }
     svg path:hover {
       fill: #4ade80 !important;
@@ -46,6 +47,15 @@
       stroke: #000;
       stroke-width: 3.0;
     }
+    svg path.highlight-red {
+      fill: #c62828 !important;
+      stroke: #fff !important;
+      stroke-width: 2.8;
+    }
+    svg path.highlight-red:hover {
+      fill: #e53935 !important;
+    }
+
     .tooltip {
       position: absolute;
       background: rgba(0,0,0,0.92);
@@ -102,85 +112,59 @@
     }
     #sidebar-close:hover { background: #666; transform: scale(1.08); }
 
+    #mode-buttons { margin: 0 0 24px 0; }
+    .mode-button {
+      display: block;
+      width: 100%;
+      padding: 14px 16px;
+      margin: 10px 0;
+      background: #2a2a2a;
+      border: 1px solid #444;
+      color: #ddd;
+      font-size: 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.22s;
+      text-align: center;
+      font-weight: 500;
+    }
+    .mode-button:hover { background: #333; }
+    .mode-button.active {
+      background: #4ade80;
+      color: #111;
+      border-color: #4ade80;
+      font-weight: bold;
+    }
+
     #search-container { margin-bottom: 18px; position: relative; z-index: 305; }
     #search-input {
       width: 100%;
-      padding: 10px 36px 10px 12px;
+      padding: 12px 40px 12px 14px;
       background: #2a2a2a;
       border: 1px solid #444;
       color: white;
-      border-radius: 6px;
+      border-radius: 8px;
       font-size: 15px;
     }
     #search-input::placeholder { color: #888; }
     #clear-search {
       position: absolute;
-      right: 50px;
+      right: 14px;
       top: 50%;
       transform: translateY(-50%);
       background: none;
       border: none;
       color: #888;
-      font-size: 18px;
+      font-size: 20px;
       cursor: pointer;
       display: none;
     }
-    .group-item {
-      color: #4ade80;
-      text-decoration: none;
-      font-size: 14.5px;
-      cursor: pointer;
-      display: block;
-      padding: 8px 12px;
-      border-radius: 4px;
-      transition: all 0.2s;
-    }
-    .group-item:hover {
-      background: #333;
-      padding-left: 16px;
-    }
-
-    #search-button {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      width: 72px;
-      height: 72px;
-      background: #4ade80;
-      color: #111;
-      border: none;
-      border-radius: 50%;
-      font-size: 11px;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 8px 25px rgba(74,222,128,0.6);
-      z-index: 150;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 0 6px;
-      line-height: 1.15;
-    }
-    #search-button:hover { transform: scale(1.15); background: #00ff88; }
-    #search-button.hidden { opacity: 0; pointer-events: none; transform: scale(0.7); }
-
-    #sidebar-backdrop {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.4);
-      z-index: 250;
-      opacity: 0;
-      transition: opacity 0.4s;
-      backdrop-filter: blur(4px);
-      pointer-events: none;
-    }
 
     .suggestion-item {
-      padding: 12px 14px;
+      padding: 14px 16px;
       background: #2a2a2a;
-      margin: 6px 0;
-      border-radius: 6px;
+      margin: 8px 0;
+      border-radius: 8px;
       cursor: pointer;
       transition: all 0.2s;
       border-left: 4px solid #4ade80;
@@ -188,42 +172,40 @@
     .suggestion-item:hover {
       background: #333;
       transform: translateX(4px);
-      box-shadow: 0 2px 10px rgba(74,222,128,0.2);
+      box-shadow: 0 3px 12px rgba(74,222,128,0.15);
     }
 
-    #back-to-home {
+    #menu-button {
       position: fixed;
-      top: 16px;
-      left: 16px;
-      z-index: 500;
-      width: 44px;
-      height: 44px;
+      bottom: 24px;
+      right: 24px;
+      width: 72px;
+      height: 72px;
+      background: #4ade80;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(74,222,128,0.6);
+      z-index: 150;
+      transition: all 0.3s ease;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(30, 30, 30, 0.85);
-      color: #4ade80;
-      border: 1px solid #444;
-      border-radius: 50%;
-      text-decoration: none;
-      transition: all 0.25s ease;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     }
-    #back-to-home:hover {
-      background: rgba(74, 222, 128, 0.18);
-      color: #ffffff;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(74,222,128,0.25);
-      border-color: #4ade80;
-    }
-    #back-to-home svg {
-      width: 24px;
-      height: 24px;
-      stroke: currentColor;
+    #menu-button:hover { transform: scale(1.15); background: #66ff99; }
+    #menu-button.hidden { opacity: 0; pointer-events: none; transform: scale(0.6); }
+
+    #sidebar-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 250;
+      opacity: 0;
+      transition: opacity 0.4s;
+      backdrop-filter: blur(5px);
+      pointer-events: none;
     }
 
-    /* MODAL STİLLERİ */
+    /* MODAL STİLLER */
     .modal {
       position: fixed;
       inset: 0;
@@ -241,31 +223,31 @@
       border: 1px solid #444;
       border-radius: 12px;
       width: 90%;
-      max-width: 460px;
-      padding: 24px;
+      max-width: 480px;
+      padding: 28px;
       position: relative;
       box-shadow: 0 15px 40px rgba(0,0,0,0.7);
       color: #eee;
-      max-height: 88vh;
+      max-height: 90vh;
       overflow-y: auto;
     }
 
     .modal-close, .modal-back {
       position: absolute;
-      top: 14px;
+      top: 16px;
       background: #333;
       color: #ccc;
       border: none;
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
-      font-size: 22px;
-      line-height: 30px;
+      font-size: 24px;
+      line-height: 32px;
       cursor: pointer;
       transition: all 0.2s;
     }
-    .modal-close { right: 16px; }
-    .modal-back   { left: 16px; }
+    .modal-close { right: 20px; }
+    .modal-back { left: 20px; }
 
     .modal-close:hover, .modal-back:hover {
       background: #555;
@@ -274,116 +256,46 @@
     }
 
     .modal h2 {
-      margin: 0 0 20px 0;
+      margin: 0 0 24px 0;
       color: #4ade80;
       padding-left: 50px;
     }
 
     #country-groups .group-item {
-      margin: 10px 0;
+      margin: 12px 0;
       background: #2a2a2a;
-      padding: 14px 16px;
-      border-radius: 8px;
-      border-left: 4px solid #4ade80;
+      padding: 16px;
+      border-radius: 10px;
+      border-left: 5px solid #4ade80;
+      cursor: pointer;
     }
 
-    /* Sekmeler (küçük modal için) */
+    /* Sekmeler */
     .tabs {
       display: flex;
       border-bottom: 1px solid #444;
       margin: 20px 0 16px;
       overflow-x: auto;
-      flex-wrap: nowrap;
-      gap: 4px;
-      padding: 0 8px;
+      gap: 6px;
+      padding-bottom: 4px;
     }
     .tab {
-      padding: 10px 18px;
+      padding: 10px 20px;
       background: #2a2a2a;
       border: 1px solid #444;
       border-bottom: none;
       border-radius: 8px 8px 0 0;
       cursor: pointer;
-      transition: all 0.2s;
       white-space: nowrap;
-      flex-shrink: 0;
-      min-width: 110px;
-      text-align: center;
+      transition: all 0.2s;
     }
     .tab.active {
       background: #3a3a3a;
       color: #4ade80;
       border-color: #4ade80;
     }
-    .tab:hover:not(.active) {
-      background: #333;
-    }
-    .tab-content {
-      padding: 16px;
-      background: #2a2a2a;
-      border-radius: 0 8px 8px 8px;
-      min-height: 140px;
-    }
 
-    /* ─── BÜYÜK DETAY MODALI İÇİN SEKME STİLLERİ ─── */
-    .detail-tabs {
-      display: flex;
-      border-bottom: 1px solid #444;
-      margin: 24px 0 20px;
-      gap: 6px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .detail-tab {
-      padding: 12px 24px;
-      background: #2a2a2a;
-      border: 1px solid #444;
-      border-bottom: none;
-      border-radius: 10px 10px 0 0;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-size: 15px;
-      min-width: 140px;
-      text-align: center;
-    }
-    .detail-tab.active {
-      background: #3a3a3a;
-      color: #6ee7a5;
-      border-color: #6ee7a5;
-    }
-    .detail-tab:hover:not(.active) {
-      background: #333;
-    }
-    .detail-tab-content {
-      padding: 0 12px 40px;
-      font-size: 15.5px;
-      line-height: 1.7;
-    }
-    .detail-tab-pane {
-      display: none;
-    }
-    .detail-tab-pane.active {
-      display: block;
-    }
-
-    #long-detail-modal .modal-content {
-      width: 92%;
-      max-width: 1180px;
-      max-height: 94vh;
-      padding: 28px 36px;
-    }
-
-    @media (max-width: 1024px) {
-      #long-detail-modal .modal-content { width: 94%; max-width: 1000px; padding: 24px 28px; }
-    }
-    @media (max-width: 768px) {
-      #long-detail-modal .modal-content { width: 96%; padding: 20px 20px; max-height: 96vh; }
-      .detail-tab { padding: 10px 18px; min-width: 120px; font-size: 14.5px; }
-    }
-    @media (max-width: 480px) {
-      #long-detail-modal .modal-content { width: 98%; padding: 16px 14px; }
-      .detail-tab { min-width: 100px; font-size: 13.8px; padding: 9px 14px; }
-    }
+    .tab-content { padding: 16px; }
 
     @media (max-width: 768px) {
       #container { flex-direction: column; }
@@ -391,25 +303,22 @@
       #sidebar {
         width: 100%;
         height: auto;
-        max-height: 60%;
-        min-height: 40%;
+        max-height: 65%;
         position: fixed;
         bottom: 0; left: 0; right: 0;
         transform: translateY(100%);
-        border-left: none;
         border-top: 1px solid #444;
-        z-index: 300;
       }
       #sidebar.active { transform: translateY(0); }
-      #search-button { bottom: 100px; right: 24px; }
+      #menu-button { bottom: 90px; right: 24px; }
     }
   </style>
 </head>
 <body>
 
 <div id="container">
-  <a href="https://militantatlas-droid.github.io/militantatlascom" id="back-to-home" aria-label="Back to Home" title="Back to Home" target="_self">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+  <a href="https://militantatlas-droid.github.io/militantatlascom" id="back-to-home" title="Ana sayfaya dön">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
     </svg>
   </a>
@@ -469,117 +378,88 @@
     </svg>
   </div>
 
-  <div id="tooltip" class="tooltip"></div>
-
+  <!-- Sidebar -->
   <div id="sidebar">
     <button id="sidebar-close">×</button>
+
+    <div id="mode-buttons">
+      <button class="mode-button active" data-mode="country">ÜLKE ARA</button>
+      <button class="mode-button" data-mode="group">GRUP ARA</button>
+      <button class="mode-button" data-mode="map-by-group">GRUPLARIN FAAL OLDUKLARI ÜLKELER</button>
+    </div>
+
     <div id="search-container">
       <input type="text" id="search-input" placeholder="Ülke ara...">
       <button id="clear-search">×</button>
     </div>
+
     <div id="sidebar-content"></div>
   </div>
+
+  <!-- Menü butonu (hamburger) -->
+  <button id="menu-button" title="Menüyü aç">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="3">
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+
+  <!-- Tooltip -->
+  <div id="tooltip" class="tooltip"></div>
 
   <!-- Ülke Modal -->
   <div id="country-modal" class="modal">
     <div class="modal-content">
-      <button id="country-modal-close" class="modal-close">×</button>
+      <button class="modal-close" id="country-modal-close">×</button>
       <h2 id="country-modal-title">Ülke</h2>
       <div id="country-groups"></div>
     </div>
   </div>
 
-  <!-- Grup Küçük Modal -->
+  <!-- Grup Detay Modal -->
   <div id="group-detail-modal" class="modal">
     <div class="modal-content">
-      <button id="group-detail-close" class="modal-close">×</button>
-      <button id="group-detail-back" class="modal-back">←</button>
-      <h2 id="group-detail-title">Grup Adı</h2>
-
+      <button class="modal-back" id="group-detail-back">←</button>
+      <button class="modal-close" id="group-detail-close">×</button>
+      <h2 id="group-detail-title">Grup</h2>
       <div class="tabs">
         <div class="tab active" data-tab="temel">Temel Bilgiler</div>
         <div class="tab" data-tab="durum">Durum</div>
         <div class="tab" data-tab="detay">Detay</div>
       </div>
-
       <div id="tab-content" class="tab-content"></div>
     </div>
   </div>
 
-  <!-- BÜYÜK DETAY MODALI (4 sekme) -->
+  <!-- Büyük Detay Modal (örnek placeholder - içeriği sen doldurabilirsin) -->
   <div id="long-detail-modal" class="modal">
-    <div class="modal-content">
-      <button id="long-detail-close" class="modal-close">×</button>
-      <button id="long-detail-back" class="modal-back">←</button>
+    <div class="modal-content" style="max-width:1100px;">
+      <button class="modal-close" id="long-detail-close">×</button>
       <h2 id="long-detail-title">Detaylı Bilgi</h2>
-
-      <div class="detail-tabs">
-        <div class="detail-tab active" data-detail-tab="tarihce">Tarihçe</div>
-        <div class="detail-tab" data-detail-tab="ideoloji">İdeoloji & Amaçlar</div>
-        <div class="detail-tab" data-detail-tab="eylemler">Önemli Eylemler</div>
-        <div class="detail-tab" data-detail-tab="baglantilar">Bağlantılar & Finansman</div>
-      </div>
-
-      <div id="detail-tab-container">
-        <div id="tab-tarihce" class="detail-tab-pane active detail-tab-content">
-          <p><em>[Tarihçe kısmı - buraya dolduracaksın]</em></p>
-          <p> Kuruluş süreci, ilk yıllar, önemli kırılma noktaları...</p>
-        </div>
-        <div id="tab-ideoloji" class="detail-tab-pane detail-tab-content">
-          <p><em>[İdeoloji ve Amaçlar kısmı - buraya dolduracaksın]</em></p>
-          <p> İdeolojik temel, ana hedefler, propaganda dili...</p>
-        </div>
-        <div id="tab-eylemler" class="detail-tab-pane detail-tab-content">
-          <p><em>[Önemli Eylemler kısmı - buraya dolduracaksın]</em></p>
-          <p> Kronolojik önemli saldırılar, suikastlar, işgaller...</p>
-        </div>
-        <div id="tab-baglantilar" class="detail-tab-pane detail-tab-content">
-          <p><em>[Bağlantılar & Finansman kısmı - buraya dolduracaksın]</em></p>
-          <p> Destekleyen ülkeler, diğer gruplar, para kaynakları...</p>
-        </div>
-      </div>
+      <p style="text-align:center; padding:80px 0; color:#888;">Detaylı içerik burada görünecek (JSON'dan çekilebilir)</p>
     </div>
   </div>
 
-  <button id="search-button">Ülke Ara</button>
 </div>
 
 <script>
-// ──────────────────────────────────────────────
 let countryData = {};
 let activePath = null;
 let currentCountryId = null;
 let currentGroup = null;
+let currentMode = "country";
 
-const tooltip          = document.getElementById("tooltip");
-const sidebar          = document.getElementById("sidebar");
-const sidebarContent   = document.getElementById("sidebar-content");
-const searchInput      = document.getElementById("search-input");
-const clearSearch      = document.getElementById("clear-search");
-const searchButton     = document.getElementById("search-button");
-const mapArea          = document.getElementById("map-area");
+const tooltip        = document.getElementById("tooltip");
+const mapArea        = document.getElementById("map-area");
+const sidebar        = document.getElementById("sidebar");
+const searchInput    = document.getElementById("search-input");
+const clearSearch    = document.getElementById("clear-search");
+const sidebarContent = document.getElementById("sidebar-content");
+const menuButton     = document.getElementById("menu-button");
+const modeButtons    = document.querySelectorAll(".mode-button");
 
-// Modallar
-const countryModal     = document.getElementById("country-modal");
-const countryTitle     = document.getElementById("country-modal-title");
-const countryGroups    = document.getElementById("country-groups");
-const countryClose     = document.getElementById("country-modal-close");
-
-const groupModal       = document.getElementById("group-detail-modal");
-const groupTitle       = document.getElementById("group-detail-title");
-const groupBack        = document.getElementById("group-detail-back");
-const groupClose       = document.getElementById("group-detail-close");
-const tabContents      = document.getElementById("tab-content");
-
-// Büyük detay modalı
-const longDetailModal  = document.getElementById("long-detail-modal");
-const longDetailTitle  = document.getElementById("long-detail-title");
-const longDetailClose  = document.getElementById("long-detail-close");
-const longDetailBack   = document.getElementById("long-detail-back");
-
-// ──────────────────────────────────────────────
-// VERİ YÜKLEME
-// ──────────────────────────────────────────────
+// JSON yükleme
 fetch("trdata.json")
   .then(res => res.json())
   .then(data => {
@@ -588,13 +468,10 @@ fetch("trdata.json")
   })
   .catch(err => {
     console.error("JSON yüklenemedi:", err);
-    sidebarContent.innerHTML = `<p style="color:#ff4444; font-weight:bold;">Veri dosyası yüklenemedi.</p>`;
+    sidebarContent.innerHTML = `<p style="color:#ff4444; font-weight:bold; text-align:center; padding:30px;">Veri dosyası yüklenemedi.</p>`;
     initMap();
   });
 
-// ──────────────────────────────────────────────
-// HARİTA BAŞLATMA
-// ──────────────────────────────────────────────
 function initMap() {
   document.querySelectorAll("svg path").forEach(path => {
     const id = path.id;
@@ -614,7 +491,7 @@ function initMap() {
 
     path.addEventListener("mousemove", moveTooltip);
     path.addEventListener("mouseout", () => tooltip.classList.remove("visible"));
-    
+
     path.addEventListener("click", e => {
       e.stopPropagation();
       activateCountry(id, fallbackName, path);
@@ -627,11 +504,39 @@ function initMap() {
     }, { passive: false });
   });
 
-  // Arama eventi
+  // Mod değiştirme
+  modeButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      modeButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentMode = btn.dataset.mode;
+
+      const ph = {
+        country: "Ülke ara... (ör: Nijerya, Mali)",
+        group: "Grup ara... (ör: IŞİD, JNIM, Boko)",
+        "map-by-group": "Grup yaz... (ülkeler kırmızı olur)"
+      };
+      searchInput.placeholder = ph[currentMode] || "Ara...";
+
+      searchInput.value = "";
+      searchInput.dispatchEvent(new Event("input"));
+      clearCountryHighlights();
+    });
+  });
+
   searchInput.addEventListener("input", () => {
     const term = searchInput.value.trim().toLowerCase();
     clearSearch.style.display = term ? "block" : "none";
-    showSearchSuggestions(term);
+
+    if (!term) {
+      sidebarContent.innerHTML = "";
+      if (currentMode === "map-by-group") clearCountryHighlights();
+      return;
+    }
+
+    if (currentMode === "country") showCountrySuggestions(term);
+    else if (currentMode === "group") showGroupSuggestions(term);
+    else if (currentMode === "map-by-group") showMapByGroupSuggestions(term);
   });
 
   clearSearch.addEventListener("click", () => {
@@ -639,26 +544,26 @@ function initMap() {
     searchInput.dispatchEvent(new Event("input"));
   });
 
-  // Kapatma olayları
+  menuButton.addEventListener("click", () => {
+    sidebar.classList.add("active");
+    menuButton.classList.add("hidden");
+    createBackdrop();
+    setTimeout(() => searchInput.focus(), 100);
+  });
+
   document.addEventListener("keydown", e => {
-    if (e.key === "Escape") {
-      if (sidebar.classList.contains("active")) closeSidebar();
-      if (countryModal.classList.contains("active")) closeCountryModal();
-      if (groupModal.classList.contains("active")) closeGroupModal();
-      if (longDetailModal.classList.contains("active")) longDetailModal.classList.remove("active");
-    }
+    if (e.key === "Escape") closeAll();
   });
 
   document.addEventListener("click", e => {
-    if (sidebar.classList.contains("active") && !sidebar.contains(e.target) && !searchButton.contains(e.target) && !e.target.closest(".suggestion-item")) {
+    if (sidebar.classList.contains("active") && 
+        !sidebar.contains(e.target) && 
+        !menuButton.contains(e.target) && 
+        !e.target.closest(".suggestion-item")) {
       closeSidebar();
     }
-    if (countryModal.classList.contains("active") && e.target === countryModal) closeCountryModal();
-    if (groupModal.classList.contains("active") && e.target === groupModal) closeGroupModal();
-    if (longDetailModal.classList.contains("active") && e.target === longDetailModal) longDetailModal.classList.remove("active");
   });
 
-  // Sidebar mobil kapatma
   let touchStartY = 0;
   sidebar.addEventListener("touchstart", e => touchStartY = e.changedTouches[0].screenY, { passive: true });
   sidebar.addEventListener("touchend", e => {
@@ -666,20 +571,10 @@ function initMap() {
   }, { passive: true });
 
   document.getElementById("sidebar-close")?.addEventListener("click", closeSidebar);
-  searchButton.addEventListener("click", () => {
-    sidebar.classList.add("active");
-    searchButton.classList.add("hidden");
-    createBackdrop();
-    setTimeout(() => searchInput.focus(), 100);
-  });
+  document.getElementById("country-modal-close")?.addEventListener("click", closeCountryModal);
+  document.getElementById("group-detail-close")?.addEventListener("click", closeGroupModal);
+  document.getElementById("group-detail-back")?.addEventListener("click", closeGroupModal);
 
-  countryClose.addEventListener("click", closeCountryModal);
-  groupClose.addEventListener("click", closeGroupModal);
-  groupBack.addEventListener("click", closeGroupModal);
-  longDetailClose.addEventListener("click", () => longDetailModal.classList.remove("active"));
-  longDetailBack.addEventListener("click", () => longDetailModal.classList.remove("active"));
-
-  // Küçük modal sekmeler
   document.querySelectorAll(".tab").forEach(tab => {
     tab.addEventListener("click", () => {
       document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
@@ -687,190 +582,32 @@ function initMap() {
       showTabContent(tab.dataset.tab);
     });
   });
-
-  // Büyük modal sekmeler
-  document.querySelectorAll(".detail-tab").forEach(tab => {
-    tab.addEventListener("click", () => {
-      document.querySelectorAll(".detail-tab").forEach(t => t.classList.remove("active"));
-      tab.classList.add("active");
-
-      document.querySelectorAll(".detail-tab-pane").forEach(p => p.classList.remove("active"));
-      const target = document.getElementById("tab-" + tab.dataset.detailTab);
-      if (target) target.classList.add("active");
-    });
-  });
 }
 
 // ──────────────────────────────────────────────
-// Fonksiyonlar (öncekiyle aynı kalabilir)
+// Yardımcı Fonksiyonlar
 // ──────────────────────────────────────────────
 
-function activateCountry(id, fallbackName, pathElement = null) {
-  if (activePath) activePath.classList.remove("active");
-  const targetPath = pathElement || document.getElementById(id);
-  if (targetPath) {
-    targetPath.classList.add("active");
-    activePath = targetPath;
-  }
-  showCountryModal(id, fallbackName);
-}
-
-function showCountryModal(id, fallbackName) {
-  currentCountryId = id;
-  const country = countryData[id] || {};
-  const name = country.name_tr || fallbackName;
-
-  countryTitle.textContent = name;
-
-  let html = "";
-  if (country.groups?.length > 0) {
-    country.groups.forEach((g, index) => {
-      html += `<div class="group-item" data-group-index="${index}">${g.name_tr || "Bilinmeyen Grup"}</div>`;
-    });
-  } else {
-    html = "<p style='color:#888; text-align:center; padding:30px 0;'>Bu ülke için grup bilgisi bulunmuyor.</p>";
-  }
-
-  countryGroups.innerHTML = html;
-  countryModal.classList.add("active");
-
-  countryGroups.querySelectorAll(".group-item").forEach(item => {
-    item.addEventListener("click", () => {
-      const index = parseInt(item.dataset.groupIndex);
-      const group = country.groups[index];
-      if (group) {
-        currentGroup = group;
-        showGroupDetailModal(group, name);
-      }
-    });
-  });
-}
-
-function closeCountryModal() {
-  countryModal.classList.remove("active");
-  if (activePath) {
-    activePath.classList.remove("active");
-    activePath = null;
-  }
-  currentCountryId = null;
-}
-
-function showGroupDetailModal(group, countryName) {
-  groupTitle.textContent = `${group.name_tr || "Grup"} (${countryName})`;
-  currentGroup = group;
-  document.querySelector('[data-tab="temel"]').click();
-  groupModal.classList.add("active");
-}
-
-function showTabContent(tabKey) {
-  if (!currentGroup || !currentGroup.details) {
-    tabContents.innerHTML = `<p style="color:#888; text-align:center; padding:40px 0;">Bu grup için detay bilgisi yok.</p>`;
-    return;
-  }
-
-  const d = currentGroup.details;
-
-  if (tabKey === "detay") {
-    longDetailTitle.textContent = `${currentGroup.name_tr || "Grup"} — Detaylı Bilgi`;
-    longDetailModal.classList.add("active");
-
-    tabContents.innerHTML = `<p style="text-align:center; color:#4ade80; padding:60px 0; font-style:italic;">
-      Detaylı içerik yeni pencerede açıldı.
-    </p>`;
-    return;
-  }
-
-  let content = "";
-  switch(tabKey) {
-    case "temel":
-      content = `
-        <p><strong>Kuruluş Yılı:</strong><br>${d.kurulus_yili || "—"}</p>
-        <p><strong>İlk Eylem:</strong><br>${d.ilk_eylem || "—"}</p>
-        <p><strong>Grup Türü:</strong><br>${d.grup_turu || "—"}</p>
-      `;
-      break;
-    case "durum":
-      content = `
-        <p style="font-size: 1.4em; font-weight: bold; text-align: center; margin: 40px 0; color: #4ade80;">
-          ${d.grup_durumu || "Bilinmiyor"}
-        </p>
-      `;
-      break;
-    default:
-      content = "<p style='color:#ff4444; text-align:center;'>Geçersiz sekme.</p>";
-  }
-  tabContents.innerHTML = content;
-}
-
-function closeGroupModal() {
-  groupModal.classList.remove("active");
-  currentGroup = null;
-}
-
-function showSearchSuggestions(term) {
-  if (!term || term.length < 1) {
-    sidebarContent.innerHTML = "";
-    return;
-  }
-
-  let html = `<h3 style="margin: 0 0 12px 0; color:#4ade80;">Eşleşen Ülkeler:</h3>`;
-  const matches = [];
-
-  Object.keys(countryData).forEach(key => {
-    const c = countryData[key];
-    if ((c.name_tr || key).toLowerCase().includes(term)) {
-      matches.push({ id: key, name: c.name_tr || key, type: "country" });
-    }
-  });
-
-  document.querySelectorAll("svg path").forEach(p => {
-    const id = p.id;
-    if (countryData[id]) return;
-    const name = (p.getAttribute("data-name") || id).toLowerCase();
-    if (name.includes(term) && !matches.some(m => m.id === id)) {
-      matches.push({ id, name: p.getAttribute("data-name") || id, type: "country" });
-    }
-  });
-
-  if (matches.length === 0) {
-    html += `<p style="color:#888; padding:10px;">Sonuç bulunamadı</p>`;
-  } else {
-    matches.forEach(m => {
-      html += `
-        <div class="suggestion-item" data-id="${m.id}" data-name="${m.name.replace(/"/g,'&quot;')}">
-          ${m.name}
-        </div>`;
-    });
-  }
-
-  sidebarContent.innerHTML = html;
-  sidebar.classList.add("active");
-
-  document.querySelectorAll(".suggestion-item").forEach(el => {
-    el.addEventListener("click", e => {
-      e.stopPropagation();
-      const id = el.dataset.id;
-      const name = el.dataset.name;
-      activateCountry(id, name);
-      closeSidebar();
-    });
-  });
+function closeAll() {
+  closeSidebar();
+  closeCountryModal();
+  closeGroupModal();
 }
 
 function closeSidebar() {
   sidebar.classList.remove("active");
-  searchButton.classList.remove("hidden");
+  menuButton.classList.remove("hidden");
   removeBackdrop();
 }
 
 function moveTooltip(e) {
   const rect = mapArea.getBoundingClientRect();
-  let x = e.clientX - rect.left + 16;
-  let y = e.clientY - rect.top + 16;
+  let x = e.clientX - rect.left + 20;
+  let y = e.clientY - rect.top + 20;
   x = Math.max(10, Math.min(x, rect.width - tooltip.offsetWidth - 10));
   y = Math.max(10, Math.min(y, rect.height - tooltip.offsetHeight - 10));
-  tooltip.style.left = `${rect.left + x}px`;
-  tooltip.style.top  = `${rect.top + y}px`;
+  tooltip.style.left = rect.left + x + "px";
+  tooltip.style.top = rect.top + y + "px";
 }
 
 function createBackdrop() {
@@ -881,10 +618,7 @@ function createBackdrop() {
     document.body.appendChild(b);
     b.addEventListener("click", closeSidebar);
   }
-  setTimeout(() => {
-    b.style.opacity = "1";
-    b.style.pointerEvents = "all";
-  }, 50);
+  setTimeout(() => { b.style.opacity = "1"; b.style.pointerEvents = "all"; }, 30);
 }
 
 function removeBackdrop() {
@@ -892,9 +626,221 @@ function removeBackdrop() {
   if (b) {
     b.style.opacity = "0";
     b.style.pointerEvents = "none";
-    setTimeout(() => b.remove(), 420);
+    setTimeout(() => b.remove(), 400);
   }
 }
+
+function clearCountryHighlights() {
+  document.querySelectorAll("svg path.highlight-red").forEach(p => p.classList.remove("highlight-red"));
+}
+
+function showCountrySuggestions(term) {
+  let html = `<h3 style="color:#4ade80; margin:12px 0 8px;">Eşleşen Ülkeler</h3>`;
+  const matches = [];
+
+  Object.keys(countryData).forEach(key => {
+    const c = countryData[key];
+    if ((c.name_tr || key).toLowerCase().includes(term)) {
+      matches.push({ id: key, name: c.name_tr || key });
+    }
+  });
+
+  if (matches.length === 0) {
+    html += `<p style="color:#888; padding:12px;">Sonuç yok</p>`;
+  } else {
+    matches.forEach(m => {
+      html += `<div class="suggestion-item" data-id="${m.id}">${m.name}</div>`;
+    });
+  }
+
+  sidebarContent.innerHTML = html;
+
+  sidebarContent.querySelectorAll(".suggestion-item").forEach(el => {
+    el.addEventListener("click", () => {
+      activateCountry(el.dataset.id, el.textContent);
+      closeSidebar();
+    });
+  });
+}
+
+function showGroupSuggestions(term) {
+  const found = new Map();
+
+  Object.values(countryData).forEach(c => {
+    if (c.groups) {
+      c.groups.forEach(g => {
+        const n = (g.name_tr || g.name || "").toLowerCase();
+        if (n.includes(term)) {
+          const dn = g.name_tr || g.name || "İsimsiz";
+          found.set(dn.toLowerCase(), { name: dn, group: g });
+        }
+      });
+    }
+  });
+
+  let html = `<h3 style="color:#4ade80; margin:12px 0 8px;">Eşleşen Gruplar</h3>`;
+
+  if (found.size === 0) {
+    html += `<p style="color:#888; padding:12px;">Sonuç yok</p>`;
+  } else {
+    found.forEach(v => {
+      html += `<div class="suggestion-item" data-gname="${v.name}">${v.name}</div>`;
+    });
+  }
+
+  sidebarContent.innerHTML = html;
+
+  sidebarContent.querySelectorAll(".suggestion-item").forEach(el => {
+    el.addEventListener("click", () => {
+      const name = el.dataset.gname;
+      const item = [...found.values()].find(v => v.name === name);
+      if (item && item.group) {
+        showGroupDetailModal(item.group, "Arama");
+        closeSidebar();
+      }
+    });
+  });
+}
+
+function showMapByGroupSuggestions(term) {
+  const map = {};
+
+  Object.entries(countryData).forEach(([code, c]) => {
+    if (c.groups) {
+      c.groups.forEach(g => {
+        const n = (g.name_tr || g.name || "").toLowerCase();
+        if (n.includes(term)) {
+          const dn = g.name_tr || g.name || "İsimsiz";
+          if (!map[dn]) map[dn] = [];
+          map[dn].push({ code, name: c.name_tr || code });
+        }
+      });
+    }
+  });
+
+  let html = `<h3 style="color:#4ade80; margin:12px 0 8px;">Gruplar (etkin ülkeler kırmızı)</h3>`;
+
+  const keys = Object.keys(map);
+  if (keys.length === 0) {
+    html += `<p style="color:#888; padding:12px;">Sonuç yok</p>`;
+  } else {
+    keys.forEach(k => {
+      const arr = map[k];
+      html += `
+        <div class="suggestion-item" 
+             data-codes="${arr.map(o => o.code).join(',')}"
+             data-gname="${k}">
+          ${k} <small>(${arr.length} ülke)</small>
+        </div>`;
+    });
+  }
+
+  sidebarContent.innerHTML = html;
+
+  sidebarContent.querySelectorAll(".suggestion-item").forEach(el => {
+    el.addEventListener("click", () => {
+      clearCountryHighlights();
+      const codes = el.dataset.codes.split(',');
+      codes.forEach(code => {
+        const p = document.getElementById(code.trim());
+        if (p) p.classList.add("highlight-red");
+      });
+      // sidebar açık kalsın istersen closeSidebar() satırını kaldır
+      // closeSidebar();
+    });
+  });
+}
+
+// ──────────────────────────────────────────────
+// Modal Fonksiyonları
+// ──────────────────────────────────────────────
+
+function activateCountry(id, name, pathEl = null) {
+  if (activePath) activePath.classList.remove("active");
+  const target = pathEl || document.getElementById(id);
+  if (target) {
+    target.classList.add("active");
+    activePath = target;
+  }
+  showCountryModal(id, name);
+}
+
+function showCountryModal(id, fallbackName) {
+  currentCountryId = id;
+  const country = countryData[id] || {};
+  const name = country.name_tr || fallbackName;
+
+  document.getElementById("country-modal-title").textContent = name;
+
+  let html = "";
+  if (country.groups?.length) {
+    country.groups.forEach((g, i) => {
+      html += `<div class="group-item" data-idx="${i}">${g.name_tr || g.name || "Bilinmeyen Grup"}</div>`;
+    });
+  } else {
+    html = `<p style="color:#888; text-align:center; padding:40px 0;">Bu ülkede grup bilgisi yok.</p>`;
+  }
+
+  document.getElementById("country-groups").innerHTML = html;
+
+  document.querySelectorAll("#country-groups .group-item").forEach(item => {
+    item.addEventListener("click", () => {
+      const idx = parseInt(item.dataset.idx);
+      const group = country.groups[idx];
+      if (group) showGroupDetailModal(group, name);
+    });
+  });
+
+  document.getElementById("country-modal").classList.add("active");
+}
+
+function closeCountryModal() {
+  document.getElementById("country-modal").classList.remove("active");
+  if (activePath) {
+    activePath.classList.remove("active");
+    activePath = null;
+  }
+  currentCountryId = null;
+}
+
+function showGroupDetailModal(group, countryName) {
+  currentGroup = group;
+  document.getElementById("group-detail-title").textContent = `${group.name_tr || group.name || "Grup"} (${countryName})`;
+  document.querySelector('[data-tab="temel"]').click();
+  document.getElementById("group-detail-modal").classList.add("active");
+}
+
+function closeGroupModal() {
+  document.getElementById("group-detail-modal").classList.remove("active");
+  currentGroup = null;
+}
+
+function showTabContent(tab) {
+  const contentEl = document.getElementById("tab-content");
+  if (!currentGroup || !currentGroup.details) {
+    contentEl.innerHTML = `<p style="color:#888; text-align:center; padding:50px 0;">Detay yok</p>`;
+    return;
+  }
+
+  const d = currentGroup.details;
+
+  let html = "";
+  if (tab === "temel") {
+    html = `
+      <p><strong>Kuruluş:</strong> ${d.kurulus_yili || "?"}</p>
+      <p><strong>İlk eylem:</strong> ${d.ilk_eylem || "?"}</p>
+      <p><strong>Tür:</strong> ${d.grup_turu || "?"}</p>
+    `;
+  } else if (tab === "durum") {
+    html = `<p style="font-size:1.5em; text-align:center; margin:60px 0; color:#4ade80;">${d.grup_durumu || "Bilinmiyor"}</p>`;
+  } else if (tab === "detay") {
+    document.getElementById("long-detail-modal").classList.add("active");
+    html = `<p style="text-align:center; color:#4ade80; padding:80px 0;">Detaylı bilgi büyük modda açıldı.</p>`;
+  }
+
+  contentEl.innerHTML = html;
+}
+
 </script>
 </body>
 </html>
