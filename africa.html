@@ -164,7 +164,7 @@
 <div id="container">
   <div id="map-area">
     <svg id="svg-map" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-     <path
+       <path
      inkscape:connector-curvature="0"
      id="AO"
      data-name="Angola"
@@ -528,7 +528,7 @@
 <button id="search-button">SEARCH</button>
 
 <script>
-// Değişkenler
+// Değişkenler (mevcut + zoom için eklenenler)
 const tooltip = document.getElementById("tooltip");
 const sidebar = document.getElementById("sidebar");
 const sidebarContent = document.getElementById("sidebar-content");
@@ -566,7 +566,7 @@ fetch("data.json")
     initMap();
   });
 
-// Harita başlatma
+// Harita başlatma + zoom/pan olayları
 function initMap() {
   const paths = document.querySelectorAll("svg path");
   paths.forEach(path => {
@@ -608,15 +608,16 @@ function initMap() {
     if (e.touches.length === 0) hideTooltip();
   }, { passive: true });
 
-  // Zoom olayları (mouse wheel)
+  // === ZOOM & PAN OLAYLARI (PC + MOBİL) ===
+  // PC: Mouse tekerleği ile zoom (imlecin olduğu yere odaklanır)
   mapArea.addEventListener('wheel', (e) => {
     e.preventDefault();
-    const delta = e.deltaY > 0 ? -0.1 : 0.1;
+    const delta = e.deltaY > 0 ? -0.15 : 0.15;
     const newScale = Math.max(minScale, Math.min(maxScale, scale + delta));
+
     const mouseX = e.clientX - mapArea.offsetLeft;
     const mouseY = e.clientY - mapArea.offsetTop;
 
-    // Zoom hedefi mouse pozisyonu
     const factor = newScale / scale;
     translateX = mouseX - (mouseX - translateX) * factor;
     translateY = mouseY - (mouseY - translateY) * factor;
@@ -625,7 +626,7 @@ function initMap() {
     applyTransform();
   }, { passive: false });
 
-  // Mobil pinch zoom
+  // Mobil: Pinch zoom + sürükleme
   mapArea.addEventListener('touchstart', (e) => {
     if (e.touches.length === 2) {
       e.preventDefault();
@@ -672,30 +673,38 @@ function initMap() {
   });
 }
 
-// Transform uygula + sınırlandır
+// Harita transform + sınırlandırma + merkezleme
 function applyTransform() {
-  const svgRect = svg.getBoundingClientRect();
   const containerRect = mapArea.getBoundingClientRect();
+  const scaledWidth = 1000 * scale;   // viewBox genişliği
+  const scaledHeight = 1000 * scale;  // viewBox yüksekliği
 
-  // Sınırları hesapla
+  let minX = containerRect.width - scaledWidth;
+  let minY = containerRect.height - scaledHeight;
   let maxX = 0;
-  let minX = containerRect.width - svgRect.width * scale;
   let maxY = 0;
-  let minY = containerRect.height - svgRect.height * scale;
 
-  // Negatif sınırları sıfırla
-  translateX = Math.max(minX, Math.min(maxX, translateX));
-  translateY = Math.max(minY, Math.min(maxY, translateY));
+  // Harita ekranı doldurmuyorsa → ORTALA
+  if (scaledWidth < containerRect.width) {
+    translateX = (containerRect.width - scaledWidth) / 2;
+  } else {
+    translateX = Math.max(minX, Math.min(maxX, translateX));
+  }
+
+  if (scaledHeight < containerRect.height) {
+    translateY = (containerRect.height - scaledHeight) / 2;
+  } else {
+    translateY = Math.max(minY, Math.min(maxY, translateY));
+  }
 
   svg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
   svg.style.transformOrigin = '0 0';
 }
 
-// Diğer mevcut fonksiyonlar (tooltip, sidebar, arama vs.) aynı kaldı
+// Mevcut diğer fonksiyonlar (tooltip, sidebar, arama vs.) aynı kaldı
 function showSidebar(id, fallbackName) {
   const country = countryData[id] || {};
   const displayName = country[nameKey] || fallbackName;
-
   let html = `<h2 style="margin-top:0;">${displayName}</h2>`;
   if (Object.keys(countryData).length === 0) {
     html += `<p style="color:#ff4444; font-weight:bold;">Data file could not be loaded.</p>`;
@@ -713,7 +722,6 @@ function showSidebar(id, fallbackName) {
   } else {
     html += "<p>No group information for this region.</p>";
   }
-
   sidebarContent.innerHTML = html;
   sidebar.classList.add("active");
   sidebarContent.scrollTop = 0;
@@ -735,7 +743,6 @@ function moveTooltip(e) {
   tooltip.style.top = top + "px";
 }
 
-// Sidebar kapatma ve diğer olaylar (mevcut kodun aynısı)
 document.getElementById("sidebar-close")?.addEventListener("click", () => {
   sidebar.classList.remove("active");
   if (activePath) activePath.classList.remove("active");
