@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MİLİTAN ATLASI güncel</title>
+  <title>MİLİTAN ATLASI AFRİKA</title>
   <style>
     * { box-sizing: border-box; margin:0; padding:0; }
     body {
@@ -68,6 +68,7 @@
       margin-bottom: 6px;
       color: #4ade80;
     }
+
     #sidebar {
       width: 340px;
       background: #1f1f1f;
@@ -81,9 +82,9 @@
       transform: translateX(100%);
       box-shadow: -10px 0 30px rgba(0,0,0,0.6);
       z-index: 300;
-      will-change: transform;
     }
     #sidebar.active { display: block; transform: translateX(0); }
+
     #sidebar-close {
       position: absolute;
       top: 12px; right: 12px;
@@ -100,6 +101,7 @@
       z-index: 310;
     }
     #sidebar-close:hover { background: #666; transform: scale(1.08); }
+
     #search-container { margin-bottom: 18px; position: relative; z-index: 305; }
     #search-input {
       width: 100%;
@@ -123,12 +125,6 @@
       cursor: pointer;
       display: none;
     }
-    .group {
-      margin: 14px 0;
-      padding: 10px;
-      background: #2a2a2a;
-      border-radius: 6px;
-    }
     .group-item {
       color: #4ade80;
       text-decoration: none;
@@ -143,6 +139,7 @@
       background: #333;
       padding-left: 16px;
     }
+
     #search-button {
       position: fixed;
       bottom: 24px;
@@ -168,6 +165,7 @@
     }
     #search-button:hover { transform: scale(1.15); background: #00ff88; }
     #search-button.hidden { opacity: 0; pointer-events: none; transform: scale(0.7); }
+
     #sidebar-backdrop {
       position: fixed; inset: 0;
       background: rgba(0,0,0,0.4);
@@ -177,6 +175,7 @@
       backdrop-filter: blur(4px);
       pointer-events: none;
     }
+
     .suggestion-item {
       padding: 12px 14px;
       background: #2a2a2a;
@@ -191,6 +190,7 @@
       transform: translateX(4px);
       box-shadow: 0 2px 10px rgba(74,222,128,0.2);
     }
+
     #back-to-home {
       position: fixed;
       top: 16px;
@@ -222,27 +222,8 @@
       height: 24px;
       stroke: currentColor;
     }
-    @media (max-width: 768px) {
-      #container { flex-direction: column; }
-      #map-area { flex: 1 1 60%; }
-      #sidebar {
-        width: 100%;
-        height: auto;
-        max-height: 60%;
-        min-height: 40%;
-        position: fixed;
-        bottom: 0; left: 0; right: 0;
-        transform: translateY(100%);
-        border-left: none;
-        border-top: 1px solid #444;
-        z-index: 300;
-      }
-      #sidebar.active { transform: translateY(0); }
-      #search-button { bottom: 100px; right: 24px; }
-      #clear-search { right: 50px; }
-    }
 
-    /* ────────────── MODAL STİLLERİ ────────────── */
+    /* MODAL STİLLERİ */
     .modal {
       position: fixed;
       inset: 0;
@@ -306,73 +287,127 @@
       border-left: 4px solid #4ade80;
     }
 
-    /* Sekmeler */
+    /* Sekmeler (küçük modal için) */
     .tabs {
-  display: flex;
-  border-bottom: 1px solid #444;
-  margin: 20px 0 16px;
-  overflow-x: hidden;          /* ← kaydırmayı tamamen kaldırdık */
-  flex-wrap: wrap;             /* ← ekran daralınca alta geçsin */
-  gap: 4px;                    /* sekmeler arası boşluk */
-  justify-content: center;     /* ortalamak için güzel durur */
-  padding: 0 8px;
-}
+      display: flex;
+      border-bottom: 1px solid #444;
+      margin: 20px 0 16px;
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      gap: 4px;
+      padding: 0 8px;
+    }
     .tab {
-  padding: 10px 18px;
-  background: #2a2a2a;
-  border: 1px solid #444;
-  border-bottom: none;
-  border-radius: 8px 8px 0 0;
-  margin-right: 0;             /* eskiden vardı, kaldırdık */
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
-  flex: 1 1 auto;              /* eşit genişlik + esneme */
-  min-width: 90px;             /* çok küçülmesin */
-  max-width: 180px;            /* aşırı genişlemesin */
-  text-align: center;
-  box-sizing: border-box;
-}
-   .tab.active {
-  background: #3a3a3a;
-  color: #4ade80;
-  border-color: #4ade80;
-}
+      padding: 10px 18px;
+      background: #2a2a2a;
+      border: 1px solid #444;
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      flex-shrink: 0;
+      min-width: 110px;
+      text-align: center;
+    }
+    .tab.active {
+      background: #3a3a3a;
+      color: #4ade80;
+      border-color: #4ade80;
+    }
     .tab:hover:not(.active) {
-  background: #333;
-}
+      background: #333;
+    }
     .tab-content {
       padding: 16px;
       background: #2a2a2a;
       border-radius: 0 8px 8px 8px;
       min-height: 140px;
     }
-    .tab-content p {
-      margin: 8px 0;
-      line-height: 1.5;
+
+    /* ─── BÜYÜK DETAY MODALI İÇİN SEKME STİLLERİ ─── */
+    .detail-tabs {
+      display: flex;
+      border-bottom: 1px solid #444;
+      margin: 24px 0 20px;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .detail-tab {
+      padding: 12px 24px;
+      background: #2a2a2a;
+      border: 1px solid #444;
+      border-bottom: none;
+      border-radius: 10px 10px 0 0;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 15px;
+      min-width: 140px;
+      text-align: center;
+    }
+    .detail-tab.active {
+      background: #3a3a3a;
+      color: #6ee7a5;
+      border-color: #6ee7a5;
+    }
+    .detail-tab:hover:not(.active) {
+      background: #333;
+    }
+    .detail-tab-content {
+      padding: 0 12px 40px;
+      font-size: 15.5px;
+      line-height: 1.7;
+    }
+    .detail-tab-pane {
+      display: none;
+    }
+    .detail-tab-pane.active {
+      display: block;
     }
 
+    #long-detail-modal .modal-content {
+      width: 92%;
+      max-width: 1180px;
+      max-height: 94vh;
+      padding: 28px 36px;
+    }
+
+    @media (max-width: 1024px) {
+      #long-detail-modal .modal-content { width: 94%; max-width: 1000px; padding: 24px 28px; }
+    }
+    @media (max-width: 768px) {
+      #long-detail-modal .modal-content { width: 96%; padding: 20px 20px; max-height: 96vh; }
+      .detail-tab { padding: 10px 18px; min-width: 120px; font-size: 14.5px; }
+    }
     @media (max-width: 480px) {
-      .modal-content { padding: 20px; width: 96%; }
-     .tab {
-    padding: 8px 12px;
-    font-size: 13px;
-    min-width: 70px;
-    max-width: 120px;
-  }
-  
-  .tabs {
-    justify-content: flex-start;   /* soldan başlasın */
-    padding: 0 4px;
-    gap: 3px;
-  }
-}
+      #long-detail-modal .modal-content { width: 98%; padding: 16px 14px; }
+      .detail-tab { min-width: 100px; font-size: 13.8px; padding: 9px 14px; }
+    }
+
+    @media (max-width: 768px) {
+      #container { flex-direction: column; }
+      #map-area { flex: 1 1 60%; }
+      #sidebar {
+        width: 100%;
+        height: auto;
+        max-height: 60%;
+        min-height: 40%;
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        transform: translateY(100%);
+        border-left: none;
+        border-top: 1px solid #444;
+        z-index: 300;
+      }
+      #sidebar.active { transform: translateY(0); }
+      #search-button { bottom: 100px; right: 24px; }
+    }
   </style>
 </head>
 <body>
 
 <div id="container">
-  <!-- Back to Home Button -->
   <a href="https://militantatlas-droid.github.io/militantatlascom" id="back-to-home" aria-label="Back to Home" title="Back to Home" target="_self">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
@@ -381,7 +416,7 @@
 
   <div id="map-area">
     <svg id="svg-map" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-      <path id="AO" data-name="Angola" data-id="AO" d="m 495.3,598.6 -36,-0.2 -4.3,1.7 -3.5,-0.3 -5.1,1.9 -1.1,2.7 6,8.7 2.4,9.3 3.6,13.4 -3.8,5.5 -0.6,2.8 2.9,8.3 3.1,8.4 3.6,5 0.6,7.8 -1.4,10.3 -4,6.1 -7.1,9.1 -2.9,5.6 -4.1,12.5 -0.8,5.9 -4.3,12.7 -1.9,12.2 1,8.7 5.9,-2.7 7.2,-2.3 7.8,0.4 7.1,6.3 1.9,-1 48.8,-0.6 8.2,6.6 29.1,2 22.4,-5.7 -7.6,-8.6 -7.8,-11.3 1.6,-44 25.3,0.1 -1,-4.7 2,-5.2 -2,-6.5 1.5,-6.7 -1.2,-4.3 -5.5,-0.8 -7.6,2 -5.3,-0.3 -3,1.3 0.9,-16.5 -3.9,-5.1 -0.8,-8.5 1.9,-8.4 -2.4,-5.3 -0.1,-8.7 -14.8,0.1 1.1,-5 -6.2,0.1 -0.7,2.4 -7.6,0.5 -3.1,8.1 -1.9,3.4 -6.7,-1.9 -4,1.9 -8.1,1.1 -4.6,-7.2 -2.7,-4.5 -3.5,-8.3 -2.9,-10.3 z m -47.4,-2.7 0.4,-6 2,-3.5 4.5,-2.9 -4.6,-4.8 -3.7,2.3 -5,6 3.3,10.4 3.1,-1.5 z" />
+       <path id="AO" data-name="Angola" data-id="AO" d="m 495.3,598.6 -36,-0.2 -4.3,1.7 -3.5,-0.3 -5.1,1.9 -1.1,2.7 6,8.7 2.4,9.3 3.6,13.4 -3.8,5.5 -0.6,2.8 2.9,8.3 3.1,8.4 3.6,5 0.6,7.8 -1.4,10.3 -4,6.1 -7.1,9.1 -2.9,5.6 -4.1,12.5 -0.8,5.9 -4.3,12.7 -1.9,12.2 1,8.7 5.9,-2.7 7.2,-2.3 7.8,0.4 7.1,6.3 1.9,-1 48.8,-0.6 8.2,6.6 29.1,2 22.4,-5.7 -7.6,-8.6 -7.8,-11.3 1.6,-44 25.3,0.1 -1,-4.7 2,-5.2 -2,-6.5 1.5,-6.7 -1.2,-4.3 -5.5,-0.8 -7.6,2 -5.3,-0.3 -3,1.3 0.9,-16.5 -3.9,-5.1 -0.8,-8.5 1.9,-8.4 -2.4,-5.3 -0.1,-8.7 -14.8,0.1 1.1,-5 -6.2,0.1 -0.7,2.4 -7.6,0.5 -3.1,8.1 -1.9,3.4 -6.7,-1.9 -4,1.9 -8.1,1.1 -4.6,-7.2 -2.7,-4.5 -3.5,-8.3 -2.9,-10.3 z m -47.4,-2.7 0.4,-6 2,-3.5 4.5,-2.9 -4.6,-4.8 -3.7,2.3 -5,6 3.3,10.4 3.1,-1.5 z" />
       <path id="BI" data-name="Burundi" data-id="BI" d="m 669,556.1 -0.6,-5.4 0,0 -6.5,-0.9 -3.8,7.9 -7.4,-1.1 3,6.3 0.1,2.4 4.3,13.2 0,0.6 1.2,-0.2 4.5,-5 4.9,-7.2 3,-2.9 -0.1,-4.5 -2.6,-3.2 z" />
       <path id="BJ" data-name="Benin" data-id="BJ" d="m 340,356 -9.3,-8 -4.3,0.1 -4.1,4 -2.6,4.2 -6,1.2 -2.5,6.1 -4.1,1.6 -1.6,7.2 3.7,4.1 4.3,4.9 0.4,6.8 2.5,2.8 -0.5,31.8 3,9.5 10.1,-1.6 0.6,-22.3 -0.3,-8.8 2.3,-8.7 3.7,-4.3 5.9,-8.5 -1.3,-3.7 2.4,-5.6 -2.8,-8.2 0.5,-4.6 z" />
       <path id="BF" data-name="Burkina Faso" data-id="BF" d="m 300.7,310.8 -7.8,0 -3,-2.6 -6.7,1.9 -11.3,5.8 -2.3,4.3 -9.4,6.2 -1.7,3.6 -5.1,2.8 -5.8,-1.9 -3.4,3.4 -1.8,9.5 -9.7,11.4 0.3,4.7 -3.4,5.9 0.8,8 5.5,3 2.1,4.6 5.4,2.9 4.3,-3.4 5.7,-0.6 8.3,3.6 -1.6,-10.4 0.3,-7.9 21.1,-0.6 5.4,1 3.9,-2.2 5.6,1.1 10.7,0.3 4.1,-1.6 2.5,-6.1 6,-1.2 2.6,-4.2 0.3,-9.5 -14,-3.1 -0.4,-6.7 -6.9,-9 -1.6,-6.3 1,-6.7 z" />
@@ -432,52 +467,84 @@
       <path id="ZW" data-name="Zimbabwe" data-id="ZW" d="m 669.1,825.1 13.4,-15.7 3.6,-9.9 1.9,-1.3 1.7,-8.1 -1.7,-4.1 1,-10.4 2.8,-9.6 0.8,-17.5 -6.1,-4.4 -5.7,-1 -2.5,-3.4 -5.5,-3 -10,0.3 -0.6,-5.1 -9.3,1.9 -7,5.5 -1.7,4.8 -4.4,1 -10.9,11.4 -7,9 -4.1,0.3 -3.8,-1.6 -13.4,-1.5 4.2,11.1 2.3,2.4 3.5,8 13,15.2 5.1,1.5 -0.2,4.9 3.1,8.8 9.2,2.1 7.3,6.2 4.9,0.2 5.7,2.3 4.1,-1.6 6.3,1.3 z" />
       <path id="SO" data-name="Somalia" data-id="SO" d="m 832.6,372.8 -5.7,-5.8 -2.5,-5.7 -4.1,-2.6 -4.2,7.4 -2.5,4.9 4.8,7.7 4.6,6.6 4.8,5 40.3,16.4 10.3,-0.1 -33.5,41.5 -15.9,0.6 -10.7,9.8 -7.8,0.2 -3.3,4.4 -10.5,15.7 0.4,50.4 7.2,11.4 2.7,-3.3 2.9,-7.3 13.4,-16.7 11.4,-10.6 18.1,-13.7 12.1,-11.2 14.1,-18.9 10.1,-15.5 10,-20.2 7,-17.7 5.4,-15.5 2.9,-14.9 2.4,-5 -0.4,-7.3 0.8,-8 -0.5,-3.9 -4.6,0.1 -5.5,4.7 -6.4,1.4 -5.5,2.1 -3.9,0.2 0,0 -6.9,0.5 -4.2,2.6 -6,0.9 -10.5,4.3 -13.2,1.6 -11.3,3.5 -6.1,0 z" />
     </svg>
-    <div class="tooltip" id="tooltip"></div>
   </div>
 
-  <!-- Sidebar (arama için) -->
+  <div id="tooltip" class="tooltip"></div>
+
   <div id="sidebar">
     <button id="sidebar-close">×</button>
     <div id="search-container">
-      <input type="text" id="search-input" placeholder="Ülke veya grup ara...">
+      <input type="text" id="search-input" placeholder="Ülke ara...">
       <button id="clear-search">×</button>
     </div>
     <div id="sidebar-content"></div>
   </div>
-</div>
 
-<!-- ARAMA BUTONU -->
-<button id="search-button">ARAMA YAP</button>
-
-<!-- ÜLKE MODAL -->
-<div id="country-modal" class="modal">
-  <div class="modal-content">
-    <button id="country-modal-close" class="modal-close">×</button>
-    <h2 id="country-modal-title"></h2>
-    <div id="country-groups"></div>
-  </div>
-</div>
-
-<!-- GRUP DETAY MODAL -->
-<div id="group-detail-modal" class="modal">
-  <div class="modal-content">
-    <button id="group-detail-back" class="modal-back">←</button>
-    <button id="group-detail-close" class="modal-close">×</button>
-    <h2 id="group-detail-title"></h2>
-
-    <div class="tabs">
-  <div class="tab active" data-tab="temel">Temel Bilgiler</div>
-  <div class="tab" data-tab="durum">Grup Durumu</div>
-  <div class="tab" data-tab="detay">Detay Sekmesi</div>
-</div>
-<div id="tab-content" class="tab-content"></div>
+  <!-- Ülke Modal -->
+  <div id="country-modal" class="modal">
+    <div class="modal-content">
+      <button id="country-modal-close" class="modal-close">×</button>
+      <h2 id="country-modal-title">Ülke</h2>
+      <div id="country-groups"></div>
     </div>
   </div>
+
+  <!-- Grup Küçük Modal -->
+  <div id="group-detail-modal" class="modal">
+    <div class="modal-content">
+      <button id="group-detail-close" class="modal-close">×</button>
+      <button id="group-detail-back" class="modal-back">←</button>
+      <h2 id="group-detail-title">Grup Adı</h2>
+
+      <div class="tabs">
+        <div class="tab active" data-tab="temel">Temel Bilgiler</div>
+        <div class="tab" data-tab="durum">Durum</div>
+        <div class="tab" data-tab="detay">Detay</div>
+      </div>
+
+      <div id="tab-content" class="tab-content"></div>
+    </div>
+  </div>
+
+  <!-- BÜYÜK DETAY MODALI (4 sekme) -->
+  <div id="long-detail-modal" class="modal">
+    <div class="modal-content">
+      <button id="long-detail-close" class="modal-close">×</button>
+      <button id="long-detail-back" class="modal-back">←</button>
+      <h2 id="long-detail-title">Detaylı Bilgi</h2>
+
+      <div class="detail-tabs">
+        <div class="detail-tab active" data-detail-tab="tarihce">Tarihçe</div>
+        <div class="detail-tab" data-detail-tab="ideoloji">İdeoloji & Amaçlar</div>
+        <div class="detail-tab" data-detail-tab="eylemler">Önemli Eylemler</div>
+        <div class="detail-tab" data-detail-tab="baglantilar">Bağlantılar & Finansman</div>
+      </div>
+
+      <div id="detail-tab-container">
+        <div id="tab-tarihce" class="detail-tab-pane active detail-tab-content">
+          <p><em>[Tarihçe kısmı - buraya dolduracaksın]</em></p>
+          <p> Kuruluş süreci, ilk yıllar, önemli kırılma noktaları...</p>
+        </div>
+        <div id="tab-ideoloji" class="detail-tab-pane detail-tab-content">
+          <p><em>[İdeoloji ve Amaçlar kısmı - buraya dolduracaksın]</em></p>
+          <p> İdeolojik temel, ana hedefler, propaganda dili...</p>
+        </div>
+        <div id="tab-eylemler" class="detail-tab-pane detail-tab-content">
+          <p><em>[Önemli Eylemler kısmı - buraya dolduracaksın]</em></p>
+          <p> Kronolojik önemli saldırılar, suikastlar, işgaller...</p>
+        </div>
+        <div id="tab-baglantilar" class="detail-tab-pane detail-tab-content">
+          <p><em>[Bağlantılar & Finansman kısmı - buraya dolduracaksın]</em></p>
+          <p> Destekleyen ülkeler, diğer gruplar, para kaynakları...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button id="search-button">Ülke Ara</button>
 </div>
 
 <script>
-// ──────────────────────────────────────────────
-// DEĞİŞKENLER
 // ──────────────────────────────────────────────
 let countryData = {};
 let activePath = null;
@@ -490,7 +557,6 @@ const sidebarContent   = document.getElementById("sidebar-content");
 const searchInput      = document.getElementById("search-input");
 const clearSearch      = document.getElementById("clear-search");
 const searchButton     = document.getElementById("search-button");
-const svgMap           = document.getElementById("svg-map");
 const mapArea          = document.getElementById("map-area");
 
 // Modallar
@@ -505,8 +571,14 @@ const groupBack        = document.getElementById("group-detail-back");
 const groupClose       = document.getElementById("group-detail-close");
 const tabContents      = document.getElementById("tab-content");
 
+// Büyük detay modalı
+const longDetailModal  = document.getElementById("long-detail-modal");
+const longDetailTitle  = document.getElementById("long-detail-title");
+const longDetailClose  = document.getElementById("long-detail-close");
+const longDetailBack   = document.getElementById("long-detail-back");
+
 // ──────────────────────────────────────────────
-// VERİ YÜKLEME ─ trdata.json
+// VERİ YÜKLEME
 // ──────────────────────────────────────────────
 fetch("trdata.json")
   .then(res => res.json())
@@ -543,19 +615,19 @@ function initMap() {
     path.addEventListener("mousemove", moveTooltip);
     path.addEventListener("mouseout", () => tooltip.classList.remove("visible"));
     
-    path.addEventListener("click", (e) => {
+    path.addEventListener("click", e => {
       e.stopPropagation();
       activateCountry(id, fallbackName, path);
     });
 
-    path.addEventListener("touchend", (e) => {
+    path.addEventListener("touchend", e => {
       e.preventDefault();
       e.stopPropagation();
       activateCountry(id, fallbackName, path);
     }, { passive: false });
   });
 
-  // Arama input
+  // Arama eventi
   searchInput.addEventListener("input", () => {
     const term = searchInput.value.trim().toLowerCase();
     clearSearch.style.display = term ? "block" : "none";
@@ -567,41 +639,33 @@ function initMap() {
     searchInput.dispatchEvent(new Event("input"));
   });
 
-  // Escape ile kapatma
+  // Kapatma olayları
   document.addEventListener("keydown", e => {
     if (e.key === "Escape") {
       if (sidebar.classList.contains("active")) closeSidebar();
       if (countryModal.classList.contains("active")) closeCountryModal();
       if (groupModal.classList.contains("active")) closeGroupModal();
+      if (longDetailModal.classList.contains("active")) longDetailModal.classList.remove("active");
     }
   });
 
-  // Dışarı tıklama kapatma
   document.addEventListener("click", e => {
     if (sidebar.classList.contains("active") && !sidebar.contains(e.target) && !searchButton.contains(e.target) && !e.target.closest(".suggestion-item")) {
       closeSidebar();
     }
-    if (countryModal.classList.contains("active") && e.target === countryModal) {
-      closeCountryModal();
-    }
-    if (groupModal.classList.contains("active") && e.target === groupModal) {
-      closeGroupModal();
-    }
+    if (countryModal.classList.contains("active") && e.target === countryModal) closeCountryModal();
+    if (groupModal.classList.contains("active") && e.target === groupModal) closeGroupModal();
+    if (longDetailModal.classList.contains("active") && e.target === longDetailModal) longDetailModal.classList.remove("active");
   });
 
-  // Sidebar mobil swipe
+  // Sidebar mobil kapatma
   let touchStartY = 0;
-  sidebar.addEventListener("touchstart", e => {
-    touchStartY = e.changedTouches[0].screenY;
-  }, { passive: true });
-
+  sidebar.addEventListener("touchstart", e => touchStartY = e.changedTouches[0].screenY, { passive: true });
   sidebar.addEventListener("touchend", e => {
-    const diff = touchStartY - e.changedTouches[0].screenY;
-    if (diff < -100) closeSidebar();
+    if (touchStartY - e.changedTouches[0].screenY < -100) closeSidebar();
   }, { passive: true });
 
   document.getElementById("sidebar-close")?.addEventListener("click", closeSidebar);
-
   searchButton.addEventListener("click", () => {
     sidebar.classList.add("active");
     searchButton.classList.add("hidden");
@@ -609,12 +673,13 @@ function initMap() {
     setTimeout(() => searchInput.focus(), 100);
   });
 
-  // ─── MODAL KAPATMA ───
   countryClose.addEventListener("click", closeCountryModal);
   groupClose.addEventListener("click", closeGroupModal);
   groupBack.addEventListener("click", closeGroupModal);
+  longDetailClose.addEventListener("click", () => longDetailModal.classList.remove("active"));
+  longDetailBack.addEventListener("click", () => longDetailModal.classList.remove("active"));
 
-  // Sekme tıklama
+  // Küçük modal sekmeler
   document.querySelectorAll(".tab").forEach(tab => {
     tab.addEventListener("click", () => {
       document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
@@ -622,20 +687,31 @@ function initMap() {
       showTabContent(tab.dataset.tab);
     });
   });
+
+  // Büyük modal sekmeler
+  document.querySelectorAll(".detail-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      document.querySelectorAll(".detail-tab").forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+
+      document.querySelectorAll(".detail-tab-pane").forEach(p => p.classList.remove("active"));
+      const target = document.getElementById("tab-" + tab.dataset.detailTab);
+      if (target) target.classList.add("active");
+    });
+  });
 }
 
 // ──────────────────────────────────────────────
-// AKTİF ÜLKE + ÜLKE MODALI AÇMA
+// Fonksiyonlar (öncekiyle aynı kalabilir)
 // ──────────────────────────────────────────────
+
 function activateCountry(id, fallbackName, pathElement = null) {
   if (activePath) activePath.classList.remove("active");
-
   const targetPath = pathElement || document.getElementById(id);
   if (targetPath) {
     targetPath.classList.add("active");
     activePath = targetPath;
   }
-
   showCountryModal(id, fallbackName);
 }
 
@@ -649,10 +725,7 @@ function showCountryModal(id, fallbackName) {
   let html = "";
   if (country.groups?.length > 0) {
     country.groups.forEach((g, index) => {
-      html += `
-        <div class="group-item" data-group-index="${index}">
-          ${g.name_tr || "Bilinmeyen Grup"}
-        </div>`;
+      html += `<div class="group-item" data-group-index="${index}">${g.name_tr || "Bilinmeyen Grup"}</div>`;
     });
   } else {
     html = "<p style='color:#888; text-align:center; padding:30px 0;'>Bu ülke için grup bilgisi bulunmuyor.</p>";
@@ -661,7 +734,6 @@ function showCountryModal(id, fallbackName) {
   countryGroups.innerHTML = html;
   countryModal.classList.add("active");
 
-  // Grup tıklama eventi
   countryGroups.querySelectorAll(".group-item").forEach(item => {
     item.addEventListener("click", () => {
       const index = parseInt(item.dataset.groupIndex);
@@ -683,17 +755,10 @@ function closeCountryModal() {
   currentCountryId = null;
 }
 
-// ──────────────────────────────────────────────
-// GRUP DETAY MODALI
-// ──────────────────────────────────────────────
 function showGroupDetailModal(group, countryName) {
-  groupTitle.textContent = `${group.name_tr}  (${countryName})`;
-
+  groupTitle.textContent = `${group.name_tr || "Grup"} (${countryName})`;
   currentGroup = group;
-
-  // Varsayılan ilk sekme
   document.querySelector('[data-tab="temel"]').click();
-
   groupModal.classList.add("active");
 }
 
@@ -704,8 +769,18 @@ function showTabContent(tabKey) {
   }
 
   const d = currentGroup.details;
-  let content = "";
 
+  if (tabKey === "detay") {
+    longDetailTitle.textContent = `${currentGroup.name_tr || "Grup"} — Detaylı Bilgi`;
+    longDetailModal.classList.add("active");
+
+    tabContents.innerHTML = `<p style="text-align:center; color:#4ade80; padding:60px 0; font-style:italic;">
+      Detaylı içerik yeni pencerede açıldı.
+    </p>`;
+    return;
+  }
+
+  let content = "";
   switch(tabKey) {
     case "temel":
       content = `
@@ -714,7 +789,6 @@ function showTabContent(tabKey) {
         <p><strong>Grup Türü:</strong><br>${d.grup_turu || "—"}</p>
       `;
       break;
-
     case "durum":
       content = `
         <p style="font-size: 1.4em; font-weight: bold; text-align: center; margin: 40px 0; color: #4ade80;">
@@ -722,20 +796,9 @@ function showTabContent(tabKey) {
         </p>
       `;
       break;
-
-    case "detay":
-      // Detay sekmesi şu an kullanılmıyor, boş bırakıyoruz
-      content = `
-        <p style="color:#888; text-align:center; padding:60px 0; font-style: italic;">
-          Bu grup için ek detay bilgisi bulunmuyor.
-        </p>
-      `;
-      break;
-
     default:
       content = "<p style='color:#ff4444; text-align:center;'>Geçersiz sekme.</p>";
   }
-
   tabContents.innerHTML = content;
 }
 
@@ -744,9 +807,6 @@ function closeGroupModal() {
   currentGroup = null;
 }
 
-// ──────────────────────────────────────────────
-// ARAMA İLE İLGİLİ FONKSİYONLAR (değişmedi)
-// ──────────────────────────────────────────────
 function showSearchSuggestions(term) {
   if (!term || term.length < 1) {
     sidebarContent.innerHTML = "";
