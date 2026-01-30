@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MİLİTAN ATLASI (DEĞİŞ)</title>
+  <title>MİLİTAN ATLASI (asjhkd)</title>
   <style>
     * { box-sizing: border-box; margin:0; padding:0; }
     body {
@@ -381,13 +381,14 @@ function initMap() {
 function activateCountry(id, fallbackName, pathElement = null) {
   if (activePath) activePath.classList.remove("active");
 
-  let targetPath = pathElement || document.getElementById(id);
+  const targetPath = pathElement || document.getElementById(id.toUpperCase()); // ekstra büyük harf garantisi
+
   if (targetPath) {
-    svg.appendChild(targetPath);
+    svg.appendChild(targetPath); // z-index için en öne getir
     targetPath.classList.add("active");
     activePath = targetPath;
   } else {
-    console.warn(`Ülke path'i bulunamadı: ${id}`);
+    console.warn(`Path bulunamadı: ${id} — SVG path id'si büyük harf mi?`);
   }
 
   showSidebar(id, fallbackName);
@@ -400,48 +401,49 @@ function showSearchSuggestions(term) {
     return;
   }
 
-  let html = `<h3 style="margin: 0 0 12px 0; color:#4ade80;">Eşleşen Ülkeler:</h3>`;
+  sidebarContent.innerHTML = `<h3 style="margin: 0 0 12px 0; color:#4ade80;">Eşleşen Ülkeler:</h3>`;
+
   const matches = [];
 
-  // countryData'dan eşleşenler
+  // countryData'dan (JSON'dan gelen id'ler büyük harf olsun)
   Object.keys(countryData).forEach(key => {
     const country = countryData[key];
     const nameLower = (country.name_tr || key).toLowerCase();
     if (nameLower.includes(term)) {
       const upperId = key.toUpperCase();
       if (!matches.some(m => m.id === upperId)) {
-        matches.push({
-          id: upperId,
-          name: country.name_tr || key
-        });
+        matches.push({ id: upperId, name: country.name_tr || key });
       }
     }
   });
 
-  // SVG path'lerden (data-name ile) eşleşenler
+  // SVG path'lerden (id zaten büyük harf olmalı)
   document.querySelectorAll("svg path").forEach(path => {
-    const id = path.id.toUpperCase();  // büyük harf garantisi
+    const id = path.id.toUpperCase();
     const nameLower = (path.getAttribute("data-name") || path.id).toLowerCase();
     if (nameLower.includes(term) && !countryData[path.id] && !countryData[path.id.toLowerCase()]) {
       if (!matches.some(m => m.id === id)) {
-        matches.push({
-          id: id,
-          name: path.getAttribute("data-name") || path.id
-        });
+        matches.push({ id, name: path.getAttribute("data-name") || path.id });
       }
     }
   });
 
   if (matches.length === 0) {
-    html += `<p style="color:#888; padding:10px;">Sonuç bulunamadı</p>`;
+    sidebarContent.innerHTML += `<p style="color:#888; padding:10px;">Sonuç bulunamadı</p>`;
   } else {
     matches.forEach(item => {
-      const safeName = item.name.replace(/'/g, "\\'");
-      html += `
-        <div class="suggestion-item"
-             onclick="activateCountry('${item.id}', '${safeName}', document.getElementById('${item.id}'))">
-          ${item.name}
-        </div>`;
+      const div = document.createElement("div");
+      div.className = "suggestion-item";
+      div.textContent = item.name;
+      div.addEventListener("click", () => {
+        const pathElem = document.getElementById(item.id); // item.id büyük harf
+        if (pathElem) {
+          activateCountry(item.id, item.name, pathElem);
+        } else {
+          console.error(`Path bulunamadı: ${item.id} — SVG'de id="${item.id}" var mı?`);
+        }
+      });
+      sidebarContent.appendChild(div);
     });
   }
 
@@ -450,6 +452,8 @@ function showSearchSuggestions(term) {
 }
 
 function showSidebar(id, fallbackName) {
+  const upperId = id.toUpperCase();
+  const lowerId = id.toLowerCase();  
   const country = countryData[id] || countryData[id.toLowerCase()] || {};
   const displayName = country.name_tr || fallbackName;
   let html = `<h2 style="margin-top:0;">${displayName}</h2>`;
