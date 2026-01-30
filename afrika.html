@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MİLİTAN ATLASI (DENEMEAFRİKA)</title>
+  <title>MİLİTAN ATLASI AFRİKA</title>
   <style>
     * { box-sizing: border-box; margin:0; padding:0; }
     body {
@@ -69,20 +69,26 @@
       color: #4ade80;
     }
     #sidebar {
-      width: 340px;
-      background: #1f1f1f;
-      border-left: 1px solid #333;
-      color: #ddd;
-      padding: 20px;
-      position: relative;
-      overflow-y: auto;
-      display: none;
-      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-      transform: translateX(100%);
-      box-shadow: -10px 0 30px rgba(0,0,0,0.6);
-      z-index: 300;
+     width: 340px;
+  background: #1f1f1f;
+  border-left: 1px solid #333;
+  color: #ddd;
+  padding: 20px;
+  position: fixed; /* fixed yapıyoruz */
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  display: none;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateX(100%);
+  box-shadow: -10px 0 30px rgba(0,0,0,0.6);
+  z-index: 300;
+}
+    #sidebar.active { 
+      display: block;
+    transform: translateX(0); 
     }
-    #sidebar.active { display: block; transform: translateX(0); }
     #sidebar-close {
       position: absolute;
       top: 12px; right: 12px;
@@ -162,21 +168,23 @@
 
     @media (max-width: 768px) {
       #container { flex-direction: column; }
-      #map-area { flex: 1 1 60%; }
+      #map-area { flex: 1 1 100%; }
       #sidebar {
-        width: 100%;
-        height: auto;
-        max-height: 60%;
-        min-height: 40%;
-        position: fixed;
-        bottom: 0; left: 0; right: 0;
-        transform: translateY(100%);
-        border-left: none;
-        border-top: 1px solid #444;
-        z-index: 300;
+      width: 100%;
+    height: 60%; /* veya 70% istersen değiştir */
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(100%);
+    border-left: none;
+    border-top: 1px solid #444;
+    border-radius: 16px 16px 0 0; /* yuvarlak üst köşeler */
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.6);
+    padding-bottom: env(safe-area-inset-bottom); /* iPhone notch için */
       }
       #sidebar.active { transform: translateY(0); }
-      #search-button { bottom: 100px; right: 24px; }
+      #search-button { bottom: 80px; right: 24px; }
       #clear-search { right: 50px; }
     }
   </style>
