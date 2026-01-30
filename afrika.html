@@ -389,16 +389,18 @@ function activateCountry(id, fallbackName, pathElement = null) {
 
 function showSearchSuggestions(term) {
   if (!term) {
-    sidebarContent.innerHTML = "";
-    sidebar.classList.remove("active");
+    sidebarContent.innerHTML = `<p style="color:#888; padding:10px;">Ülke adı yazmaya başlayın...</p>`;
+    // sidebar otomatik kapanmasın istiyorsan aşağıdaki satırı yorum satırı yapabilirsin
+    // sidebar.classList.remove("active");
     return;
   }
 
+  // Önce sidebar içeriğini temizle ve başlık ekle
   sidebarContent.innerHTML = `<h3 style="margin: 0 0 12px 0; color:#4ade80;">Eşleşen Ülkeler:</h3>`;
 
   const matches = [];
 
-  // countryData'dan (JSON'dan gelen id'ler büyük harf olsun)
+  // countryData'dan (JSON) eşleşenler
   Object.keys(countryData).forEach(key => {
     const country = countryData[key];
     const nameLower = (country.name_tr || key).toLowerCase();
@@ -410,7 +412,7 @@ function showSearchSuggestions(term) {
     }
   });
 
-  // SVG path'lerden (id zaten büyük harf olmalı)
+  // SVG path'lerden (JSON'da yoksa) kalanlar
   document.querySelectorAll("svg path").forEach(path => {
     const id = path.id.toUpperCase();
     const nameLower = (path.getAttribute("data-name") || path.id).toLowerCase();
@@ -422,23 +424,33 @@ function showSearchSuggestions(term) {
   });
 
   if (matches.length === 0) {
-    sidebarContent.innerHTML += `<p style="color:#888; padding:10px;">Sonuç bulunamadı</p>`;
+    const p = document.createElement("p");
+    p.style.color = "#888";
+    p.style.padding = "10px";
+    p.textContent = "Sonuç bulunamadı";
+    sidebarContent.appendChild(p);
   } else {
     matches.forEach(item => {
       const div = document.createElement("div");
       div.className = "suggestion-item";
       div.textContent = item.name;
       div.addEventListener("click", () => {
-        const pathElem = document.getElementById(item.id); // item.id büyük harf
+        const pathElem = document.getElementById(item.id);
         if (pathElem) {
           activateCountry(item.id, item.name, pathElem);
+          // İstersen buraya closeSidebar(); ekleyebilirsin → sidebar tıklayınca kapansın
+          // closeSidebar();
         } else {
-          console.error(`Path bulunamadı: ${item.id} — SVG'de id="${item.id}" var mı?`);
+          console.error(`Path bulunamadı: ${item.id}`);
         }
       });
       sidebarContent.appendChild(div);
     });
   }
+
+  // Sidebar'ı aç (zaten açıksa sorun yok)
+  sidebar.classList.add("active");
+}
 
   sidebarContent.innerHTML = html;
   sidebar.classList.add("active");
@@ -446,9 +458,9 @@ function showSearchSuggestions(term) {
 
 function showSidebar(id, fallbackName) {
   const upperId = id.toUpperCase();
-  const lowerId = id.toLowerCase();  
-  const country = countryData[id] || countryData[id.toLowerCase()] || {};
+  const country = countryData[upperId] || countryData[id] || countryData[id.toLowerCase()] || {};
   const displayName = country.name_tr || fallbackName;
+
   let html = `<h2 style="margin-top:0;">${displayName}</h2>`;
 
   if (Object.keys(countryData).length === 0) {
