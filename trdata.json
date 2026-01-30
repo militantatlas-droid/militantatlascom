@@ -1,0 +1,187 @@
+{
+  "AO": {"name_tr": "Angola", "groups": []},
+  "BI": {"name_tr": "Burundi", "groups": []},
+  "BJ": {"name_tr": "Benin", "groups": [
+    {"name_tr": "JNIM (sınır tehdidi)", "details": {
+      "kurulus_yili": "2017",
+      "ilk_eylem": "2017 Mali birleşmesi",
+      "grup_turu": "El Kaide bağlantılı cihatçı koalisyon",
+      "grup_durumu": "Aktif – 2025-2026'da kıyı ülkelerine yayılıyor",
+      "saldiri_taktikleri": "Pusu, IED, drone, karmaşık saldırılar"
+    }}
+  ]},
+  "BF": {"name_tr": "Burkina Faso", "groups": [
+    {"name_tr": "JNIM", "details": {
+      "kurulus_yili": "2017",
+      "ilk_eylem": "2017 birleşmesi sonrası saldırılar",
+      "grup_turu": "El Kaide bağlantılı",
+      "grup_durumu": "Çok aktif – ülke topraklarının büyük kısmını kontrol ediyor (2025-2026)",
+      "saldiri_taktikleri": "Drone, IED, roket/mortar, abluka, sivil katliamlar, karmaşık saldırılar"
+    }},
+    {"name_tr": "IS Sahel (ISGS/ISSP)", "details": {
+      "kurulus_yili": "2015",
+      "ilk_eylem": "2016 sınır saldırıları",
+      "grup_turu": "IŞİD bağlantılı",
+      "grup_durumu": "Aktif – JNIM ile rekabet ve çatışma",
+      "saldiri_taktikleri": "Pusu, sivil hedef katliamları, sınır ötesi"
+    }}
+  ]},
+  "BW": {"name_tr": "Botsvana", "groups": []},
+  "CF": {"name_tr": "Orta Afrika Cumhuriyeti", "groups": []},
+  "CI": {"name_tr": "Fildişi Sahili", "groups": [
+    {"name_tr": "JNIM (tehdit)", "details": {
+      "kurulus_yili": "2017",
+      "ilk_eylem": "2016 Grand-Bassam (öncül)",
+      "grup_turu": "El Kaide bağlantılı",
+      "grup_durumu": "Sınırdan yayılma eğilimi (2025-2026)",
+      "saldiri_taktikleri": "Otel/sivil hedef, pusu"
+    }}
+  ]},
+  "CM": {"name_tr": "Kamerun", "groups": [
+    {"name_tr": "Boko Haram / ISWAP", "details": {
+      "kurulus_yili": "2002 (Boko Haram)",
+      "ilk_eylem": "2009 Maiduguri",
+      "grup_turu": "Cihatçı Selefi – IŞİD bağlantılı kanat",
+      "grup_durumu": "Aktif – Far North bölgesi",
+      "saldiri_taktikleri": "İntihar bombası, köy baskını, kaçırma"
+    }}
+  ]},
+  "CD": {"name_tr": "Kongo Demokratik Cumhuriyeti", "groups": [
+    {"name_tr": "ISCAP (ADF)", "details": {
+      "kurulus_yili": "1995 (ADF), 2019 IŞİD bağlantısı",
+      "ilk_eylem": "1990'lar Uganda kökenli",
+      "grup_turu": "IŞİD bağlantılı",
+      "grup_durumu": "Çok aktif – Ituri, Kuzey Kivu (2025-2026 katliamları)",
+      "saldiri_taktikleri": "Katliam, kilise hedefleri, kaçırma, sivil hedef"
+    }},
+    {"name_tr": "M23", "details": {
+      "kurulus_yili": "2012 (yeniden 2021)",
+      "ilk_eylem": "2012 isyanı",
+      "grup_turu": "İsyan grubu (Ruanda destek iddiaları)",
+      "grup_durumu": "Aktif – Doğu Kongo kontrol bölgeleri",
+      "saldiri_taktikleri": "Konvansiyonel savaş, şehir ele geçirme"
+    }}
+  ]},
+  "CG": {"name_tr": "Kongo Cumhuriyeti", "groups": []},
+  "DJ": {"name_tr": "Cibuti", "groups": []},
+  "DZ": {"name_tr": "Cezayir", "groups": [
+    {"name_tr": "AQIM", "details": {
+      "kurulus_yili": "2006",
+      "ilk_eylem": "2007 Cezayir saldırıları",
+      "grup_turu": "El Kaide bağlantılı",
+      "grup_durumu": "Zayıflamış ama Sahel desteği var",
+      "saldiri_taktikleri": "Pusu, kaçırma, IED"
+    }}
+  ]},
+  "EG": {"name_tr": "Mısır", "groups": []},
+  "ER": {"name_tr": "Eritre", "groups": []},
+  "ET": {"name_tr": "Etiyopya", "groups": []},
+  "GA": {"name_tr": "Gabon", "groups": []},
+  "GH": {"name_tr": "Gana", "groups": [
+    {"name_tr": "JNIM (potansiyel tehdit)", "details": {
+      "kurulus_yili": "2017",
+      "grup_durumu": "Yayılma riski (2025-2026)",
+      "saldiri_taktikleri": "Henüz sınırlı"
+    }}
+  ]},
+  "GN": {"name_tr": "Gine", "groups": []},
+  "GM": {"name_tr": "Gambiya", "groups": []},
+  "GW": {"name_tr": "Gine-Bissau", "groups": []},
+  "GQ": {"name_tr": "Ekvator Ginesi", "groups": []},
+  "KE": {"name_tr": "Kenya", "groups": [
+    {"name_tr": "Al-Shabaab", "details": {
+      "kurulus_yili": "2006",
+      "ilk_eylem": "2006 Etiyopya işgaline karşı",
+      "grup_turu": "El Kaide bağlantılı",
+      "grup_durumu": "Aktif – Somali merkezli, Kenya sınır saldırıları (2025-2026)",
+      "saldiri_taktikleri": "İntihar bombası, kompleks saldırı, kaçırma"
+    }}
+  ]},
+  "LR": {"name_tr": "Liberya", "groups": []},
+  "LY": {"name_tr": "Libya", "groups": [
+    {"name_tr": "IS Libya", "details": {
+      "kurulus_yili": "2014",
+      "ilk_eylem": "2015 Sirte",
+      "grup_turu": "IŞİD bağlantılı",
+      "grup_durumu": "Zayıflamış ama aktif",
+      "saldiri_taktikleri": "Pusu, suikast"
+    }}
+  ]},
+  "LS": {"name_tr": "Lesotho", "groups": []},
+  "MA": {"name_tr": "Fas", "groups": []},
+  "MG": {"name_tr": "Madagaskar", "groups": []},
+  "ML": {"name_tr": "Mali", "groups": [
+    {"name_tr": "JNIM", "details": {
+      "kurulus_yili": "2017",
+      "ilk_eylem": "2017 birleşmesi",
+      "grup_turu": "El Kaide bağlantılı",
+      "grup_durumu": "Çok güçlü – Bamako'ya yakın tehdit, abluka (2025)",
+      "saldiri_taktikleri": "Drone, IED, abluka, karmaşık saldırı"
+    }},
+    {"name_tr": "IS Sahel (ISSP)", "details": {
+      "kurulus_yili": "2015",
+      "grup_durumu": "Aktif – rekabet halinde",
+      "saldiri_taktikleri": "Pusu, sivil hedef"
+    }}
+  ]},
+  "MW": {"name_tr": "Malavi", "groups": []},
+  "NA": {"name_tr": "Namibya", "groups": []},
+  "NE": {"name_tr": "Nijer", "groups": [
+    {"name_tr": "JNIM", "details": {"kurulus_yili": "2017", "grup_durumu": "Aktif – yayılma", "saldiri_taktikleri": "Pusu, drone"}},
+    {"name_tr": "IS Sahel", "details": {"kurulus_yili": "2015", "grup_durumu": "Aktif", "saldiri_taktikleri": "Sınır pusu"}}
+  ]},
+  "NG": {"name_tr": "Nijerya", "groups": [
+    {"name_tr": "Boko Haram (JAS)", "details": {
+      "kurulus_yili": "2002",
+      "ilk_eylem": "2009",
+      "grup_turu": "Cihatçı Selefi",
+      "grup_durumu": "2025-2026'da yeniden yükseliş – Lake Chad, Borno",
+      "saldiri_taktikleri": "İntihar bombası, köy katliamı, drone, gece saldırısı"
+    }},
+    {"name_tr": "ISWAP", "details": {
+      "kurulus_yili": "2016",
+      "grup_turu": "IŞİD bağlantılı",
+      "grup_durumu": "Aktif – askeri üs saldırıları",
+      "saldiri_taktikleri": "Üs baskını, pusu, drone"
+    }}
+  ]},
+  "RW": {"name_tr": "Ruanda", "groups": []},
+  "EH": {"name_tr": "Batı Sahra", "groups": []},
+  "SD": {"name_tr": "Sudan", "groups": []},
+  "SS": {"name_tr": "Güney Sudan", "groups": []},
+  "SN": {"name_tr": "Senegal", "groups": [
+    {"name_tr": "JNIM (tehdit)", "details": {"kurulus_yili": "2017", "grup_durumu": "Yayılma riski"}}
+  ]},
+  "SL": {"name_tr": "Sierra Leone", "groups": []},
+  "SZ": {"name_tr": "Esvatini", "groups": []},
+  "TD": {"name_tr": "Çad", "groups": [
+    {"name_tr": "Boko Haram / ISWAP", "details": {
+      "kurulus_yili": "2002",
+      "grup_durumu": "Aktif – Lake Chad sınırı",
+      "saldiri_taktikleri": "Pusu, sınır baskını"
+    }}
+  ]},
+  "TG": {"name_tr": "Togo", "groups": [
+    {"name_tr": "JNIM (sınır tehdidi)", "details": {"kurulus_yili": "2017", "grup_durumu": "Yayılma eğilimi"}}
+  ]},
+  "TN": {"name_tr": "Tunus", "groups": []},
+  "TZ": {"name_tr": "Tanzanya", "groups": []},
+  "UG": {"name_tr": "Uganda", "groups": []},
+  "ZA": {"name_tr": "Güney Afrika", "groups": []},
+  "ZM": {"name_tr": "Zambiya", "groups": []},
+  "ZW": {"name_tr": "Zimbabve", "groups": []},
+  "SO": {"name_tr": "Somali", "groups": [
+    {"name_tr": "Al-Shabaab", "details": {
+      "kurulus_yili": "2006",
+      "ilk_eylem": "2006 sonrası",
+      "grup_turu": "El Kaide bağlantılı",
+      "grup_durumu": "Çok aktif – merkezi ve güney Somali, Mogadişu tehdidi (2025-2026)",
+      "saldiri_taktikleri": "İntihar bombası, kompleks saldırı, abluka, drone karşıtı"
+    }},
+    {"name_tr": "IS Somalia", "details": {
+      "kurulus_yili": "2015",
+      "grup_durumu": "Sınırlı ama Puntland aktif",
+      "saldiri_taktikleri": "Pusu, suikast"
+    }}
+  ]}
+}
