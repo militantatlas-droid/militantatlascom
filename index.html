@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>MILITANT Atlas</title>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-    html, body { height:100%; overflow:hidden; }
+    html, body {
+      height:100%;
+      overflow:hidden;
+    }
     body {
       background:#000;
       color:#eee;
@@ -16,6 +19,27 @@
       align-items:center;
       position:relative;
     }
+
+    /* Arka plan fotoğrafları */
+    body::before {
+      content:"";
+      position:fixed;
+      inset:0;
+      z-index:-2;
+      background-image: url('https://www.ctvnews.ca/resizer/v2/KKXSNHXOERG7DH7I7LFGIYNEXI.jpg?smart=true&auth=970d00daafbefeaa0cfdaf3e0b243a5309ea511a79b01f6105af0974256fe297&width=1600');
+      background-size:cover;
+      background-position:center;
+      background-repeat:no-repeat;
+      filter:blur(8px) brightness(0.45);
+      transform:scale(1.05);
+    }
+
+    @media (orientation: portrait), (max-aspect-ratio: 9/16) {
+      body::before {
+        background-image: url('https://militantatlas-droid.github.io/militantatlastr/mobilbackground.png');
+      }
+    }
+
     .lang-switch {
       position:absolute;
       top:15px;
@@ -40,38 +64,39 @@
       color:#000;
       font-weight:bold;
     }
+
     .container {
       text-align:center;
       width:100%;
       max-width:420px;
-      padding:20px;
+      padding:12px;
       max-height:100vh;
       overflow:hidden;
     }
     h1 {
       font-size:clamp(2.8rem, 10vw, 5rem);
-      margin-bottom:2.5rem;
+      margin-bottom:1.5rem;
       color:#4ade80;
       text-shadow:0 0 20px rgba(74,222,128,0.5);
-      letter-spacing:3px;
+      letter-spacing:2px;
     }
     .continents {
       display:flex;
       flex-direction:column;
-      gap:1.5rem;
-      margin:2rem 0;
+      gap:1.2rem;
+      margin:1rem 0;
     }
     .continent {
       background:#111;
       border:2px solid #333;
       border-radius:16px;
-      padding:2.2rem 1.5rem;
-      font-size:clamp(1.6rem,6vw,2.2rem);
+      padding:1.8rem 1.2rem;
+      font-size:clamp(1.4rem, 5vw, 1.9rem);
       font-weight:bold;
       cursor:pointer;
       transition:all 0.25s ease;
       user-select:none;
-      box-shadow:0 4px 15px rgba(0,0,0,0.7);
+      box-shadow:0 4px 12px rgba(0,0,0,0.7);
       touch-action:manipulation;
       -webkit-tap-highlight-color:transparent;
     }
@@ -80,32 +105,24 @@
       background:#4ade80;
       color:#000;
       border-color:#4ade80;
-      box-shadow:0 10px 30px rgba(74,222,128,0.6);
+      box-shadow:0 10px 25px rgba(74,222,128,0.6);
       transform:translateY(-4px);
     }
-    .africa {
-      background:#27ae60;
-      border-color:#27ae60;
-      color:#111;
-    }
-    .africa:hover,
-    .africa:active {
-      background:#4ade80;
-      border-color:#4ade80;
-    }
     .hint {
-      font-size:clamp(1.2rem,4.5vw,1.6rem);
+      font-size:clamp(1.1rem,4vw,1.4rem);
       color:#888;
-      margin-top:3rem;
+      margin-top:2rem;
       letter-spacing:1px;
       font-weight:500;
     }
     .hint strong { color:#4ade80; }
+
     @media (max-width:500px) {
-      .container { padding:15px; }
-      .continent { padding:2.8rem 1.2rem; font-size:2.1rem; }
-      h1 { margin-bottom:2rem; }
-      .hint { margin-top:4rem; }
+      .container { padding:10px; }
+      .continents { gap:1rem; }
+      .continent { padding:2.2rem 1rem; font-size:1.9rem; }
+      h1 { margin-bottom:1.2rem; }
+      .hint { margin-top:2.5rem; }
       .lang-switch { top:10px; right:10px; }
       .lang-switch button { padding:6px 10px; font-size:0.9rem; }
     }
@@ -121,11 +138,11 @@
   <div class="container">
     <h1 id="title">MİLİTAN ATLASI</h1>
     <div class="continents">
-      <div class="continent africa" onclick="goToAfrica()">AFRİKA</div>
-      <div class="continent" onclick="goTo('Asya')">ASYA</div>
-      <div class="continent" onclick="goTo('Avrupa')">AVRUPA</div>
-      <div class="continent" onclick="goTo('Kuzey Amerika')">KUZEY AMERİKA</div>
-      <div class="continent" onclick="goTo('Güney Amerika')">GÜNEY AMERİKA</div>
+      <div class="continent" id="btn-afrika" onclick="goToAfrica()">AFRİKA</div>
+      <div class="continent" id="btn-asya" onclick="goTo('Asya')">ASYA</div>
+      <div class="continent" id="btn-avrupa" onclick="goTo('Avrupa')">AVRUPA</div>
+      <div class="continent" id="btn-kuzey" onclick="goTo('Kuzey Amerika')">KUZEY AMERİKA</div>
+      <div class="continent" id="btn-guney" onclick="goTo('Güney Amerika')">GÜNEY AMERİKA</div>
     </div>
     <div class="hint">
       <strong id="hint-text">Lütfen bir bölge seçin...</strong>
@@ -138,7 +155,7 @@
       tr: {
         title: "MİLİTAN ATLASI",
         hint: "Lütfen bir bölge seçin...",
-        africa: "AFRİKA",
+        afrika: "AFRİKA",
         asya: "ASYA",
         avrupa: "AVRUPA",
         kuzey: "KUZEY AMERİKA",
@@ -148,18 +165,17 @@
       en: {
         title: "MILITANT ATLAS",
         hint: "Please select a region...",
-        africa: "AFRICA",
+        afrika: "AFRICA",
         asya: "ASIA",
         avrupa: "EUROPE",
         kuzey: "NORTH AMERICA",
         guney: "SOUTH AMERICA",
-        africaPage: "africamap.html"
+        africaPage: "africa.html"
       }
     };
 
     let currentLang = localStorage.getItem('lang') || 'tr';
 
-    // Dil değiştirme
     function setLanguage(lang) {
       currentLang = lang;
       localStorage.setItem('lang', lang);
@@ -169,32 +185,28 @@
       document.getElementById('btn-en').classList.toggle('active', lang === 'en');
     }
 
-    // İçeriği güncelle
     function updateContent() {
       const t = translations[currentLang];
       document.getElementById('title').textContent = t.title;
       document.getElementById('hint-text').textContent = t.hint;
 
-      document.querySelector('.continent.africa').textContent = t.africa;
-      document.querySelectorAll('.continent:not(.africa)')[0].textContent = t.asya;
-      document.querySelectorAll('.continent:not(.africa)')[1].textContent = t.avrupa;
-      document.querySelectorAll('.continent:not(.africa)')[2].textContent = t.kuzey;
-      document.querySelectorAll('.continent:not(.africa)')[3].textContent = t.guney;
+      document.getElementById('btn-afrika').textContent = t.afrika;
+      document.getElementById('btn-asya').textContent = t.asya;
+      document.getElementById('btn-avrupa').textContent = t.avrupa;
+      document.getElementById('btn-kuzey').textContent = t.kuzey;
+      document.getElementById('btn-guney').textContent = t.guney;
     }
 
-    // Afrika'ya git (dil bazlı sayfa)
     function goToAfrica() {
       const t = translations[currentLang];
       window.location.href = t.africaPage;
     }
 
-    // Diğer kıtalar (şimdilik alert, ileride sayfaları ekleyebilirsin)
     function goTo(continent) {
       const t = translations[currentLang];
       alert(t[continent.toLowerCase().replace(/\s/g, '')] + " haritası yakında hazır olacak!");
     }
 
-    // Sayfa yüklendiğinde dil uygula
     window.onload = () => {
       updateContent();
     };
