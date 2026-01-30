@@ -1,15 +1,12 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>MILITANT Atlas</title>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-    html, body {
-      height:100%;
-      overflow:hidden;
-    }
+    html, body { height:100%; overflow:hidden; }
     body {
       background:#000;
       color:#eee;
@@ -20,7 +17,6 @@
       position:relative;
     }
 
-    /* Arka plan fotoğrafları */
     body::before {
       content:"";
       position:fixed;
@@ -83,15 +79,15 @@
     .continents {
       display:flex;
       flex-direction:column;
-      gap:1.2rem;
+      gap:1.1rem; /* mobil için aralık biraz azaltıldı */
       margin:1rem 0;
     }
     .continent {
       background:#111;
       border:2px solid #333;
       border-radius:16px;
-      padding:1.8rem 1.2rem;
-      font-size:clamp(1.4rem, 5vw, 1.9rem);
+      padding:1.6rem 1.1rem; /* mobil için padding küçültüldü */
+      font-size:clamp(1.3rem, 5vw, 1.8rem); /* mobil font küçültüldü */
       font-weight:bold;
       cursor:pointer;
       transition:all 0.25s ease;
@@ -119,10 +115,10 @@
 
     @media (max-width:500px) {
       .container { padding:10px; }
-      .continents { gap:1rem; }
-      .continent { padding:2.2rem 1rem; font-size:1.9rem; }
-      h1 { margin-bottom:1.2rem; }
-      .hint { margin-top:2.5rem; }
+      .continents { gap:0.9rem; }
+      .continent { padding:2rem 1rem; font-size:1.75rem; }
+      h1 { margin-bottom:1.2rem; font-size:3.5rem; }
+      .hint { margin-top:2.5rem; font-size:1.25rem; }
       .lang-switch { top:10px; right:10px; }
       .lang-switch button { padding:6px 10px; font-size:0.9rem; }
     }
@@ -131,26 +127,25 @@
 <body>
   <!-- Dil seçimi üst sağda -->
   <div class="lang-switch">
-    <button id="btn-tr" class="active" onclick="setLanguage('tr')">TR</button>
-    <button id="btn-en" onclick="setLanguage('en')">EN</button>
+    <button id="btn-en" class="active" onclick="setLanguage('en')">EN</button>
+    <button id="btn-tr" onclick="setLanguage('tr')">TR</button>
   </div>
 
   <div class="container">
-    <h1 id="title">MİLİTAN ATLASI</h1>
+    <h1 id="title">MILITANT ATLAS</h1>
     <div class="continents">
-      <div class="continent" id="btn-afrika" onclick="goToAfrica()">AFRİKA</div>
-      <div class="continent" id="btn-asya" onclick="goTo('Asya')">ASYA</div>
-      <div class="continent" id="btn-avrupa" onclick="goTo('Avrupa')">AVRUPA</div>
-      <div class="continent" id="btn-kuzey" onclick="goTo('Kuzey Amerika')">KUZEY AMERİKA</div>
-      <div class="continent" id="btn-guney" onclick="goTo('Güney Amerika')">GÜNEY AMERİKA</div>
+      <div class="continent" id="btn-afrika" onclick="goToAfrica()">AFRICA</div>
+      <div class="continent" id="btn-asya" onclick="goTo('Asia')">ASIA</div>
+      <div class="continent" id="btn-avrupa" onclick="goTo('Europe')">EUROPE</div>
+      <div class="continent" id="btn-kuzey" onclick="goTo('North America')">NORTH AMERICA</div>
+      <div class="continent" id="btn-guney" onclick="goTo('South America')">SOUTH AMERICA</div>
     </div>
     <div class="hint">
-      <strong id="hint-text">Lütfen bir bölge seçin...</strong>
+      <strong id="hint-text">Please select a region...</strong>
     </div>
   </div>
 
   <script>
-    // Dil verileri
     const translations = {
       tr: {
         title: "MİLİTAN ATLASI",
@@ -160,7 +155,8 @@
         avrupa: "AVRUPA",
         kuzey: "KUZEY AMERİKA",
         guney: "GÜNEY AMERİKA",
-        africaPage: "afrika.html"
+        africaPage: "afrika.html",
+        alertSuffix: " haritası yakında hazır olacak!"
       },
       en: {
         title: "MILITANT ATLAS",
@@ -170,11 +166,12 @@
         avrupa: "EUROPE",
         kuzey: "NORTH AMERICA",
         guney: "SOUTH AMERICA",
-        africaPage: "africa.html"
+        africaPage: "africamap.html",
+        alertSuffix: " map is coming soon!"
       }
     };
 
-    let currentLang = localStorage.getItem('lang') || 'tr';
+    let currentLang = localStorage.getItem('lang') || 'en'; // Varsayılan İngilizce
 
     function setLanguage(lang) {
       currentLang = lang;
@@ -204,7 +201,10 @@
 
     function goTo(continent) {
       const t = translations[currentLang];
-      alert(t[continent.toLowerCase().replace(/\s/g, '')] + " haritası yakında hazır olacak!");
+      // Continent anahtarını küçük harfe çevirip eşleştir
+      const key = continent.toLowerCase().replace(/\s+/g, '');
+      const continentName = t[key] || continent;
+      alert(continentName + t.alertSuffix);
     }
 
     window.onload = () => {
