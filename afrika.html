@@ -701,19 +701,35 @@ function initMap() {
   });
 }
 
-// Transform uygula + sınırlandır (taşma önleme)
-function applyTransform() {
+// Transform uygula + sınırlandır + merkezleme düzeltmesi (BOŞLUK SORUNU ÇÖZÜLDÜ)
+  function applyTransform() {
   const svgRect = svg.getBoundingClientRect();
   const containerRect = mapArea.getBoundingClientRect();
 
+  // Scale uygulanmış harita boyutları
+  const scaledWidth  = 1000 * scale;   // viewBox genişliği 1000
+  const scaledHeight = 1000 * scale;   // viewBox yüksekliği 1000
+
+  // Sınırlar
+  let minX = containerRect.width  - scaledWidth;
+  let minY = containerRect.height - scaledHeight;
   let maxX = 0;
-  let minX = containerRect.width - svgRect.width * scale;
   let maxY = 0;
-  let minY = containerRect.height - svgRect.height * scale;
 
-  translateX = Math.max(minX, Math.min(maxX, translateX));
-  translateY = Math.max(minY, Math.min(maxY, translateY));
+  // Harita ekranı doldurmuyorsa → ORTALA
+  if (scaledWidth < containerRect.width) {
+    translateX = (containerRect.width - scaledWidth) / 2;
+  } else {
+    translateX = Math.max(minX, Math.min(maxX, translateX));
+  }
 
+  if (scaledHeight < containerRect.height) {
+    translateY = (containerRect.height - scaledHeight) / 2;
+  } else {
+    translateY = Math.max(minY, Math.min(maxY, translateY));
+  }
+
+  // Transform uygula
   svg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
   svg.style.transformOrigin = '0 0';
 }
