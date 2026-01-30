@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MİLİTAN ATLASI (AFRİKA)</title>
+  <title>MİLİTAN ATLASI (GÜNCEL)</title>
   <style>
     * { box-sizing: border-box; margin:0; padding:0; }
     body {
@@ -171,6 +171,22 @@
       pointer-events: none;
     }
 
+    /* Öneri satırları için stil */
+    .suggestion-item {
+      padding: 12px 14px;
+      background: #2a2a2a;
+      margin: 6px 0;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-left: 4px solid #4ade80;
+    }
+    .suggestion-item:hover {
+      background: #333;
+      transform: translateX(4px);
+      box-shadow: 0 2px 10px rgba(74,222,128,0.2);
+    }
+
     @media (max-width: 768px) {
       #container { flex-direction: column; }
       #map-area { flex: 1 1 60%; }
@@ -299,7 +315,6 @@ function initMap() {
       const groupsText = country.groups?.length
         ? country.groups.map(g => g.name_tr || "Bilinmeyen").join("<br>")
         : "Grup bilgisi yok";
-
       tooltip.innerHTML = `<strong>${displayName}</strong><br>${groupsText}`;
       tooltip.classList.add("visible");
       moveTooltip(e);
@@ -308,33 +323,29 @@ function initMap() {
     path.addEventListener("mousemove", moveTooltip);
     path.addEventListener("mouseout", hideTooltip);
 
-    path.addEventListener("click", () => {
-      if (activePath) activePath.classList.remove("active");
-      svg.appendChild(path);
-      path.classList.add("active");
-      activePath = path;
-      showSidebar(id, fallbackName);
-    });
+    path.addEventListener("click", () => activateCountry(id, fallbackName, path));
 
     path.addEventListener("touchend", (e) => {
       e.preventDefault();
-      if (activePath) activePath.classList.remove("active");
-      svg.appendChild(path);
-      path.classList.add("active");
-      activePath = path;
-      showSidebar(id, fallbackName);
+      activateCountry(id, fallbackName, path);
     }, { passive: false });
   });
 
-  searchInput.addEventListener("input", e => {
-    clearSearch.style.display = e.target.value ? "block" : "none";
-    const term = e.target.value.trim().toLowerCase();
+  // Arama + öneri listesi
+  searchInput.addEventListener("input", () => {
+    const term = searchInput.value.trim().toLowerCase();
+    clearSearch.style.display = term ? "block" : "none";
+
+    // Haritayı filtrele
     document.querySelectorAll("svg path").forEach(path => {
       const name = (countryData[path.id]?.name_tr || path.getAttribute("data-name") || path.id || "").toLowerCase();
-      const matches = term === "" || name.includes(term);
+      const matches = !term || name.includes(term);
       path.style.display = matches ? "" : "none";
       path.style.pointerEvents = matches ? "all" : "none";
     });
+
+    // Öneri listesini göster
+    showSearchSuggestions(term);
   });
 
   clearSearch.addEventListener("click", () => {
@@ -348,33 +359,25 @@ function initMap() {
     }
   });
 
-  // Harita dışı tıklama ile kapatma
   document.addEventListener('click', function(e) {
     if (sidebar.classList.contains('active') && 
         !sidebar.contains(e.target) && 
-        !searchButton.contains(e.target)) {
-      if (!svg.contains(e.target)) {
-        closeSidebar();
-      }
+        !searchButton.contains(e.target) && 
+        !svg.contains(e.target)) {
+      closeSidebar();
     }
   });
 
-  // Mobil swipe kapatma
+  // Mobil aşağı swipe kapatma
   let touchStartY = 0;
-  let touchEndY = 0;
-
   sidebar.addEventListener('touchstart', e => {
     touchStartY = e.changedTouches[0].screenY;
   }, { passive: true });
 
-  sidebar.addEventListener('touchmove', e => {
-    // İstersen scroll'u kilitlemek için: e.preventDefault();
-  }, { passive: true });
-
   sidebar.addEventListener('touchend', e => {
-    touchEndY = e.changedTouches[0].screenY;
+    const touchEndY = e.changedTouches[0].screenY;
     const diff = touchStartY - touchEndY;
-    if (diff < -100) {  // aşağı doğru en az ~100px kaydırma
+    if (diff < -100) {
       closeSidebar();
     }
   }, { passive: true });
@@ -389,15 +392,72 @@ function initMap() {
   });
 }
 
-function closeSidebar() {
-  sidebar.classList.remove("active");
-  searchButton.classList.remove("hidden");
-  if (activePath) {
-    activePath.classList.remove("active");
-    activePath = null;
+function activateCountry(id, fallbackName, pathElement = null) {
+  if (activePath) activePath.classList.remove("active");
+
+  let targetPath = pathElement || document.getElementById(id);
+  if (targetPath) {
+    svg.appendChild(targetPath);
+    targetPath.classList.add("active");
+    activePath = targetPath;
   }
-  hideTooltip();
-  removeBackdrop();
+
+  showSidebar(id, fallbackName);
+}
+
+function showSearchSuggestions(term) {
+  if (!term) {
+    sidebarContent.innerHTML = "";
+    if (!sidebar.classList.contains("active")) {
+      sidebar.classList.remove("active");
+    }
+    return;
+  }
+
+  let html = `<h3 style="margin: 0 0 12px 0; color:#4ade80;">Eşleşen Ülkeler:</h3>`;
+
+  const matches = [];
+
+  // countryData'dan eşleşenler
+  Object.keys(countryData).forEach(id => {
+    const country = countryData[id];
+    const nameLower = (country.name_tr || id).toLowerCase();
+    if (nameLower.includes(term)) {
+      matches.push({
+        id,
+        name: country.name_tr || id
+      });
+    }
+  });
+
+  // JSON yoksa data-name'den de bak
+  document.querySelectorAll("svg path").forEach(path => {
+    const id = path.id;
+    if (!countryData[id]) {
+      const nameLower = (path.getAttribute("data-name") || id).toLowerCase();
+      if (nameLower.includes(term) && !matches.some(m => m.id === id)) {
+        matches.push({
+          id,
+          name: path.getAttribute("data-name") || id
+        });
+      }
+    }
+  });
+
+  if (matches.length === 0) {
+    html += `<p style="color:#888; padding:10px;">Sonuç bulunamadı</p>`;
+  } else {
+    matches.forEach(item => {
+      html += `
+        <div class="suggestion-item" 
+             onclick="activateCountry('${item.id}', '${item.name.replace(/'/g, "\\'")}')">
+          ${item.name}
+        </div>`;
+    });
+  }
+
+  sidebarContent.innerHTML = html;
+  sidebar.classList.add("active");   // Arama yapınca sidebar otomatik açılsın
 }
 
 function showSidebar(id, fallbackName) {
@@ -423,6 +483,17 @@ function showSidebar(id, fallbackName) {
   setTimeout(() => searchInput.focus(), 300);
 }
 
+function closeSidebar() {
+  sidebar.classList.remove("active");
+  searchButton.classList.remove("hidden");
+  if (activePath) {
+    activePath.classList.remove("active");
+    activePath = null;
+  }
+  hideTooltip();
+  removeBackdrop();
+}
+
 function hideTooltip() {
   tooltip.classList.remove("visible");
 }
@@ -430,11 +501,8 @@ function hideTooltip() {
 function moveTooltip(e) {
   const rect = mapArea.getBoundingClientRect();
   const offset = 16;
-  let clientX = e.clientX || 0;
-  let clientY = e.clientY || 0;
-
-  let x = clientX - rect.left + offset;
-  let y = clientY - rect.top + offset;
+  let x = (e.clientX || 0) - rect.left + offset;
+  let y = (e.clientY || 0) - rect.top + offset;
 
   if (x + tooltip.offsetWidth > rect.width - 10) x = rect.width - tooltip.offsetWidth - 10;
   if (y + tooltip.offsetHeight > rect.height - 10) y = rect.height - tooltip.offsetHeight - 10;
@@ -446,17 +514,18 @@ function moveTooltip(e) {
   tooltip.style.top = `${rect.top + y}px`;
 }
 
-// Backdrop yardımcı fonksiyonları
 function createBackdrop() {
   let backdrop = document.getElementById("sidebar-backdrop");
   if (!backdrop) {
     backdrop = document.createElement("div");
     backdrop.id = "sidebar-backdrop";
     document.body.appendChild(backdrop);
-    
     backdrop.addEventListener('click', closeSidebar);
   }
-  setTimeout(() => { backdrop.style.opacity = "1"; backdrop.style.pointerEvents = "all"; }, 50);
+  setTimeout(() => { 
+    backdrop.style.opacity = "1"; 
+    backdrop.style.pointerEvents = "all"; 
+  }, 50);
 }
 
 function removeBackdrop() {
@@ -464,7 +533,7 @@ function removeBackdrop() {
   if (backdrop) {
     backdrop.style.opacity = "0";
     backdrop.style.pointerEvents = "none";
-    setTimeout(() => backdrop.remove(), 400);
+    setTimeout(() => backdrop.remove(), 420);
   }
 }
 </script>
