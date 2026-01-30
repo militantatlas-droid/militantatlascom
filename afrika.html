@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MİLİTAN ATLASI AFRİKA</title>
+  <title>MİLİTAN ATLASI AFRSADADSAİKA</title>
   <style>
     * { box-sizing: border-box; margin:0; padding:0; }
     body {
@@ -35,269 +35,291 @@
       stroke-width: 2;
       vector-effect: non-scaling-stroke;
       pointer-events: all;
-      transition: fill 0.25s, stroke 0.25s;
+      transition: fill 0.3s, stroke 0.3s;
     }
-    svg path:hover       { fill: #4ade80 !important; stroke: #000; stroke-width: 2.5; }
-    svg path.active      { fill: #ff4444 !important; stroke: #000; stroke-width: 3; }
-    svg path.highlight-red { fill: #c62828 !important; stroke: #fff !important; stroke-width: 2.8; }
-    svg path.highlight-red:hover { fill: #e53935 !important; }
+    svg path:hover       { fill: #66ff99 !important; stroke: #000; stroke-width: 2.5; }
+    svg path.active      { fill: #ff5252 !important; stroke: #fff; stroke-width: 3; }
+    svg path.highlight-red { fill: #ef5350 !important; stroke: #fff !important; stroke-width: 2.8; }
+    svg path.highlight-red:hover { fill: #e57373 !important; }
 
     .tooltip {
       position: absolute;
-      background: rgba(0,0,0,0.92);
+      background: rgba(0,0,0,0.9);
       color: white;
-      padding: 10px 16px;
+      padding: 12px 18px;
       border-radius: 8px;
-      font-size: 13.5px;
+      font-size: 14px;
       pointer-events: none;
       z-index: 100;
-      max-width: 280px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+      max-width: 300px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.8);
       display: none;
       backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.12);
     }
     .tooltip.visible { display: block; }
-    .tooltip strong { display: block; font-size: 16px; margin-bottom: 6px; color: #4ade80; }
+    .tooltip strong { display: block; font-size: 17px; margin-bottom: 8px; color: #66ff99; }
 
     #sidebar {
-      width: 340px;
+      width: 360px;
       background: #1f1f1f;
       border-left: 1px solid #333;
       color: #ddd;
       padding: 20px;
       position: relative;
       overflow-y: auto;
-      display: none;
-      transition: transform 0.45s cubic-bezier(0.32,0.72,0,1);
       transform: translateX(100%);
-      box-shadow: -10px 0 30px rgba(0,0,0,0.6);
+      transition: transform 0.4s cubic-bezier(0.32,0.72,0,1);
+      box-shadow: -12px 0 35px rgba(0,0,0,0.65);
       z-index: 300;
     }
-    #sidebar.active { display: block; transform: translateX(0); }
+    #sidebar.active { transform: translateX(0); }
 
     #sidebar-close {
       position: absolute;
-      top: 12px; right: 12px;
-      width: 28px; height: 28px;
+      top: 16px; right: 16px;
+      width: 32px; height: 32px;
       background: #444;
       color: white;
       border: none;
       border-radius: 50%;
-      font-size: 20px;
-      line-height: 26px;
+      font-size: 22px;
+      line-height: 30px;
       cursor: pointer;
     }
-    #sidebar-close:hover { background: #666; transform: scale(1.08); }
+    #sidebar-close:hover { background: #666; }
 
-    #mode-buttons { margin: 0 0 24px 0; }
+    #mode-buttons { margin: 0 0 28px 0; }
     .mode-button {
       display: block;
       width: 100%;
-      padding: 14px;
-      margin: 10px 0;
+      padding: 15px;
+      margin: 12px 0;
       background: #2a2a2a;
       border: 1px solid #444;
       color: #ddd;
-      font-size: 15px;
-      border-radius: 8px;
+      font-size: 16px;
+      border-radius: 10px;
       cursor: pointer;
+      transition: all 0.2s;
     }
     .mode-button:hover { background: #333; }
     .mode-button.active {
-      background: #4ade80;
+      background: #66ff99;
       color: #111;
-      border-color: #4ade80;
+      border-color: #66ff99;
       font-weight: bold;
     }
 
-    #search-container { margin-bottom: 18px; position: relative; }
+    #search-container { margin-bottom: 20px; position: relative; }
     #search-input {
       width: 100%;
-      padding: 12px 40px 12px 14px;
+      padding: 14px 48px 14px 16px;
       background: #2a2a2a;
       border: 1px solid #444;
       color: white;
-      border-radius: 8px;
-      font-size: 15px;
+      border-radius: 10px;
+      font-size: 16px;
     }
     #search-input::placeholder { color: #888; }
     #clear-search {
       position: absolute;
-      right: 14px; top: 50%;
+      right: 16px; top: 50%;
       transform: translateY(-50%);
       background: none;
       border: none;
       color: #888;
-      font-size: 20px;
+      font-size: 22px;
       cursor: pointer;
       display: none;
     }
 
     .suggestion-item {
-      padding: 14px 16px;
+      padding: 16px 18px;
       background: #2a2a2a;
-      margin: 8px 0;
-      border-radius: 8px;
+      margin: 10px 0;
+      border-radius: 10px;
       cursor: pointer;
-      border-left: 4px solid #4ade80;
+      border-left: 5px solid #66ff99;
+      transition: all 0.2s;
     }
     .suggestion-item:hover {
-      background: #333;
-      transform: translateX(4px);
+      background: #363636;
+      transform: translateX(6px);
     }
 
     #menu-button {
       position: fixed;
-      bottom: 24px;
-      right: 24px;
-      width: 64px;
-      height: 64px;
-      background: #4ade80;
+      bottom: 28px;
+      right: 28px;
+      width: 68px;
+      height: 68px;
+      background: #66ff99;
       border: none;
       border-radius: 50%;
       cursor: pointer;
-      box-shadow: 0 8px 25px rgba(74,222,128,0.5);
+      box-shadow: 0 10px 30px rgba(102,255,153,0.5);
       z-index: 150;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    #menu-button:hover { transform: scale(1.1); background: #66ff99; }
+    #menu-button:hover { transform: scale(1.12); background: #88ffbb; }
     #menu-button.hidden { opacity: 0; pointer-events: none; }
 
     #sidebar-backdrop {
       position: fixed; inset: 0;
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(5px);
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px);
       z-index: 250;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.4s;
     }
-    #sidebar-backdrop.visible {
-      opacity: 1;
-      pointer-events: all;
-    }
+    #sidebar-backdrop.visible { opacity: 1; pointer-events: all; }
 
+    /* Modal Temel */
     .modal {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.75);
-      backdrop-filter: blur(6px);
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(8px);
       display: none;
       align-items: center;
       justify-content: center;
       z-index: 400;
+      padding: 16px;
     }
     .modal.active { display: flex; }
 
     .modal-content {
       background: #1f1f1f;
       border: 1px solid #444;
-      border-radius: 12px;
-      width: 90%;
-      max-width: 520px;
-      padding: 28px;
-      max-height: 90vh;
+      border-radius: 14px;
+      width: 100%;
+      max-width: 580px;
+      max-height: 92vh;
       overflow-y: auto;
       position: relative;
-      box-shadow: 0 15px 40px #000;
+      box-shadow: 0 20px 50px #000;
+      padding: 32px 28px;
     }
 
     .modal-close, .modal-back {
       position: absolute;
-      top: 16px;
-      width: 36px;
-      height: 36px;
+      top: 20px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       background: #333;
       color: #ccc;
       border: none;
-      font-size: 24px;
-      line-height: 32px;
+      font-size: 26px;
+      line-height: 38px;
       cursor: pointer;
     }
-    .modal-close { right: 20px; }
-    .modal-back  { left:  20px; }
+    .modal-close { right: 24px; }
+    .modal-back  { left:  24px; }
     .modal-close:hover, .modal-back:hover { background: #555; color: white; }
 
     .modal h2 {
-      margin: 0 0 24px;
-      color: #4ade80;
-      padding-left: 50px;
+      margin: 0 0 28px;
+      color: #66ff99;
+      padding-left: 60px;
+      font-size: 1.7rem;
     }
 
+    /* Ülke Modal - Gruplar Listesi */
     #country-groups .group-item {
-      margin: 12px 0;
+      margin: 14px 0;
       background: #2a2a2a;
-      padding: 16px;
-      border-radius: 10px;
-      border-left: 5px solid #4ade80;
+      padding: 18px;
+      border-radius: 12px;
+      border-left: 6px solid #66ff99;
       cursor: pointer;
+      transition: all 0.2s;
+    }
+    #country-groups .group-item:hover {
+      background: #363636;
+      transform: translateX(8px);
     }
 
+    /* Sekmeler */
     .tabs {
       display: flex;
       border-bottom: 1px solid #444;
-      margin: 20px 0 16px;
-      gap: 6px;
+      margin: 24px 0 20px;
+      gap: 8px;
+      flex-wrap: wrap;
     }
     .tab {
-      padding: 10px 20px;
+      padding: 12px 24px;
       background: #2a2a2a;
       border: 1px solid #444;
       border-bottom: none;
-      border-radius: 8px 8px 0 0;
+      border-radius: 10px 10px 0 0;
       cursor: pointer;
+      transition: all 0.2s;
     }
     .tab.active {
-      background: #3a3a3a;
-      color: #4ade80;
-      border-color: #4ade80;
+      background: #333;
+      color: #66ff99;
+      border-color: #66ff99;
     }
 
-    .tab-content { padding: 12px; line-height: 1.5; }
+    .tab-content { padding: 16px; line-height: 1.6; font-size: 1.05rem; }
+
+    /* GENİŞ DETAY MODAL */
+    #detail-full-modal .modal-content {
+      max-width: 920px;
+      width: 94%;
+      padding: 40px 32px;
+    }
+    #detail-full-modal .tabs { margin: 32px 0 24px; }
+    #detail-full-modal .tab { padding: 14px 28px; font-size: 1.1rem; }
 
     #back-to-home {
       position: absolute;
-      top: 16px;
-      left: 16px;
-      width: 44px;
-      height: 44px;
-      background: rgba(74,222,128,0.9);
+      top: 20px;
+      left: 20px;
+      width: 48px;
+      height: 48px;
+      background: rgba(102,255,153,0.9);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 120;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.25s;
     }
     #back-to-home:hover {
-      background: #66ff99;
-      transform: scale(1.1);
+      background: #88ffbb;
+      transform: scale(1.12);
     }
     #back-to-home svg {
-      width: 24px;
-      height: 24px;
+      width: 26px;
+      height: 26px;
       stroke: #111;
-      stroke-width: 2.5;
+      stroke-width: 2.8;
     }
 
     @media (max-width: 768px) {
       #container { flex-direction: column; }
-      #map-area { flex: 1 1 55%; }
+      #map-area { flex: 1 1 50%; }
       #sidebar {
         width: 100%;
-        max-height: 65vh;
+        max-height: 70vh;
         position: fixed;
         bottom: 0; left: 0; right: 0;
         transform: translateY(100%);
         border-top: 1px solid #444;
+        border-left: none;
       }
       #sidebar.active { transform: translateY(0); }
-      #menu-button { bottom: 80px; }
+      #menu-button { bottom: 90px; right: 24px; }
+      .modal-content { padding: 28px 20px; }
+      #detail-full-modal .modal-content { padding: 32px 20px; max-height: 96vh; }
     }
   </style>
 </head>
@@ -305,15 +327,15 @@
 
 <div id="container">
   <a href="https://militantatlas-droid.github.io/militantatlascom" id="back-to-home" title="Ana sayfaya dön">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
       <path d="M15 19l-7-7 7-7"/>
     </svg>
   </a>
 
   <div id="map-area">
     <svg id="svg-map" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet">
-      <!-- BURAYA TÜM <path> TANIMLARINI SEN EKLEYECEKSİN -->
-      <path id="AO" data-name="Angola" data-id="AO" d="m 495.3,598.6 -36,-0.2 -4.3,1.7 -3.5,-0.3 -5.1,1.9 -1.1,2.7 6,8.7 2.4,9.3 3.6,13.4 -3.8,5.5 -0.6,2.8 2.9,8.3 3.1,8.4 3.6,5 0.6,7.8 -1.4,10.3 -4,6.1 -7.1,9.1 -2.9,5.6 -4.1,12.5 -0.8,5.9 -4.3,12.7 -1.9,12.2 1,8.7 5.9,-2.7 7.2,-2.3 7.8,0.4 7.1,6.3 1.9,-1 48.8,-0.6 8.2,6.6 29.1,2 22.4,-5.7 -7.6,-8.6 -7.8,-11.3 1.6,-44 25.3,0.1 -1,-4.7 2,-5.2 -2,-6.5 1.5,-6.7 -1.2,-4.3 -5.5,-0.8 -7.6,2 -5.3,-0.3 -3,1.3 0.9,-16.5 -3.9,-5.1 -0.8,-8.5 1.9,-8.4 -2.4,-5.3 -0.1,-8.7 -14.8,0.1 1.1,-5 -6.2,0.1 -0.7,2.4 -7.6,0.5 -3.1,8.1 -1.9,3.4 -6.7,-1.9 -4,1.9 -8.1,1.1 -4.6,-7.2 -2.7,-4.5 -3.5,-8.3 -2.9,-10.3 z m -47.4,-2.7 0.4,-6 2,-3.5 4.5,-2.9 -4.6,-4.8 -3.7,2.3 -5,6 3.3,10.4 3.1,-1.5 z" />
+      <!-- PATH TANIMLARI BURAYA GELECEK – DEĞİŞTİRMEDİM -->
+     <path id="AO" data-name="Angola" data-id="AO" d="m 495.3,598.6 -36,-0.2 -4.3,1.7 -3.5,-0.3 -5.1,1.9 -1.1,2.7 6,8.7 2.4,9.3 3.6,13.4 -3.8,5.5 -0.6,2.8 2.9,8.3 3.1,8.4 3.6,5 0.6,7.8 -1.4,10.3 -4,6.1 -7.1,9.1 -2.9,5.6 -4.1,12.5 -0.8,5.9 -4.3,12.7 -1.9,12.2 1,8.7 5.9,-2.7 7.2,-2.3 7.8,0.4 7.1,6.3 1.9,-1 48.8,-0.6 8.2,6.6 29.1,2 22.4,-5.7 -7.6,-8.6 -7.8,-11.3 1.6,-44 25.3,0.1 -1,-4.7 2,-5.2 -2,-6.5 1.5,-6.7 -1.2,-4.3 -5.5,-0.8 -7.6,2 -5.3,-0.3 -3,1.3 0.9,-16.5 -3.9,-5.1 -0.8,-8.5 1.9,-8.4 -2.4,-5.3 -0.1,-8.7 -14.8,0.1 1.1,-5 -6.2,0.1 -0.7,2.4 -7.6,0.5 -3.1,8.1 -1.9,3.4 -6.7,-1.9 -4,1.9 -8.1,1.1 -4.6,-7.2 -2.7,-4.5 -3.5,-8.3 -2.9,-10.3 z m -47.4,-2.7 0.4,-6 2,-3.5 4.5,-2.9 -4.6,-4.8 -3.7,2.3 -5,6 3.3,10.4 3.1,-1.5 z" />
       <path id="BI" data-name="Burundi" data-id="BI" d="m 669,556.1 -0.6,-5.4 0,0 -6.5,-0.9 -3.8,7.9 -7.4,-1.1 3,6.3 0.1,2.4 4.3,13.2 0,0.6 1.2,-0.2 4.5,-5 4.9,-7.2 3,-2.9 -0.1,-4.5 -2.6,-3.2 z" />
       <path id="BJ" data-name="Benin" data-id="BJ" d="m 340,356 -9.3,-8 -4.3,0.1 -4.1,4 -2.6,4.2 -6,1.2 -2.5,6.1 -4.1,1.6 -1.6,7.2 3.7,4.1 4.3,4.9 0.4,6.8 2.5,2.8 -0.5,31.8 3,9.5 10.1,-1.6 0.6,-22.3 -0.3,-8.8 2.3,-8.7 3.7,-4.3 5.9,-8.5 -1.3,-3.7 2.4,-5.6 -2.8,-8.2 0.5,-4.6 z" />
       <path id="BF" data-name="Burkina Faso" data-id="BF" d="m 300.7,310.8 -7.8,0 -3,-2.6 -6.7,1.9 -11.3,5.8 -2.3,4.3 -9.4,6.2 -1.7,3.6 -5.1,2.8 -5.8,-1.9 -3.4,3.4 -1.8,9.5 -9.7,11.4 0.3,4.7 -3.4,5.9 0.8,8 5.5,3 2.1,4.6 5.4,2.9 4.3,-3.4 5.7,-0.6 8.3,3.6 -1.6,-10.4 0.3,-7.9 21.1,-0.6 5.4,1 3.9,-2.2 5.6,1.1 10.7,0.3 4.1,-1.6 2.5,-6.1 6,-1.2 2.6,-4.2 0.3,-9.5 -14,-3.1 -0.4,-6.7 -6.9,-9 -1.6,-6.3 1,-6.7 z" />
@@ -377,7 +399,7 @@
     </div>
 
     <div id="search-container">
-      <input type="text" id="search-input" placeholder="Ülke ara...">
+      <input type="text" id="search-input" placeholder="Ülke veya grup ara...">
       <button id="clear-search">×</button>
     </div>
 
@@ -386,7 +408,7 @@
 
   <!-- Floating menu button -->
   <button id="menu-button" title="Menüyü aç">
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="3">
+    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="3.2">
       <line x1="3" y1="6" x2="21" y2="6"/>
       <line x1="3" y1="12" x2="21" y2="12"/>
       <line x1="3" y1="18" x2="21" y2="18"/>
@@ -405,10 +427,9 @@
     </div>
   </div>
 
-  <!-- Grup Detay Modal -->
+  <!-- Grup Detay Küçük Modal (eski) -->
   <div id="group-detail-modal" class="modal">
     <div class="modal-content">
-      <button class="modal-back" id="group-detail-back">←</button>
       <button class="modal-close" id="group-detail-close">×</button>
       <h2 id="group-detail-title">Grup</h2>
 
@@ -422,9 +443,24 @@
     </div>
   </div>
 
-  <!-- Backdrop (sadece modal için) -->
-  <div id="sidebar-backdrop"></div>
+  <!-- GENİŞ DETAY MODAL (yeni) -->
+  <div id="detail-full-modal" class="modal">
+    <div class="modal-content">
+      <button class="modal-close" id="detail-full-close">×</button>
+      <h2 id="detail-full-title">Grup Detayları</h2>
 
+      <div class="tabs">
+        <div class="tab active" data-tab="genel">Genel Bilgiler</div>
+        <div class="tab" data-tab="eylemler">Eylemler & Saldırılar</div>
+        <div class="tab" data-tab="yapi">Yapı & Bağlantılar</div>
+        <div class="tab" data-tab="notlar">Ek Notlar</div>
+      </div>
+
+      <div id="full-tab-content" class="tab-content"></div>
+    </div>
+  </div>
+
+  <div id="sidebar-backdrop"></div>
 </div>
 
 <script>
@@ -458,12 +494,14 @@ fetch("trdata.json")
   })
   .catch(err => {
     console.error("trdata.json yüklenemedi", err);
-    sidebarContent.innerHTML = `<p style="color:#ff4444; text-align:center; padding:40px;">Veri dosyası yüklenemedi.</p>`;
-    initMap(); // path'ler varsa yine de haritayı başlat
+    sidebarContent.innerHTML = `<p style="color:#ff5252; text-align:center; padding:60px 20px; font-size:1.3rem;">
+      Veri dosyası yüklenemedi.<br>Lütfen daha sonra tekrar deneyin.
+    </p>`;
+    initMap(); // path'ler varsa harita çalışsın
   });
 
 // ──────────────────────────────────────────────
-// Harita Olaylarını Tanımla
+// Harita Olayları
 // ──────────────────────────────────────────────
 function initMap() {
   document.querySelectorAll("svg path").forEach(path => {
@@ -472,19 +510,17 @@ function initMap() {
 
     const name = path.getAttribute("data-name") || id;
 
-    // Tooltip
     path.addEventListener("mouseover", e => {
       const c = countryData[id] || {};
-      const groups = c.groups?.map(g => g.name_tr || g.name || "?").join("<br>") || "Grup yok";
+      const groups = c.groups?.map(g => g.name_tr || g.name || "?").join("<br>") || "Kayıtlı grup yok";
       tooltip.innerHTML = `<strong>${c.name_tr || name}</strong><br>${groups}`;
       tooltip.classList.add("visible");
       moveTooltip(e);
     });
 
     path.addEventListener("mousemove", moveTooltip);
-    path.addEventListener("mouseout",  () => tooltip.classList.remove("visible"));
+    path.addEventListener("mouseout", () => tooltip.classList.remove("visible"));
 
-    // Tıklama
     path.addEventListener("click", e => {
       e.stopPropagation();
       activateCountry(id, name, path);
@@ -496,7 +532,6 @@ function initMap() {
     }, { passive: false });
   });
 
-  // Mod değiştirme
   modeButtons.forEach(btn => {
     btn.addEventListener("click", () => {
       modeButtons.forEach(b => b.classList.remove("active"));
@@ -504,14 +539,14 @@ function initMap() {
       currentMode = btn.dataset.mode;
 
       const placeholders = {
-        country:     "Ülke ara... (Nijerya, Mali vb.)",
-        group:       "Grup ara... (IŞİD, JNIM, Boko Haram vb.)",
+        country: "Ülke ara... (Nijerya, Somali vb.)",
+        group: "Grup ara... (IŞİD, JNIM vb.)",
         "map-by-group": "Grup yaz... (ülkeler kırmızı olur)"
       };
       searchInput.placeholder = placeholders[currentMode] || "Ara...";
 
       searchInput.value = "";
-      searchInput.dispatchEvent(new Event("input"));
+      handleSearch();
       clearHighlights();
     });
   });
@@ -528,13 +563,19 @@ function initMap() {
 
   document.getElementById("country-modal-close").addEventListener("click", closeCountryModal);
   document.getElementById("group-detail-close").addEventListener("click", closeGroupModal);
-  document.getElementById("group-detail-back").addEventListener("click", closeGroupModal);
+  document.getElementById("detail-full-close").addEventListener("click", closeFullDetailModal);
 
   document.querySelectorAll(".tab").forEach(tab => {
     tab.addEventListener("click", () => {
-      document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+      const parent = tab.closest(".tabs");
+      parent.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
       tab.classList.add("active");
-      renderTabContent(tab.dataset.tab);
+
+      if (parent.closest("#group-detail-modal")) {
+        renderSmallTabContent(tab.dataset.tab);
+      } else if (parent.closest("#detail-full-modal")) {
+        renderFullTabContent(tab.dataset.tab);
+      }
     });
   });
 
@@ -549,10 +590,10 @@ function initMap() {
 
 function moveTooltip(e) {
   const r = mapArea.getBoundingClientRect();
-  let x = e.clientX - r.left + 20;
-  let y = e.clientY - r.top  + 20;
-  x = Math.max(10, Math.min(x, r.width  - tooltip.offsetWidth  - 10));
-  y = Math.max(10, Math.min(y, r.height - tooltip.offsetHeight - 10));
+  let x = e.clientX - r.left + 24;
+  let y = e.clientY - r.top + 24;
+  x = Math.max(12, Math.min(x, r.width - tooltip.offsetWidth - 12));
+  y = Math.max(12, Math.min(y, r.height - tooltip.offsetHeight - 12));
   tooltip.style.left = r.left + x + "px";
   tooltip.style.top  = r.top  + y + "px";
 }
@@ -561,7 +602,7 @@ function openSidebar() {
   sidebar.classList.add("active");
   menuButton.classList.add("hidden");
   backdrop.classList.add("visible");
-  setTimeout(() => searchInput.focus(), 100);
+  setTimeout(() => searchInput.focus(), 120);
 }
 
 function closeSidebar() {
@@ -574,6 +615,7 @@ function closeAll() {
   closeSidebar();
   closeCountryModal();
   closeGroupModal();
+  closeFullDetailModal();
 }
 
 function clearHighlights() {
@@ -597,7 +639,7 @@ function handleSearch() {
 }
 
 function showCountrySuggestions(term) {
-  let html = `<h3 style="color:#4ade80; margin:16px 0 8px;">Eşleşen Ülkeler</h3>`;
+  let html = `<h3 style="color:#66ff99; margin:20px 0 10px;">Eşleşen Ülkeler</h3>`;
   const matches = [];
 
   for (const [id, c] of Object.entries(countryData)) {
@@ -607,7 +649,7 @@ function showCountrySuggestions(term) {
   }
 
   if (!matches.length) {
-    html += `<p style="color:#888; padding:16px;">Sonuç yok</p>`;
+    html += `<p style="color:#888; padding:20px;">Sonuç bulunamadı</p>`;
   } else {
     matches.forEach(m => {
       html += `<div class="suggestion-item" data-id="${m.id}">${m.name}</div>`;
@@ -637,10 +679,10 @@ function showGroupSuggestions(term) {
     });
   });
 
-  let html = `<h3 style="color:#4ade80; margin:16px 0 8px;">Eşleşen Gruplar</h3>`;
+  let html = `<h3 style="color:#66ff99; margin:20px 0 10px;">Eşleşen Gruplar</h3>`;
 
   if (!found.size) {
-    html += `<p style="color:#888; padding:16px;">Sonuç yok</p>`;
+    html += `<p style="color:#888; padding:20px;">Sonuç bulunamadı</p>`;
   } else {
     found.forEach(v => {
       html += `<div class="suggestion-item" data-gname="${v.name}">${v.name}</div>`;
@@ -675,11 +717,11 @@ function showMapByGroup(term) {
     });
   });
 
-  let html = `<h3 style="color:#4ade80; margin:16px 0 8px;">Gruplar (aktif ülkeler kırmızı)</h3>`;
+  let html = `<h3 style="color:#66ff99; margin:20px 0 10px;">Gruplar (aktif ülkeler kırmızı)</h3>`;
 
   const keys = Object.keys(map);
   if (!keys.length) {
-    html += `<p style="color:#888; padding:16px;">Sonuç yok</p>`;
+    html += `<p style="color:#888; padding:20px;">Sonuç bulunamadı</p>`;
   } else {
     keys.forEach(k => {
       const arr = map[k];
@@ -702,8 +744,7 @@ function showMapByGroup(term) {
         const p = document.getElementById(code.trim());
         if (p) p.classList.add("highlight-red");
       });
-      // Sidebar'ı kapatmak istemiyorsan bu satırı kaldırabilirsin
-      // closeSidebar();
+      closeSidebar();   // ← OTOMATİK KAPATMA buraya eklendi
     });
   });
 }
@@ -735,7 +776,7 @@ function showCountryModal(id, fallbackName) {
       html += `<div class="group-item" data-idx="${i}">${g.name_tr || g.name || "Bilinmeyen Grup"}</div>`;
     });
   } else {
-    html = `<p style="color:#888; text-align:center; padding:50px 0;">Bu ülkede kayıtlı grup yok.</p>`;
+    html = `<p style="color:#888; text-align:center; padding:60px 0; font-size:1.2rem;">Bu ülkede kayıtlı grup yok.</p>`;
   }
 
   document.getElementById("country-groups").innerHTML = html;
@@ -763,7 +804,7 @@ function closeCountryModal() {
 function showGroupDetailModal(group, from = "") {
   currentGroup = group;
   document.getElementById("group-detail-title").textContent = `${group.name_tr || group.name || "Grup"} ${from ? `(${from})` : ""}`;
-  document.querySelector('[data-tab="temel"]').click(); // varsayılan sekme
+  document.querySelector('#group-detail-modal .tab[data-tab="temel"]').click();
   document.getElementById("group-detail-modal").classList.add("active");
 }
 
@@ -772,13 +813,25 @@ function closeGroupModal() {
   currentGroup = null;
 }
 
-function renderTabContent(tab) {
+function showFullDetailModal() {
+  if (!currentGroup) return;
+
+  document.getElementById("detail-full-title").textContent = currentGroup.name_tr || currentGroup.name || "Grup Detayları";
+  document.querySelector('#detail-full-modal .tab[data-tab="genel"]').click();
+  document.getElementById("detail-full-modal").classList.add("active");
+}
+
+function closeFullDetailModal() {
+  document.getElementById("detail-full-modal").classList.remove("active");
+}
+
+// Küçük modal sekmeleri (eski)
+function renderSmallTabContent(tab) {
   const el = document.getElementById("tab-content");
   if (!currentGroup?.details) {
-    el.innerHTML = `<p style="color:#888; text-align:center; padding:60px 0;">Bilgi yok</p>`;
+    el.innerHTML = `<p style="color:#888; text-align:center; padding:80px 0;">Bilgi yok</p>`;
     return;
   }
-
   const d = currentGroup.details;
 
   let html = "";
@@ -789,10 +842,16 @@ function renderTabContent(tab) {
       <p><strong>İlk eylem:</strong> ${d.ilk_eylem || "?"}</p>
       <p><strong>Tür:</strong> ${d.grup_turu || "?"}</p>
       <p><strong>Bağlı olduğu yapı:</strong> ${d.bagli_yapilar || "-"}</p>
+      <div style="margin-top:40px; text-align:center;">
+        <button style="padding:14px 32px; background:#66ff99; color:#111; border:none; border-radius:10px; font-size:1.1rem; cursor:pointer;"
+                onclick="showFullDetailModal()">
+          Tüm Detayları Gör →
+        </button>
+      </div>
     `;
   } else if (tab === "durum") {
-    const color = d.grup_durumu?.includes("aktif") ? "#4ade80" : "#ff4444";
-    html = `<p style="font-size:1.6em; text-align:center; margin:70px 0; color:${color}; font-weight:bold;">
+    const color = d.grup_durumu?.toLowerCase().includes("aktif") ? "#66ff99" : "#ff5252";
+    html = `<p style="font-size:2.2rem; text-align:center; margin:100px 0; color:${color}; font-weight:bold;">
       ${d.grup_durumu || "Bilinmiyor"}
     </p>`;
   } else if (tab === "detay") {
@@ -800,8 +859,61 @@ function renderTabContent(tab) {
       <p><strong>Odaklandığı bölge:</strong> ${d.odak_bolge || "?"}</p>
       <p><strong>Tahmini üye sayısı:</strong> ${d.uye_sayisi || "?"}</p>
       <p><strong>Son önemli eylem:</strong> ${d.son_eylem || "?"}</p>
-      <p style="margin-top:20px; color:#aaa; font-style:italic;">
-        ${d.aciklama || "Detaylı açıklama burada görünecek..."}
+      <div style="margin-top:40px; text-align:center;">
+        <button style="padding:14px 32px; background:#66ff99; color:#111; border:none; border-radius:10px; font-size:1.1rem; cursor:pointer;"
+                onclick="showFullDetailModal()">
+          Genişletilmiş Detaylar →
+        </button>
+      </div>
+    `;
+  }
+
+  el.innerHTML = html;
+}
+
+// Geniş detay modal sekmeleri (yeni - örnek içerik)
+function renderFullTabContent(tab) {
+  const el = document.getElementById("full-tab-content");
+  if (!currentGroup) {
+    el.innerHTML = `<p style="color:#888; text-align:center; padding:120px 0; font-size:1.3rem;">Veri yok</p>`;
+    return;
+  }
+
+  let html = "";
+
+  if (tab === "genel") {
+    html = `
+      <h3 style="color:#66ff99; margin-bottom:16px;">Genel Bilgiler</h3>
+      <p><strong>Kuruluş:</strong> ${currentGroup.details?.kurulus_yili || "?"}</p>
+      <p><strong>Tür:</strong> ${currentGroup.details?.grup_turu || "?"}</p>
+      <p><strong>Odak Bölge:</strong> ${currentGroup.details?.odak_bolge || "?"}</p>
+      <p><strong>Tahmini Üye:</strong> ${currentGroup.details?.uye_sayisi || "Bilinmiyor"}</p>
+      <p style="margin-top:24px; color:#ccc; line-height:1.7;">
+        ${currentGroup.details?.aciklama || "Bu grup hakkında genel bilgi burada yer alır..."}
+      </p>
+    `;
+  } else if (tab === "eylemler") {
+    html = `
+      <h3 style="color:#66ff99; margin-bottom:16px;">Eylemler & Önemli Saldırılar</h3>
+      <p><strong>İlk Eylem:</strong> ${currentGroup.details?.ilk_eylem || "?"}</p>
+      <p><strong>Son Önemli Eylem:</strong> ${currentGroup.details?.son_eylem || "?"}</p>
+      <p style="margin-top:24px; color:#ccc;">
+        Bu sekmede grubun gerçekleştirdiği dikkat çekici eylemler, tarihleri ve sonuçları listelenebilir.
+      </p>
+    `;
+  } else if (tab === "yapi") {
+    html = `
+      <h3 style="color:#66ff99; margin-bottom:16px;">Yapı & Bağlantılar</h3>
+      <p><strong>Bağlı Olduğu Yapılar:</strong> ${currentGroup.details?.bagli_yapilar || "-"}</p>
+      <p style="margin-top:24px; color:#ccc;">
+        Hiyerarşi, lider kadro, finansman kaynakları ve diğer bağlantılar burada yer alabilir.
+      </p>
+    `;
+  } else if (tab === "notlar") {
+    html = `
+      <h3 style="color:#66ff99; margin-bottom:16px;">Ek Notlar & Değerlendirme</h3>
+      <p style="color:#ccc; line-height:1.7;">
+        Burada grubun güncel durumu, tehdit seviyesi, uluslararası tepkiler veya özel analizler yer alabilir.
       </p>
     `;
   }
