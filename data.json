@@ -169,7 +169,10 @@
   "MA": {
     "name_tr": "Fas",
     "name_en": "Morocco",
-    "groups": []
+    "groups": [
+      { "name_tr": "DENEME (DENEME güçleri)", "name_en": "DNM (EX forces)", "url":https://x.com/?lang=tr "#" }
+      
+    ]
   },
   "MG": {
     "name_tr": "Madagaskar",
