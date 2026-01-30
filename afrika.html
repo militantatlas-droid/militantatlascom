@@ -168,7 +168,7 @@
       viewBox="0 0 1000 1000"
       preserveAspectRatio="xMidYMid meet"
       xmlns="http://www.w3.org/2000/svg">
-        <path
+       <path
      inkscape:connector-curvature="0"
      id="AO"
      data-name="Angola"
@@ -519,8 +519,6 @@
      d="m 832.6,372.8 -5.7,-5.8 -2.5,-5.7 -4.1,-2.6 -4.2,7.4 -2.5,4.9 4.8,7.7 4.6,6.6 4.8,5 40.3,16.4 10.3,-0.1 -33.5,41.5 -15.9,0.6 -10.7,9.8 -7.8,0.2 -3.3,4.4 -10.5,15.7 0.4,50.4 7.2,11.4 2.7,-3.3 2.9,-7.3 13.4,-16.7 11.4,-10.6 18.1,-13.7 12.1,-11.2 14.1,-18.9 10.1,-15.5 10,-20.2 7,-17.7 5.4,-15.5 2.9,-14.9 2.4,-5 -0.4,-7.3 0.8,-8 -0.5,-3.9 -4.6,0.1 -5.5,4.7 -6.4,1.4 -5.5,2.1 -3.9,0.2 0,0 -6.9,0.5 -4.2,2.6 -6,0.9 -10.5,4.3 -13.2,1.6 -11.3,3.5 -6.1,0 z"
       />
       </svg>
-
-    </svg>
     <div class="tooltip" id="tooltip"></div>
   </div>
   <div id="sidebar">
@@ -544,12 +542,10 @@ const searchButton = document.getElementById("search-button");
 const svg = document.getElementById("svg-map");
 const mapArea = document.getElementById("map-area");
 
-// Dil okuma (değişmedi)
 const lang = localStorage.getItem('lang') || 'tr';
 const nameKey = lang === 'en' ? 'name_en' : 'name_tr';
 const groupKey = lang === 'en' ? 'name_en' : 'name_tr';
 
-// Zoom ve Pan değişkenleri (yeni eklenen kısım)
 let scale = 1;
 let translateX = 0;
 let translateY = 0;
@@ -560,7 +556,6 @@ let lastTouchDistance = 0;
 const minScale = 0.8;
 const maxScale = 8;
 
-// Veri yükleme (değişmedi)
 fetch("data.json")
   .then(res => res.json())
   .then(data => {
@@ -573,7 +568,6 @@ fetch("data.json")
     initMap();
   });
 
-// initMap fonksiyonu (mevcut kodun aynısı + zoom/pan olayları eklendi)
 function initMap() {
   const paths = document.querySelectorAll("svg path");
   paths.forEach(path => {
@@ -615,25 +609,45 @@ function initMap() {
     if (e.touches.length === 0) hideTooltip();
   }, { passive: true });
 
-  // === YENİ EKLENEN ZOOM & PAN KISMI ===
-  // PC: Mouse tekerleği ile zoom (imlecin olduğu yere)
+  // PC mouse wheel zoom
   mapArea.addEventListener('wheel', (e) => {
     e.preventDefault();
     const delta = e.deltaY > 0 ? -0.15 : 0.15;
     const newScale = Math.max(minScale, Math.min(maxScale, scale + delta));
-
     const mouseX = e.clientX - mapArea.offsetLeft;
     const mouseY = e.clientY - mapArea.offsetTop;
-
     const factor = newScale / scale;
     translateX = mouseX - (mouseX - translateX) * factor;
     translateY = mouseY - (mouseY - translateY) * factor;
     scale = newScale;
-
     applyTransform();
   }, { passive: false });
 
-  // Mobil: pinch zoom + drag
+  // PC mouse drag (yeni eklenen)
+  mapArea.addEventListener('mousedown', (e) => {
+    if (e.button === 0) {
+      isDragging = true;
+      startX = e.clientX - translateX;
+      startY = e.clientY - translateY;
+      mapArea.style.cursor = 'grabbing';
+    }
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+      e.preventDefault();
+      translateX = e.clientX - startX;
+      translateY = e.clientY - startY;
+      applyTransform();
+    }
+  });
+
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+    mapArea.style.cursor = 'grab';
+  });
+
+  // Mobil pinch + drag
   mapArea.addEventListener('touchstart', (e) => {
     if (e.touches.length === 2) {
       e.preventDefault();
@@ -657,15 +671,12 @@ function initMap() {
         e.touches[0].clientY - e.touches[1].clientY
       );
       const newScale = Math.max(minScale, Math.min(maxScale, lastScale * (currentDistance / lastTouchDistance)));
-
       const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2 - mapArea.offsetLeft;
       const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2 - mapArea.offsetTop;
-
       const factor = newScale / scale;
       translateX = midX - (midX - translateX) * factor;
       translateY = midY - (midY - translateY) * factor;
       scale = newScale;
-
       applyTransform();
     } else if (e.touches.length === 1 && isDragging) {
       e.preventDefault();
@@ -679,7 +690,7 @@ function initMap() {
     isDragging = false;
   });
 
-  // Çift dokunma ile zoom (mobil ekstra kolaylık)
+  // Çift dokunma zoom
   let lastTap = 0;
   mapArea.addEventListener('touchend', (e) => {
     const currentTime = new Date().getTime();
@@ -689,7 +700,6 @@ function initMap() {
       const touch = e.changedTouches[0];
       const mouseX = touch.clientX - mapArea.offsetLeft;
       const mouseY = touch.clientY - mapArea.offsetTop;
-
       const newScale = Math.min(maxScale, scale + 1);
       const factor = newScale / scale;
       translateX = mouseX - (mouseX - translateX) * factor;
@@ -701,22 +711,18 @@ function initMap() {
   });
 }
 
-// Transform uygula + sınırlandır + merkezleme düzeltmesi (BOŞLUK SORUNU ÇÖZÜLDÜ)
-  function applyTransform() {
-  const svgRect = svg.getBoundingClientRect();
+// Düzeltilmiş applyTransform – merkezleme burada
+function applyTransform() {
   const containerRect = mapArea.getBoundingClientRect();
+  const scaledWidth = 1000 * scale;
+  const scaledHeight = 1000 * scale;
 
-  // Scale uygulanmış harita boyutları
-  const scaledWidth  = 1000 * scale;   // viewBox genişliği 1000
-  const scaledHeight = 1000 * scale;   // viewBox yüksekliği 1000
-
-  // Sınırlar
-  let minX = containerRect.width  - scaledWidth;
+  let minX = containerRect.width - scaledWidth;
   let minY = containerRect.height - scaledHeight;
   let maxX = 0;
   let maxY = 0;
 
-  // Harita ekranı doldurmuyorsa → ORTALA
+  // Harita ekranı doldurmuyorsa ortala
   if (scaledWidth < containerRect.width) {
     translateX = (containerRect.width - scaledWidth) / 2;
   } else {
@@ -729,12 +735,11 @@ function initMap() {
     translateY = Math.max(minY, Math.min(maxY, translateY));
   }
 
-  // Transform uygula
   svg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
   svg.style.transformOrigin = '0 0';
 }
 
-// Mevcut tooltip/sidebar/arama fonksiyonları (değişmedi)
+// Mevcut diğer fonksiyonlar aynı kaldı
 function showSidebar(id, fallbackName) {
   const country = countryData[id] || {};
   const displayName = country[nameKey] || fallbackName;
