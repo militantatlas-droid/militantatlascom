@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MİLİTAN ATLASI AFRİKA</title>
+  <title>MİLİTAN ATLASI AFRİKA MOB</title>
   <style>
     * { box-sizing: border-box; margin:0; padding:0; }
     body {
@@ -32,9 +32,9 @@
     svg path {
       fill: #ffffff;
       stroke: #000000;
-      stroke-width: 2.0; /* Küçük ülkeler için sınır kalınlığı artırıldı */
+      stroke-width: 2.0;
       vector-effect: non-scaling-stroke;
-      pointer-events: all; /* Tıklama alanı tam */
+      pointer-events: all;
     }
     svg path:hover {
       fill: #4ade80 !important;
@@ -69,26 +69,20 @@
       color: #4ade80;
     }
     #sidebar {
-     width: 340px;
-  background: #1f1f1f;
-  border-left: 1px solid #333;
-  color: #ddd;
-  padding: 20px;
-  position: fixed; /* fixed yapıyoruz */
-  top: 0;
-  right: 0;
-  bottom: 0;
-  overflow-y: auto;
-  display: none;
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-  transform: translateX(100%);
-  box-shadow: -10px 0 30px rgba(0,0,0,0.6);
-  z-index: 300;
-}
-    #sidebar.active { 
-      display: block;
-    transform: translateX(0); 
+      width: 340px;
+      background: #1f1f1f;
+      border-left: 1px solid #333;
+      color: #ddd;
+      padding: 20px;
+      position: relative;
+      overflow-y: auto;
+      display: none;
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      transform: translateX(100%);
+      box-shadow: -10px 0 30px rgba(0,0,0,0.6);
+      z-index: 300;
     }
+    #sidebar.active { display: block; transform: translateX(0); }
     #sidebar-close {
       position: absolute;
       top: 12px; right: 12px;
@@ -167,25 +161,23 @@
     #search-button.hidden { opacity: 0; pointer-events: none; transform: scale(0.7); }
 
     @media (max-width: 768px) {
-      #container { flex-direction: column; }
-      #map-area { flex: 1 1 100%; }
+      #container { flex-direction: column; height: 100%; }
+      #map-area { flex: 1 1 100%; height: 100%; }
       #sidebar {
-      width: 100%;
-    height: 60%; /* veya 70% istersen değiştir */
-    top: auto;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    transform: translateY(100%);
-    border-left: none;
-    border-top: 1px solid #444;
-    border-radius: 16px 16px 0 0; /* yuvarlak üst köşeler */
-    box-shadow: 0 -10px 30px rgba(0,0,0,0.6);
-    padding-bottom: env(safe-area-inset-bottom); /* iPhone notch için */
+        width: 100%;
+        height: auto;
+        max-height: 50vh; /* Harita kapanmasın diye yarı yükseklik */
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        transform: translateY(100%);
+        border-left: none;
+        border-top: 1px solid #444;
+        z-index: 300;
+        border-radius: 16px 16px 0 0; /* Üst köşeler yuvarlak */
+        padding-bottom: 20px;
       }
       #sidebar.active { transform: translateY(0); }
-      #search-button { bottom: 80px; right: 24px; }
-      #clear-search { right: 50px; }
+      #search-button { bottom: 80px; right: 24px; } /* Buton sidebar üstünde kalsın */
     }
   </style>
 </head>
@@ -193,7 +185,7 @@
 <div id="container">
   <div id="map-area">
     <svg id="svg-map" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-     <path id="AO" data-name="Angola" data-id="AO" d="m 495.3,598.6 -36,-0.2 -4.3,1.7 -3.5,-0.3 -5.1,1.9 -1.1,2.7 6,8.7 2.4,9.3 3.6,13.4 -3.8,5.5 -0.6,2.8 2.9,8.3 3.1,8.4 3.6,5 0.6,7.8 -1.4,10.3 -4,6.1 -7.1,9.1 -2.9,5.6 -4.1,12.5 -0.8,5.9 -4.3,12.7 -1.9,12.2 1,8.7 5.9,-2.7 7.2,-2.3 7.8,0.4 7.1,6.3 1.9,-1 48.8,-0.6 8.2,6.6 29.1,2 22.4,-5.7 -7.6,-8.6 -7.8,-11.3 1.6,-44 25.3,0.1 -1,-4.7 2,-5.2 -2,-6.5 1.5,-6.7 -1.2,-4.3 -5.5,-0.8 -7.6,2 -5.3,-0.3 -3,1.3 0.9,-16.5 -3.9,-5.1 -0.8,-8.5 1.9,-8.4 -2.4,-5.3 -0.1,-8.7 -14.8,0.1 1.1,-5 -6.2,0.1 -0.7,2.4 -7.6,0.5 -3.1,8.1 -1.9,3.4 -6.7,-1.9 -4,1.9 -8.1,1.1 -4.6,-7.2 -2.7,-4.5 -3.5,-8.3 -2.9,-10.3 z m -47.4,-2.7 0.4,-6 2,-3.5 4.5,-2.9 -4.6,-4.8 -3.7,2.3 -5,6 3.3,10.4 3.1,-1.5 z" />
+      <path id="AO" data-name="Angola" data-id="AO" d="m 495.3,598.6 -36,-0.2 -4.3,1.7 -3.5,-0.3 -5.1,1.9 -1.1,2.7 6,8.7 2.4,9.3 3.6,13.4 -3.8,5.5 -0.6,2.8 2.9,8.3 3.1,8.4 3.6,5 0.6,7.8 -1.4,10.3 -4,6.1 -7.1,9.1 -2.9,5.6 -4.1,12.5 -0.8,5.9 -4.3,12.7 -1.9,12.2 1,8.7 5.9,-2.7 7.2,-2.3 7.8,0.4 7.1,6.3 1.9,-1 48.8,-0.6 8.2,6.6 29.1,2 22.4,-5.7 -7.6,-8.6 -7.8,-11.3 1.6,-44 25.3,0.1 -1,-4.7 2,-5.2 -2,-6.5 1.5,-6.7 -1.2,-4.3 -5.5,-0.8 -7.6,2 -5.3,-0.3 -3,1.3 0.9,-16.5 -3.9,-5.1 -0.8,-8.5 1.9,-8.4 -2.4,-5.3 -0.1,-8.7 -14.8,0.1 1.1,-5 -6.2,0.1 -0.7,2.4 -7.6,0.5 -3.1,8.1 -1.9,3.4 -6.7,-1.9 -4,1.9 -8.1,1.1 -4.6,-7.2 -2.7,-4.5 -3.5,-8.3 -2.9,-10.3 z m -47.4,-2.7 0.4,-6 2,-3.5 4.5,-2.9 -4.6,-4.8 -3.7,2.3 -5,6 3.3,10.4 3.1,-1.5 z" />
       <path id="BI" data-name="Burundi" data-id="BI" d="m 669,556.1 -0.6,-5.4 0,0 -6.5,-0.9 -3.8,7.9 -7.4,-1.1 3,6.3 0.1,2.4 4.3,13.2 0,0.6 1.2,-0.2 4.5,-5 4.9,-7.2 3,-2.9 -0.1,-4.5 -2.6,-3.2 z" />
       <path id="BJ" data-name="Benin" data-id="BJ" d="m 340,356 -9.3,-8 -4.3,0.1 -4.1,4 -2.6,4.2 -6,1.2 -2.5,6.1 -4.1,1.6 -1.6,7.2 3.7,4.1 4.3,4.9 0.4,6.8 2.5,2.8 -0.5,31.8 3,9.5 10.1,-1.6 0.6,-22.3 -0.3,-8.8 2.3,-8.7 3.7,-4.3 5.9,-8.5 -1.3,-3.7 2.4,-5.6 -2.8,-8.2 0.5,-4.6 z" />
       <path id="BF" data-name="Burkina Faso" data-id="BF" d="m 300.7,310.8 -7.8,0 -3,-2.6 -6.7,1.9 -11.3,5.8 -2.3,4.3 -9.4,6.2 -1.7,3.6 -5.1,2.8 -5.8,-1.9 -3.4,3.4 -1.8,9.5 -9.7,11.4 0.3,4.7 -3.4,5.9 0.8,8 5.5,3 2.1,4.6 5.4,2.9 4.3,-3.4 5.7,-0.6 8.3,3.6 -1.6,-10.4 0.3,-7.9 21.1,-0.6 5.4,1 3.9,-2.2 5.6,1.1 10.7,0.3 4.1,-1.6 2.5,-6.1 6,-1.2 2.6,-4.2 0.3,-9.5 -14,-3.1 -0.4,-6.7 -6.9,-9 -1.6,-6.3 1,-6.7 z" />
@@ -352,7 +344,7 @@ function initMap() {
 
   // Harita dışı tıklama ile sidebar kapatma ve active kaldırma
   document.addEventListener('click', e => {
-    if (sidebar.classList.contains("active") && !sidebar.contains(e.target) && !searchButton.contains(e.target) && !svg.contains(e.target)) {
+    if (sidebar.classList.contains("active") && !sidebar.contains(e.target) && !searchButton.contains(e.target)) {
       closeSidebar();
     } else if (activePath && !svg.contains(e.target) && !sidebar.contains(e.target)) {
       activePath.classList.remove("active");
