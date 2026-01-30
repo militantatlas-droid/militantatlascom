@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>AFRİKA</title>
+  <title>MİLİTAN ATLASI - AFRİKA</title>
   <style>
     * { box-sizing: border-box; margin:0; padding:0; }
     body {
@@ -105,9 +105,10 @@
       text-align: center;
       cursor: pointer;
       transition: all 0.2s;
+      z-index: 310; /* Arama kısmından üstte olsun */
     }
     #sidebar-close:hover { background: #666; transform: scale(1.08); }
-    #search-container { margin-bottom: 18px; position: relative; }
+    #search-container { margin-bottom: 18px; position: relative; z-index: 305; }
     #search-input {
       width: 100%;
       padding: 10px 36px 10px 12px;
@@ -192,7 +193,7 @@
 <div id="container">
   <div id="map-area">
     <svg id="svg-map" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-       <path id="AO" data-name="Angola" data-id="AO" d="m 495.3,598.6 -36,-0.2 -4.3,1.7 -3.5,-0.3 -5.1,1.9 -1.1,2.7 6,8.7 2.4,9.3 3.6,13.4 -3.8,5.5 -0.6,2.8 2.9,8.3 3.1,8.4 3.6,5 0.6,7.8 -1.4,10.3 -4,6.1 -7.1,9.1 -2.9,5.6 -4.1,12.5 -0.8,5.9 -4.3,12.7 -1.9,12.2 1,8.7 5.9,-2.7 7.2,-2.3 7.8,0.4 7.1,6.3 1.9,-1 48.8,-0.6 8.2,6.6 29.1,2 22.4,-5.7 -7.6,-8.6 -7.8,-11.3 1.6,-44 25.3,0.1 -1,-4.7 2,-5.2 -2,-6.5 1.5,-6.7 -1.2,-4.3 -5.5,-0.8 -7.6,2 -5.3,-0.3 -3,1.3 0.9,-16.5 -3.9,-5.1 -0.8,-8.5 1.9,-8.4 -2.4,-5.3 -0.1,-8.7 -14.8,0.1 1.1,-5 -6.2,0.1 -0.7,2.4 -7.6,0.5 -3.1,8.1 -1.9,3.4 -6.7,-1.9 -4,1.9 -8.1,1.1 -4.6,-7.2 -2.7,-4.5 -3.5,-8.3 -2.9,-10.3 z m -47.4,-2.7 0.4,-6 2,-3.5 4.5,-2.9 -4.6,-4.8 -3.7,2.3 -5,6 3.3,10.4 3.1,-1.5 z" />
+     <path id="AO" data-name="Angola" data-id="AO" d="m 495.3,598.6 -36,-0.2 -4.3,1.7 -3.5,-0.3 -5.1,1.9 -1.1,2.7 6,8.7 2.4,9.3 3.6,13.4 -3.8,5.5 -0.6,2.8 2.9,8.3 3.1,8.4 3.6,5 0.6,7.8 -1.4,10.3 -4,6.1 -7.1,9.1 -2.9,5.6 -4.1,12.5 -0.8,5.9 -4.3,12.7 -1.9,12.2 1,8.7 5.9,-2.7 7.2,-2.3 7.8,0.4 7.1,6.3 1.9,-1 48.8,-0.6 8.2,6.6 29.1,2 22.4,-5.7 -7.6,-8.6 -7.8,-11.3 1.6,-44 25.3,0.1 -1,-4.7 2,-5.2 -2,-6.5 1.5,-6.7 -1.2,-4.3 -5.5,-0.8 -7.6,2 -5.3,-0.3 -3,1.3 0.9,-16.5 -3.9,-5.1 -0.8,-8.5 1.9,-8.4 -2.4,-5.3 -0.1,-8.7 -14.8,0.1 1.1,-5 -6.2,0.1 -0.7,2.4 -7.6,0.5 -3.1,8.1 -1.9,3.4 -6.7,-1.9 -4,1.9 -8.1,1.1 -4.6,-7.2 -2.7,-4.5 -3.5,-8.3 -2.9,-10.3 z m -47.4,-2.7 0.4,-6 2,-3.5 4.5,-2.9 -4.6,-4.8 -3.7,2.3 -5,6 3.3,10.4 3.1,-1.5 z" />
       <path id="BI" data-name="Burundi" data-id="BI" d="m 669,556.1 -0.6,-5.4 0,0 -6.5,-0.9 -3.8,7.9 -7.4,-1.1 3,6.3 0.1,2.4 4.3,13.2 0,0.6 1.2,-0.2 4.5,-5 4.9,-7.2 3,-2.9 -0.1,-4.5 -2.6,-3.2 z" />
       <path id="BJ" data-name="Benin" data-id="BJ" d="m 340,356 -9.3,-8 -4.3,0.1 -4.1,4 -2.6,4.2 -6,1.2 -2.5,6.1 -4.1,1.6 -1.6,7.2 3.7,4.1 4.3,4.9 0.4,6.8 2.5,2.8 -0.5,31.8 3,9.5 10.1,-1.6 0.6,-22.3 -0.3,-8.8 2.3,-8.7 3.7,-4.3 5.9,-8.5 -1.3,-3.7 2.4,-5.6 -2.8,-8.2 0.5,-4.6 z" />
       <path id="BF" data-name="Burkina Faso" data-id="BF" d="m 300.7,310.8 -7.8,0 -3,-2.6 -6.7,1.9 -11.3,5.8 -2.3,4.3 -9.4,6.2 -1.7,3.6 -5.1,2.8 -5.8,-1.9 -3.4,3.4 -1.8,9.5 -9.7,11.4 0.3,4.7 -3.4,5.9 0.8,8 5.5,3 2.1,4.6 5.4,2.9 4.3,-3.4 5.7,-0.6 8.3,3.6 -1.6,-10.4 0.3,-7.9 21.1,-0.6 5.4,1 3.9,-2.2 5.6,1.1 10.7,0.3 4.1,-1.6 2.5,-6.1 6,-1.2 2.6,-4.2 0.3,-9.5 -14,-3.1 -0.4,-6.7 -6.9,-9 -1.6,-6.3 1,-6.7 z" />
@@ -243,7 +244,6 @@
       <path id="ZW" data-name="Zimbabwe" data-id="ZW" d="m 669.1,825.1 13.4,-15.7 3.6,-9.9 1.9,-1.3 1.7,-8.1 -1.7,-4.1 1,-10.4 2.8,-9.6 0.8,-17.5 -6.1,-4.4 -5.7,-1 -2.5,-3.4 -5.5,-3 -10,0.3 -0.6,-5.1 -9.3,1.9 -7,5.5 -1.7,4.8 -4.4,1 -10.9,11.4 -7,9 -4.1,0.3 -3.8,-1.6 -13.4,-1.5 4.2,11.1 2.3,2.4 3.5,8 13,15.2 5.1,1.5 -0.2,4.9 3.1,8.8 9.2,2.1 7.3,6.2 4.9,0.2 5.7,2.3 4.1,-1.6 6.3,1.3 z" />
       <path id="SO" data-name="Somalia" data-id="SO" d="m 832.6,372.8 -5.7,-5.8 -2.5,-5.7 -4.1,-2.6 -4.2,7.4 -2.5,4.9 4.8,7.7 4.6,6.6 4.8,5 40.3,16.4 10.3,-0.1 -33.5,41.5 -15.9,0.6 -10.7,9.8 -7.8,0.2 -3.3,4.4 -10.5,15.7 0.4,50.4 7.2,11.4 2.7,-3.3 2.9,-7.3 13.4,-16.7 11.4,-10.6 18.1,-13.7 12.1,-11.2 14.1,-18.9 10.1,-15.5 10,-20.2 7,-17.7 5.4,-15.5 2.9,-14.9 2.4,-5 -0.4,-7.3 0.8,-8 -0.5,-3.9 -4.6,0.1 -5.5,4.7 -6.4,1.4 -5.5,2.1 -3.9,0.2 0,0 -6.9,0.5 -4.2,2.6 -6,0.9 -10.5,4.3 -13.2,1.6 -11.3,3.5 -6.1,0 z" />
     </svg>
-    </svg>
     <div class="tooltip" id="tooltip"></div>
   </div>
 
@@ -278,19 +278,9 @@ let isDragging = false;
 let startX, startY;
 let lastScale = 1;
 let lastTouchDistance = 0;
-let minScale = 1;
-let maxScale = 6;
 
-function calculateMinScale() {
-  const rect = mapArea.getBoundingClientRect();
-  return Math.min(rect.width / 1000, rect.height / 1000);
-}
-
-window.addEventListener('resize', () => {
-  minScale = calculateMinScale();
-  if (scale < minScale) scale = minScale;
-  applyBounds();
-});
+const minScale = 1;
+const maxScale = 6;
 
 fetch("data.json")
   .then(res => res.json())
@@ -304,10 +294,6 @@ fetch("data.json")
   });
 
 function initMap() {
-  minScale = calculateMinScale();
-  scale = minScale;
-  applyBounds();
-  
   const paths = document.querySelectorAll("svg path");
   paths.forEach(path => {
     const id = path.id;
@@ -350,10 +336,11 @@ function initMap() {
     if (e.touches?.length === 0) hideTooltip();
   }, { passive: true });
 
-  // Wheel zoom
+  // Wheel zoom (sadece yakınlaştırma)
   mapArea.addEventListener('wheel', e => {
     e.preventDefault();
     const delta = e.deltaY > 0 ? -0.12 : 0.12;
+    if (delta < 0) return; // Uzaklaştırma engel
     zoomAtPoint(delta, e.clientX - mapArea.offsetLeft, e.clientY - mapArea.offsetTop);
   }, { passive: false });
 
@@ -379,7 +366,7 @@ function initMap() {
     mapArea.style.cursor = 'grab';
   });
 
-  // Touch pinch
+  // Touch pinch (sadece yakınlaştırma)
   mapArea.addEventListener('touchstart', e => {
     if (e.touches.length === 2) {
       e.preventDefault();
@@ -403,6 +390,7 @@ function initMap() {
         e.touches[0].clientY - e.touches[1].clientY
       );
       let newScale = lastScale * (dist / lastTouchDistance);
+      if (newScale < minScale) newScale = minScale;
       zoomAtPoint(newScale - scale,
         (e.touches[0].clientX + e.touches[1].clientX)/2 - mapArea.offsetLeft,
         (e.touches[0].clientY + e.touches[1].clientY)/2 - mapArea.offsetTop
@@ -433,12 +421,39 @@ function initMap() {
     searchInput.value = "";
     searchInput.dispatchEvent(new Event("input"));
   });
+
+  // ESC ile sidebar kapatma
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && sidebar.classList.contains("active")) {
+      sidebar.classList.remove("active");
+      searchButton.classList.remove("hidden");
+      if (activePath) activePath.classList.remove("active");
+      activePath = null;
+      hideTooltip();
+    }
+  });
+
+  // Harita dışı tıklama ile sidebar kapatma ve active kaldırma
+  document.addEventListener('click', e => {
+    if (sidebar.classList.contains("active") && !sidebar.contains(e.target) && !searchButton.contains(e.target)) {
+      sidebar.classList.remove("active");
+      searchButton.classList.remove("hidden");
+      if (activePath) activePath.classList.remove("active");
+      activePath = null;
+      hideTooltip();
+    } else if (activePath && !svg.contains(e.target) && !sidebar.contains(e.target)) {
+      activePath.classList.remove("active");
+      activePath = null;
+      hideTooltip();
+    }
+  });
 }
 
 function zoomAtPoint(delta, mouseX, mouseY) {
   const oldScale = scale;
   let newScale = scale + delta;
-  scale = Math.max(minScale, Math.min(maxScale, newScale));
+  if (newScale < minScale) newScale = minScale;
+  scale = Math.min(maxScale, newScale);
 
   const factor = scale / oldScale;
   translateX = mouseX - (mouseX - translateX) * factor;
@@ -504,7 +519,7 @@ function moveTooltip(e) {
   y = Math.max(10, y);
 
   tooltip.style.left = (rect.left + x) + "px";
-  tooltip.style.top = (rect.top + y) + "px";
+  tooltip.style.top  = (rect.top + y) + "px";
 }
 
 document.getElementById("sidebar-close")?.addEventListener("click", () => {
