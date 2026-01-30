@@ -33,26 +33,28 @@
     svg path {
       fill: #ffffff;
       stroke: #333;
-      stroke-width: 0.7;
+      stroke-width: 1.2; /* Sınırlar daha belirgin - kalınlaştırıldı */
       vector-effect: non-scaling-stroke;
       pointer-events: all;
       transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
       transform: translateY(0) scale(1);
       filter: drop-shadow(0 0 4px transparent);
     }
+    /* HOVER EFEKTİ - YEŞİL + HAFİF KALKIYOR (düşürüldü) */
     svg path:hover {
       fill: #4ade80 !important;
       stroke: #222;
-      stroke-width: 1.2;
-      transform: translateY(-8px) scale(1.02);
-      filter: drop-shadow(0 12px 20px rgba(74, 222, 128, 0.5));
+      stroke-width: 1.6; /* Sınırlar hover'da daha belirgin */
+      transform: translateY(-4px) scale(1.01); /* Animasyon düşürüldü */
+      filter: drop-shadow(0 6px 10px rgba(74, 222, 128, 0.3)); /* Gölge hafifletildi */
     }
+    /* TIKLANINCA - KIRMIZI + DAHA ÇOK KALKIYOR (düşürüldü) */
     svg path.active {
       fill: #ff4444 !important;
       stroke: #fff;
-      stroke-width: 2.2;
-      transform: translateY(-16px) scale(1.05);
-      filter: drop-shadow(0 20px 30px rgba(255, 68, 68, 0.7));
+      stroke-width: 2.6; /* Sınırlar active'de daha belirgin */
+      transform: translateY(-8px) scale(1.02); /* Animasyon düşürüldü */
+      filter: drop-shadow(0 10px 15px rgba(255, 68, 68, 0.4)); /* Gölge hafifletildi */
     }
     .tooltip {
       position: absolute;
@@ -271,7 +273,7 @@ let startX, startY;
 let lastScale = 1;
 let lastTouchDistance = 0;
 
-const minScale = 0.5;
+const minScale = 1; /* Uzaklaştırma yok - minScale 1 yapıldı */
 const maxScale = 8;
 
 fetch("data.json")
