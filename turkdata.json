@@ -1,0 +1,439 @@
+{
+  "AO": {
+    "name_tr": "Angola",
+    "groups": []
+  },
+  "BI": {
+    "name_tr": "Burundi",
+    "groups": []
+  },
+  "BJ": {
+    "name_tr": "Benin",
+    "groups": [
+      {
+        "name_tr": "JNIM/ISSP Sızma Hücreleri",
+        "details": {
+          "kurulus_yili": "2023–2024 (sızma dönemi)",
+          "ilk_eylem": "2024 başı – sınır baskınları",
+          "grup_profili": "JNIM ve ISSP'nin Benin kuzeyine sınırlı sızmaları; yerel Fulani topluluklarıyla temas.",
+          "amac_nihai_hedef": "Kıyı ülkelerine yayılma, lojistik hat oluşturma.",
+          "eylem_taktikleri": "Küçük çaplı pusular, kaçırma, propaganda yayma."
+        }
+      }
+    ]
+  },
+  "BF": {
+    "name_tr": "Burkina Faso",
+    "groups": [
+      {
+        "name_tr": "JNIM (Cemaat ve Nusrat el İslam vel Müslimin)",
+        "details": {
+          "kurulus_yili": "2017",
+          "ilk_eylem": "2017 Mart – birleşmeden sonra Burkina saldırısı",
+          "grup_profili": "Sahel'in en güçlü El Kaide bağlantılı koalisyonu; Macina, Ansaroul Islam vb. alt gruplar içerir. 2025 itibarıyla Burkina'da en dominant grup.",
+          "amac_nihai_hedef": "Sahel'de şeriat devleti kurmak, Batı Afrika'ya yayılmak.",
+          "eylem_taktikleri": "Motosikletli hızlı baskınlar, karmaşık saldırılar, intihar eylemleri, sivil hedeflere roket."
+        }
+      },
+      {
+        "name_tr": "ISSP (Islamic State Sahel Province / ISGS)",
+        "details": {
+          "kurulus_yili": "2015 (ISGS olarak)",
+          "ilk_eylem": "2016 – Burkina sınır saldırısı",
+          "grup_profili": "IS'nin Sahel kolu; JNIM ile rekabet halinde, 2025'te büyüme yavaşladı ama hala aktif.",
+          "amac_nihai_hedef": "IS hilafetini Sahel'e yaymak.",
+          "eylem_taktikleri": "Sınır baskınları, IED, sivillere karşı katliamlar."
+        }
+      }
+    ]
+  },
+  "BW": {
+    "name_tr": "Botswana",
+    "groups": []
+  },
+  "CF": {
+    "name_tr": "Orta Afrika Cumhuriyeti",
+    "groups": []
+  },
+  "CI": {
+    "name_tr": "Fildişi Sahili",
+    "groups": [
+      {
+        "name_tr": "JNIM Hücreleri",
+        "details": {
+          "kurulus_yili": "2016 sonrası",
+          "ilk_eylem": "2016 Grand Bassam otel saldırısı (AQIM bağlantılı)",
+          "grup_profili": "Kıyı ülkelerine sınırlı sızma; JNIM'in güney genişlemesi.",
+          "amac_nihai_hedef": "Ekonomik hedeflere zarar verme.",
+          "eylem_taktikleri": "Oteller, plajlar gibi yumuşak hedeflere silahlı saldırı."
+        }
+      }
+    ]
+  },
+  "CM": {
+    "name_tr": "Kamerun",
+    "groups": [
+      {
+        "name_tr": "ISWAP / Boko Haram",
+        "details": {
+          "kurulus_yili": "2014–2015 (Boko Haram yayılması)",
+          "ilk_eylem": "2014 – Far North bölgesi saldırıları",
+          "grup_profili": "Boko Haram/ISWAP'ın Kamerun kuzeyindeki uzantısı.",
+          "amac_nihai_hedef": "Bölgesel hilafet.",
+          "eylem_taktikleri": "Köylere baskın, kaçırma, intihar bombası."
+        }
+      }
+    ]
+  },
+  "CD": {
+    "name_tr": "Demokratik Kongo Cumhuriyeti",
+    "groups": [
+      {
+        "name_tr": "ISCAP (Islamic State Central Africa Province)",
+        "details": {
+          "kurulus_yili": "2019 (Allied Democratic Forces – ADF dönüşümü)",
+          "ilk_eylem": "2019 sonrası IS bayrağı altında saldırılar",
+          "grup_profili": "ADF'nin IS bağlantılı kolu; doğu Kongo'da aktif.",
+          "amac_nihai_hedef": "Orta Afrika'da IS eyaleti kurmak.",
+          "eylem_taktikleri": "Orman gerillası, katliam, maden kontrolü."
+        }
+      }
+    ]
+  },
+  "CG": {
+    "name_tr": "Kongo",
+    "groups": []
+  },
+  "DJ": {
+    "name_tr": "Cibuti",
+    "groups": []
+  },
+  "DZ": {
+    "name_tr": "Cezayir",
+    "groups": [
+      {
+        "name_tr": "AQIM (Magrip'te El Kaide)",
+        "details": {
+          "kurulus_yili": "2007 (GSPC'den dönüşüm)",
+          "ilk_eylem": "2007 – bombalı saldırılar",
+          "grup_profili": "Cezayir merkezli; JNIM'e destek veren ana yapı. 2025'te zayıflamış ama hala var.",
+          "amac_nihai_hedef": "Cezayir'de şeriat, Batı etkisini atmak.",
+          "eylem_taktikleri": "Pusu, IED, propaganda."
+        }
+      }
+    ]
+  },
+  "EG": {
+    "name_tr": "Mısır",
+    "groups": [
+      {
+        "name_tr": "ISSP (Sinai Vilayeti)",
+        "details": {
+          "kurulus_yili": "2014",
+          "ilk_eylem": "2014 sonrası Sinai saldırıları",
+          "grup_profili": "Sinai'de aktif IS kolu.",
+          "amac_nihai_hedef": "Mısır'da hilafet.",
+          "eylem_taktikleri": "Askeri üs saldırıları, IED."
+        }
+      }
+    ]
+  },
+  "ER": {
+    "name_tr": "Eritre",
+    "groups": []
+  },
+  "ET": {
+    "name_tr": "Etiyopya",
+    "groups": []
+  },
+  "GA": {
+    "name_tr": "Gabon",
+    "groups": []
+  },
+  "GH": {
+    "name_tr": "Gana",
+    "groups": []
+  },
+  "GN": {
+    "name_tr": "Gine",
+    "groups": []
+  },
+  "GM": {
+    "name_tr": "Gambiya",
+    "groups": []
+  },
+  "GW": {
+    "name_tr": "Gine-Bissau",
+    "groups": []
+  },
+  "GQ": {
+    "name_tr": "Ekvator Ginesi",
+    "groups": []
+  },
+  "KE": {
+    "name_tr": "Kenya",
+    "groups": [
+      {
+        "name_tr": "Al-Shabaab",
+        "details": {
+          "kurulus_yili": "2006",
+          "ilk_eylem": "2006 sonrası Somali'den Kenya'ya saldırılar",
+          "grup_profili": "Somali merkezli El Kaide bağlantılı; Kenya'da Garissa, Westgate gibi saldırılar.",
+          "amac_nihai_hedef": "Somali'de şeriat, Kenya'yı zayıflatmak.",
+          "eylem_taktikleri": "İntihar bombası, alışveriş merkezi saldırısı, otobüs pususu."
+        }
+      }
+    ]
+  },
+  "LR": {
+    "name_tr": "Liberya",
+    "groups": []
+  },
+  "LY": {
+    "name_tr": "Libya",
+    "groups": [
+      {
+        "name_tr": "IS Libya",
+        "details": {
+          "kurulus_yili": "2014",
+          "ilk_eylem": "2015 Sirte'de hilafet ilanı",
+          "grup_profili": "Zayıflamış ama hala hücreler var.",
+          "amac_nihai_hedef": "Libya'da IS eyaleti.",
+          "eylem_taktikleri": "Suikast, IED."
+        }
+      }
+    ]
+  },
+  "LS": {
+    "name_tr": "Lesotho",
+    "groups": []
+  },
+  "MA": {
+    "name_tr": "Fas",
+    "groups": []
+  },
+  "MG": {
+    "name_tr": "Madagaskar",
+    "groups": []
+  },
+  "ML": {
+    "name_tr": "Mali",
+    "groups": [
+      {
+        "name_tr": "JNIM",
+        "details": {
+          "kurulus_yili": "2017",
+          "ilk_eylem": "2017 – birleşmeden sonra saldırılar",
+          "grup_profili": "Mali merkezli en güçlü grup; Ansar Dine, Macina, AQIM unsurları.",
+          "amac_nihai_hedef": "Mali'de şeriat, Sahel hilafeti.",
+          "eylem_taktikleri": "Şehir baskınları, askeri üs saldırıları, propaganda."
+        }
+      },
+      {
+        "name_tr": "ISSP (ISGS)",
+        "details": {
+          "kurulus_yili": "2015",
+          "ilk_eylem": "2015 – Mali'de ilk eylemler",
+          "grup_profili": "JNIM ile rekabet; kuzey ve doğu Mali.",
+          "amac_nihai_hedef": "IS Sahel eyaleti.",
+          "eylem_taktikleri": "Sınır gerillası, katliam."
+        }
+      }
+    ]
+  },
+  "MZ": {
+    "name_tr": "Mozambik",
+    "groups": [
+      {
+        "name_tr": "ISCAP (Cabo Delgado)",
+        "details": {
+          "kurulus_yili": "2017–2019 (IS bayrağı)",
+          "ilk_eylem": "2017 – Cabo Delgado saldırıları",
+          "grup_profili": "ADF bağlantılı IS kolu; gaz sahalarına tehdit.",
+          "amac_nihai_hedef": "Mozambik'te hilafet.",
+          "eylem_taktikleri": "Kasaba ele geçirme, beheading, yağma."
+        }
+      }
+    ]
+  },
+  "MR": {
+    "name_tr": "Moritanya",
+    "groups": []
+  },
+  "MW": {
+    "name_tr": "Malavi",
+    "groups": []
+  },
+  "NA": {
+    "name_tr": "Namibya",
+    "groups": []
+  },
+  "NE": {
+    "name_tr": "Nijer",
+    "groups": [
+      {
+        "name_tr": "ISSP / ISGS",
+        "details": {
+          "kurulus_yili": "2015",
+          "ilk_eylem": "2016 – Nijer saldırıları",
+          "grup_profili": "Nijer'de en aktif IS kolu.",
+          "amac_nihai_hedef": "Nijer'de kontrol.",
+          "eylem_taktikleri": "Askeri üs, sivil katliam."
+        }
+      },
+      {
+        "name_tr": "JNIM",
+        "details": {
+          "kurulus_yili": "2017",
+          "ilk_eylem": "2017 sonrası Nijer'e yayılma",
+          "grup_profili": "Sınır bölgelerinde JNIM hücreleri.",
+          "amac_nihai_hedef": "Sahel genişlemesi.",
+          "eylem_taktikleri": "Pusu, kaçırma."
+        }
+      }
+    ]
+  },
+  "NG": {
+    "name_tr": "Nijerya",
+    "groups": [
+      {
+        "name_tr": "ISWAP (Islamic State West Africa Province)",
+        "details": {
+          "kurulus_yili": "2016 (Boko Haram'dan ayrılma)",
+          "ilk_eylem": "2016 Ağustos – bağımsız eylemler",
+          "grup_profili": "Daha disiplinli IS kolu; Çad Gölü havzası.",
+          "amac_nihai_hedef": "Batı Afrika hilafeti.",
+          "eylem_taktikleri": "Üs saldırıları, intihar, propaganda."
+        }
+      },
+      {
+        "name_tr": "Boko Haram (kalıntılar)",
+        "details": {
+          "kurulus_yili": "2002 / 2009 silahlı",
+          "ilk_eylem": "2009 Maiduguri ayaklanması",
+          "grup_profili": "Shekau sonrası parçalanmış; Lake Chad ve Mandara'da dirençli.",
+          "amac_nihai_hedef": "Nijerya şeriat devleti.",
+          "eylem_taktikleri": "İntihar (2025'te yeniden başladı), köy baskını."
+        }
+      }
+    ]
+  },
+  "RW": {
+    "name_tr": "Ruanda",
+    "groups": []
+  },
+  "EH": {
+    "name_tr": "Batı Sahra",
+    "groups": []
+  },
+  "SD": {
+    "name_tr": "Sudan",
+    "groups": []
+  },
+  "SS": {
+    "name_tr": "Güney Sudan",
+    "groups": []
+  },
+  "SN": {
+    "name_tr": "Senegal",
+    "groups": []
+  },
+  "SL": {
+    "name_tr": "Sierra Leone",
+    "groups": []
+  },
+  "SZ": {
+    "name_tr": "Esvatini",
+    "groups": []
+  },
+  "TD": {
+    "name_tr": "Çad",
+    "groups": [
+      {
+        "name_tr": "ISWAP / Boko Haram",
+        "details": {
+          "kurulus_yili": "2015 sonrası",
+          "ilk_eylem": "2015 – Çad Gölü saldırıları",
+          "grup_profili": "Lake Chad havzasında aktif.",
+          "amac_nihai_hedef": "Bölgesel genişleme.",
+          "eylem_taktikleri": "Ada baskınları, kaçırma."
+        }
+      }
+    ]
+  },
+  "TG": {
+    "name_tr": "Togo",
+    "groups": []
+  },
+  "TN": {
+    "name_tr": "Tunus",
+    "groups": []
+  },
+  "TZ": {
+    "name_tr": "Tanzanya",
+    "groups": [
+      {
+        "name_tr": "Al-Shabaab Hücreleri",
+        "details": {
+          "kurulus_yili": "2010 sonrası",
+          "ilk_eylem": "2013 – Zanzibar tehditleri",
+          "grup_profili": "Mozambik ve Kenya'dan sızma.",
+          "amac_nihai_hedef": "Doğu Afrika zayıflatma.",
+          "eylem_taktikleri": "Küçük hücre saldırıları."
+        }
+      }
+    ]
+  },
+  "UG": {
+    "name_tr": "Uganda",
+    "groups": [
+      {
+        "name_tr": "ADF / ISCAP bağlantılı",
+        "details": {
+          "kurulus_yili": "1990'lar / 2019 IS bağlantısı",
+          "ilk_eylem": "2021 Kampala intihar saldırıları",
+          "grup_profili": "Kongo'dan Uganda'ya sızma.",
+          "amac_nihai_hedef": "Doğu Afrika yayılması.",
+          "eylem_taktikleri": "Şehir bombalaması."
+        }
+      }
+    ]
+  },
+  "ZA": {
+    "name_tr": "Güney Afrika",
+    "groups": []
+  },
+  "ZM": {
+    "name_tr": "Zambiya",
+    "groups": []
+  },
+  "ZW": {
+    "name_tr": "Zimbabve",
+    "groups": []
+  },
+  "SO": {
+    "name_tr": "Somali",
+    "groups": [
+      {
+        "name_tr": "Al-Shabaab",
+        "details": {
+          "kurulus_yili": "2006",
+          "ilk_eylem": "2007 – Mogadişu saldırıları",
+          "grup_profili": "En güçlü El Kaide bağlantılı grup; kırsalda kontrol.",
+          "amac_nihai_hedef": "Somali'de şeriat devleti.",
+          "eylem_taktikleri": "İntihar, karmaşık şehir saldırıları, vergi toplama."
+        }
+      },
+      {
+        "name_tr": "ISS (Islamic State Somalia)",
+        "details": {
+          "kurulus_yili": "2015",
+          "ilk_eylem": "2015 Puntland saldırıları",
+          "grup_profili": "Al-Shabaab ile rekabet; Puntland'da sınırlı.",
+          "amac_nihai_hedef": "IS hilafeti Somali.",
+          "eylem_taktikleri": "Suikast, küçük baskın."
+        }
+      }
+    ]
+  }
+}
