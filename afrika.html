@@ -272,6 +272,49 @@ const searchButton = document.getElementById("search-button");
 const svg = document.getElementById("svg-map");
 const mapArea = document.getElementById("map-area");
 
+function resetSelection() {
+  document.querySelectorAll("svg path.active")
+    .forEach(p => p.classList.remove("active"));
+
+  const tooltip = document.querySelector(".tooltip");
+  if (tooltip) tooltip.classList.remove("visible");
+}
+
+
+  document.addEventListener("click", function (e) {
+  const sidebar = document.getElementById("sidebar");
+  const mapArea = document.getElementById("map-area");
+
+  if (!sidebar.classList.contains("active")) return;
+
+  if (sidebar.contains(e.target)) return;
+  if (mapArea.contains(e.target)) return;
+
+  sidebar.classList.remove("active");
+  resetSelection();
+});
+
+  let startY = 0;
+let endY = 0;
+
+const sidebar = document.getElementById("sidebar");
+
+sidebar.addEventListener("touchstart", e => {
+  startY = e.touches[0].clientY;
+});
+
+sidebar.addEventListener("touchmove", e => {
+  endY = e.touches[0].clientY;
+});
+
+sidebar.addEventListener("touchend", () => {
+  if (endY - startY > 80) {
+    sidebar.classList.remove("active");
+    resetSelection();
+  }
+});
+
+  
 fetch("data.json")
   .then(res => res.json())
   .then(data => {
