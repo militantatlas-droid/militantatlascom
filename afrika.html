@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MİLİTAN ATLASI (asjhkd)</title>
+  <title>MİLİTAN ATLASI (AFRİKA)</title>
   <style>
     * { box-sizing: border-box; margin:0; padding:0; }
     body {
@@ -401,11 +401,12 @@ function showSearchSuggestions(term) {
     return;
   }
 
+  // Başlık ekle (innerHTML ile başla)
   sidebarContent.innerHTML = `<h3 style="margin: 0 0 12px 0; color:#4ade80;">Eşleşen Ülkeler:</h3>`;
 
   const matches = [];
 
-  // countryData'dan (JSON'dan gelen id'ler büyük harf olsun)
+  // JSON verisinden eşleşenler
   Object.keys(countryData).forEach(key => {
     const country = countryData[key];
     const nameLower = (country.name_tr || key).toLowerCase();
@@ -417,9 +418,9 @@ function showSearchSuggestions(term) {
     }
   });
 
-  // SVG path'lerden (id zaten büyük harf olmalı)
+  // SVG path'lerden eşleşenler (data-name ile)
   document.querySelectorAll("svg path").forEach(path => {
-    const id = path.id.toUpperCase();
+    const id = path.id.toUpperCase(); // garanti büyük
     const nameLower = (path.getAttribute("data-name") || path.id).toLowerCase();
     if (nameLower.includes(term) && !countryData[path.id] && !countryData[path.id.toLowerCase()]) {
       if (!matches.some(m => m.id === id)) {
@@ -436,18 +437,20 @@ function showSearchSuggestions(term) {
       div.className = "suggestion-item";
       div.textContent = item.name;
       div.addEventListener("click", () => {
-        const pathElem = document.getElementById(item.id); // item.id büyük harf
+        const pathElem = document.getElementById(item.id);
         if (pathElem) {
           activateCountry(item.id, item.name, pathElem);
         } else {
-          console.error(`Path bulunamadı: ${item.id} — SVG'de id="${item.id}" var mı?`);
+          console.error(`Path elementi bulunamadı: ${item.id}`);
         }
       });
       sidebarContent.appendChild(div);
     });
   }
 
-  sidebarContent.innerHTML = html;
+  // BURAYI KALDIRDIK → sidebarContent.innerHTML = html;  (hata kaynağı buydu)
+  sidebar.classList.add("active");
+}
   sidebar.classList.add("active");
 }
 
