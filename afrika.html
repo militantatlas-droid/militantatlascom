@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MİLİTAN ATLASI AFRİKA</title>
+  <title>MİLİTAN ATLASI </title>
   <style>
     * { box-sizing: border-box; margin:0; padding:0; }
     body {
@@ -648,14 +648,27 @@ function showCountryModal(id, fallbackName) {
   countryModal.classList.add("active");
 
   // Grup detay butonları
-  document.querySelectorAll(".group-detail-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const group = JSON.parse(btn.dataset.group);
-      showGroupDetail(group);
-    });
-  });
-}
+document.querySelectorAll(".group-detail-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    let group;
+    try {
+      group = JSON.parse(btn.dataset.group);
+    } catch (e) {
+      console.error("JSON parse HATASI - Grup:", btn.textContent);
+      console.error("Hatalı data-group string'i:", btn.dataset.group);
+      console.error("Hata detayı:", e.message);
+      alert("Bu grup detayında teknik hata var (JSON bozulması). Konsola bak.");
+      return;
+    }
 
+    if (!group || !group.details) {
+      console.warn("Grup veya details eksik:", btn.textContent);
+      return;
+    }
+
+    showGroupDetail(group);
+  });
+});
 function closeCountryModal() {
   countryModal.classList.remove("active");
   if (activePath) {
