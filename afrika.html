@@ -513,15 +513,15 @@
       <h2 id="long-detail-title">Detaylı Bilgi</h2>
 
    <div class="long-detail-tabs">
-  <div class="l-tab active" data-ltab="olusum">Oluşum Süreci ve Gelişimi</div>
-  <div class="l-tab" data-ltab="amac">Amaç ve Nihai Hedef</div>
-  <div class="l-tab" data-ltab="yonetim">Yönetim ve Yapılanma</div>
-  <div class="l-tab" data-ltab="metot">Kullandıkları Eylem Metotları</div>
-  <div class="l-tab" data-ltab="eylem">Önemli Eylemler</div>
-  <div class="l-tab" data-ltab="finans">Finansman</div>
-  <div class="l-tab" data-ltab="iliski">Diğer Gruplarla İlişkiler</div>
-  <div class="l-tab" data-ltab="diger">Diğer Bilgiler</div>
-  <div class="l-tab" data-ltab="kaynak">Kaynakça</div>
+  <div class="l-tab active" data-ltab="olusum" onclick="showLongTabContent('olusum')">Oluşum Süreci ve Gelişimi</div>
+  <div class="l-tab" data-ltab="amac" onclick="showLongTabContent('amac')">Amaç ve Nihai Hedef</div>
+  <div class="l-tab" data-ltab="yonetim" onclick="showLongTabContent('yonetim')">Yönetim ve Yapılanma</div>
+  <div class="l-tab" data-ltab="metot" onclick="showLongTabContent('metot')">Kullandıkları Eylem Metotları</div>
+  <div class="l-tab" data-ltab="eylem" onclick="showLongTabContent('eylem')">Önemli Eylemler</div>
+  <div class="l-tab" data-ltab="finans" onclick="showLongTabContent('finans')">Finansman</div>
+  <div class="l-tab" data-ltab="iliski" onclick="showLongTabContent('iliski')">Diğer Gruplarla İlişkiler</div>
+  <div class="l-tab" data-ltab="diger" onclick="showLongTabContent('diger')">Diğer Bilgiler</div>
+  <div class="l-tab" data-ltab="kaynak" onclick="showLongTabContent('kaynak')">Kaynakça</div>
 </div>
 
       <div id="detail-tab-container">
@@ -810,7 +810,6 @@ function showLongTabContent(tabKey) {
   const d = currentGroup.details;
   let content = "";
 
-  // Sekme anahtarına (data-ltab) göre JSON'dan veriyi eşleştiriyoruz
   switch(tabKey) {
     case "olusum": content = d.olusum_sureci || "Veri yok."; break;
     case "amac":   content = d.nihai_hedef || "Veri yok."; break;
@@ -824,26 +823,19 @@ function showLongTabContent(tabKey) {
     default:       content = "İçerik bulunamadı.";
   }
 
-  // Ekrana basacağımız alanı buluyoruz
   const body = document.getElementById("long-detail-body");
   if(body) {
     body.innerHTML = `<div class="long-text-content" style="line-height:1.6; color:#ddd; padding:20px; font-size:15px;">${content}</div>`;
   }
 
-  // Tıklanan sekmeyi aktif (parlak) yap, diğerlerini söndür
+  // Aktif sekme görselini güncelle (Sadece bir kez yazılması yeterli)
   document.querySelectorAll(".l-tab").forEach(t => {
     t.classList.toggle("active", t.dataset.ltab === tabKey);
   });
 }
 
 // 2. TIKLAMA ÖZELLİĞİNİ BAĞLIYORUZ (DOMContentLoaded olmadan da çalışır)
-document.addEventListener("click", function(e) {
-  // Eğer tıklanan element 'l-tab' sınıfına sahipse
-  if (e.target.classList.contains("l-tab")) {
-    const key = e.target.getAttribute("data-ltab");
-    showLongTabContent(key);
-  }
-});
+
 }
 
 function closeGroupModal() {
