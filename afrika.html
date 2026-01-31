@@ -496,11 +496,10 @@
       <button id="group-detail-back" class="modal-back">←</button>
       <h2 id="group-detail-title">Grup Adı</h2>
 
-      <div class="tabs">
-        <div class="tab active" data-tab="temel">Temel Bilgiler</div>
-        <div class="tab" data-tab="durum">Durum</div>
-        <div class="tab" data-tab="detay">Detay</div>
-      </div>
+   <div class="tabs">
+  <div class="tab active" data-tab="temel">KATEGORİ</div> <div class="tab" data-tab="durum">DURUM</div>
+  <div class="tab" data-tab="detay">DETAY</div>
+</div>
 
       <div id="tab-content" class="tab-content"></div>
     </div>
@@ -783,11 +782,8 @@ function showTabContent(tabKey) {
   let content = "";
   switch(tabKey) {
     case "temel":
-      content = `
-        <p><strong>Kuruluş Yılı:</strong><br>${d.kurulus_yili || "—"}</p>
-        <p><strong>İlk Eylem:</strong><br>${d.ilk_eylem || "—"}</p>
-        <p><strong>Grup Türü:</strong><br>${d.grup_turu || "—"}</p>
-      `;
+      // İsteğine göre burayı tamamen boşalttık.
+      content = ""; 
       break;
     case "durum":
       content = `
