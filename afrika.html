@@ -512,12 +512,17 @@
       <button id="long-detail-back" class="modal-back">←</button>
       <h2 id="long-detail-title">Detaylı Bilgi</h2>
 
-      <div class="detail-tabs">
-        <div class="detail-tab active" data-detail-tab="tarihce">Tarihçe</div>
-        <div class="detail-tab" data-detail-tab="ideoloji">İdeoloji & Amaçlar</div>
-        <div class="detail-tab" data-detail-tab="eylemler">Önemli Eylemler</div>
-        <div class="detail-tab" data-detail-tab="baglantilar">Bağlantılar & Finansman</div>
-      </div>
+   <div class="long-detail-tabs">
+  <div class="l-tab active" data-ltab="olusum">Oluşum Süreci ve Gelişimi</div>
+  <div class="l-tab" data-ltab="amac">Amaç ve Nihai Hedef</div>
+  <div class="l-tab" data-ltab="yonetim">Yönetim ve Yapılanma</div>
+  <div class="l-tab" data-ltab="metot">Kullandıkları Eylem Metotları</div>
+  <div class="l-tab" data-ltab="eylem">Önemli Eylemler</div>
+  <div class="l-tab" data-ltab="finans">Finansman</div>
+  <div class="l-tab" data-ltab="iliski">Diğer Gruplarla İlişkiler</div>
+  <div class="l-tab" data-ltab="diger">Diğer Bilgiler</div>
+  <div class="l-tab" data-ltab="kaynak">Kaynakça</div>
+</div>
 
       <div id="detail-tab-container">
         <div id="tab-tarihce" class="detail-tab-pane active detail-tab-content">
@@ -772,6 +777,7 @@ function showTabContent(tabKey) {
   if (tabKey === "detay") {
     longDetailTitle.textContent = `${currentGroup.name_tr || "Grup"} — Detaylı Bilgi`;
     longDetailModal.classList.add("active");
+    showLongTabContent("olusum");
 
     tabContents.innerHTML = `<p style="text-align:center; color:#4ade80; padding:60px 0; font-style:italic;">
       Detaylı içerik yeni pencerede açıldı.
@@ -796,6 +802,48 @@ function showTabContent(tabKey) {
       content = "<p style='color:#ff4444; text-align:center;'>Geçersiz sekme.</p>";
   }
   tabContents.innerHTML = content;
+}
+
+// 1. FONKSİYONU TANIMLIYORUZ
+function showLongTabContent(tabKey) {
+  if (!currentGroup || !currentGroup.details) return;
+  const d = currentGroup.details;
+  let content = "";
+
+  // Sekme anahtarına (data-ltab) göre JSON'dan veriyi eşleştiriyoruz
+  switch(tabKey) {
+    case "olusum": content = d.olusum_sureci || "Veri yok."; break;
+    case "amac":   content = d.nihai_hedef || "Veri yok."; break;
+    case "yonetim": content = d.yonetim_yapisi || "Veri yok."; break;
+    case "metot":  content = d.eylem_metotlari || "Veri yok."; break;
+    case "eylem":  content = d.onemli_eylemler || "Veri yok."; break;
+    case "finans": content = d.finansman_kaynaklari || "Veri yok."; break;
+    case "iliski": content = d.grup_iliskileri || "Veri yok."; break;
+    case "diger":  content = d.diger_bilgiler || "Veri yok."; break;
+    case "kaynak": content = d.kaynakca || "Veri yok."; break;
+    default:       content = "İçerik bulunamadı.";
+  }
+
+  // Ekrana basacağımız alanı buluyoruz
+  const body = document.getElementById("long-detail-body");
+  if(body) {
+    body.innerHTML = `<div class="long-text-content" style="line-height:1.6; color:#ddd; padding:20px; font-size:15px;">${content}</div>`;
+  }
+
+  // Tıklanan sekmeyi aktif (parlak) yap, diğerlerini söndür
+  document.querySelectorAll(".l-tab").forEach(t => {
+    t.classList.toggle("active", t.dataset.ltab === tabKey);
+  });
+}
+
+// 2. TIKLAMA ÖZELLİĞİNİ BAĞLIYORUZ (DOMContentLoaded olmadan da çalışır)
+document.addEventListener("click", function(e) {
+  // Eğer tıklanan element 'l-tab' sınıfına sahipse
+  if (e.target.classList.contains("l-tab")) {
+    const key = e.target.getAttribute("data-ltab");
+    showLongTabContent(key);
+  }
+});
 }
 
 function closeGroupModal() {
