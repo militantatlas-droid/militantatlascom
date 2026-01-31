@@ -362,20 +362,52 @@
       #long-detail-modal .modal-content { width: 94%; max-width: 1000px; padding: 24px 28px; }
     }
     @media (max-width: 768px) {
-      #container { flex-direction: column; }
-      #map-area { flex: 1 1 60%; }
-      #sidebar {
-        width: 100%; height: auto;
-        max-height: 60%; min-height: 40%;
-        position: fixed; bottom: 0; left: 0; right: 0;
+    #container { flex-direction: column; }
+    #map-area { flex: 1 1 60%; }
+    
+    #sidebar {
+        width: 100%; 
+        height: auto;
+        max-height: 70%; /* Biraz daha alan tanıdık */
+        min-height: 40%;
+        position: fixed; 
+        bottom: 0; 
+        left: 0; 
+        right: 0;
         transform: translateY(100%);
-        border-left: none; border-top: 1px solid #444;
+        border-left: none; 
+        border-top: 1px solid #444;
         z-index: 300;
-      }
-      #sidebar.active { transform: translateY(0); }
-      #search-button { bottom: 100px; right: 24px; }
-      #long-detail-modal .modal-content { width: 96%; padding: 20px 20px; max-height: 96vh; }
+        border-radius: 15px 15px 0 0; /* Mobilde daha modern durur */
     }
+
+    #sidebar.active { transform: translateY(0); }
+    #search-button { bottom: 100px; right: 24px; }
+    #long-detail-modal .modal-content { width: 96%; padding: 20px 20px; max-height: 96vh; }
+
+    /* --- YENİ EKLENEN SEKME DÜZENLEMESİ --- */
+    .tabs {
+        display: flex !important;
+        width: 100% !important;
+        padding: 5px !important;
+        gap: 2px !important; /* Butonlar arasındaki boşluk */
+    }
+
+    .tab-button {
+        flex: 1 !important; /* Her buton ekranın 1/3'ünü kaplar, kaydırma biter */
+        padding: 10px 2px !important; /* Dikeyde geniş, yatayda dar padding */
+        font-size: 13px !important; /* Metinler sığsın diye hafif küçültme */
+        text-align: center;
+        white-space: nowrap; /* Yazıyı tek satırda tut */
+        overflow: hidden;
+        text-overflow: ellipsis; /* Çok uzunsa üç nokta koyar ama genelde sığar */
+    }
+
+    .panel-content {
+        padding: 15px !important; /* İçerik mobilde daha okunaklı olsun */
+        overflow-y: auto;
+    }
+}
     @media (max-width: 480px) {
       #long-detail-modal .modal-content { width: 98%; padding: 16px 14px; }
       .l-tab { font-size: 12px; padding: 8px 10px; }
