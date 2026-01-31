@@ -403,6 +403,53 @@
       #sidebar.active { transform: translateY(0); }
       #search-button { bottom: 100px; right: 24px; }
     }
+/* Büyük Modal Sekme Yapısı */
+.long-detail-tabs {
+  display: flex;
+  gap: 5px;
+  overflow-x: auto; /* Telefondan taşarsa kaydırılabilsin */
+  border-bottom: 1px solid #444;
+  margin-bottom: 20px;
+  padding-bottom: 5px;
+}
+
+.l-tab {
+  padding: 10px 15px;
+  background: #2a2a2a;
+  color: #888;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  white-space: nowrap; /* Yazılar alt satıra geçmesin */
+  font-size: 13px;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+.l-tab:hover {
+  background: #333;
+  color: #ccc;
+}
+
+.l-tab.active {
+  background: #1f1f1f; /* Arkaplanla bütünleşsin */
+  color: #4ade80;      /* Neon yeşil aktif renk */
+  border: 1px solid #444;
+  border-bottom: 1px solid #1f1f1f; /* Alt çizgiyi silerek bütünlük sağlar */
+  font-weight: bold;
+}
+
+/* İçerik Alanı Stili */
+.detail-body {
+  padding: 10px;
+  line-height: 1.6;
+  font-size: 15px;
+  color: #ddd;
+  min-height: 200px; /* Boşken bile yer kaplasın */
+}
+
+
+
+    
   </style>
 </head>
 <body>
@@ -506,22 +553,27 @@
   </div>
 
   <!-- BÜYÜK DETAY MODALI (4 sekme) -->
-  <div id="long-detail-modal" class="modal">
-    <div class="modal-content">
-      <button id="long-detail-close" class="modal-close">×</button>
-      <button id="long-detail-back" class="modal-back">←</button>
-      <h2 id="long-detail-title">Detaylı Bilgi</h2>
+ <div id="long-detail-modal" class="modal">
+  <div class="modal-content">
+    <button id="long-detail-close" class="modal-close">×</button>
+    <button id="long-detail-back" class="modal-back">←</button>
+    <h2 id="long-detail-title">Detaylı Bilgi</h2>
 
-   <div class="long-detail-tabs">
-  <div class="l-tab active" data-ltab="olusum" onclick="showLongTabContent('olusum')">Oluşum Süreci ve Gelişimi</div>
-  <div class="l-tab" data-ltab="amac" onclick="showLongTabContent('amac')">Amaç ve Nihai Hedef</div>
-  <div class="l-tab" data-ltab="yonetim" onclick="showLongTabContent('yonetim')">Yönetim ve Yapılanma</div>
-  <div class="l-tab" data-ltab="metot" onclick="showLongTabContent('metot')">Kullandıkları Eylem Metotları</div>
-  <div class="l-tab" data-ltab="eylem" onclick="showLongTabContent('eylem')">Önemli Eylemler</div>
-  <div class="l-tab" data-ltab="finans" onclick="showLongTabContent('finans')">Finansman</div>
-  <div class="l-tab" data-ltab="iliski" onclick="showLongTabContent('iliski')">Diğer Gruplarla İlişkiler</div>
-  <div class="l-tab" data-ltab="diger" onclick="showLongTabContent('diger')">Diğer Bilgiler</div>
-  <div class="l-tab" data-ltab="kaynak" onclick="showLongTabContent('kaynak')">Kaynakça</div>
+    <div class="long-detail-tabs">
+      <div class="l-tab active" onclick="showLongTabContent('olusum')">Oluşum Süreci</div>
+      <div class="l-tab" onclick="showLongTabContent('amac')">Amaç ve Hedef</div>
+      <div class="l-tab" onclick="showLongTabContent('yonetim')">Yönetim ve Yapısı</div>
+      <div class="l-tab" onclick="showLongTabContent('metot')">Eylem Metotları</div>
+      <div class="l-tab" onclick="showLongTabContent('eylem')">Önemli Eylemler</div>
+      <div class="l-tab" onclick="showLongTabContent('finans')">Finansman</div>
+      <div class="l-tab" onclick="showLongTabContent('iliski')">İlişkiler</div>
+      <div class="l-tab" onclick="showLongTabContent('diger')">Diğer Bilgiler</div>
+      <div class="l-tab" onclick="showLongTabContent('kaynak')">Kaynakça</div>
+    </div>
+
+    <div id="long-detail-body" class="detail-body">
+      </div>
+  </div>
 </div>
 
   <button id="search-button">Ülke Ara</button>
@@ -783,34 +835,43 @@ function showTabContent(tabKey) {
   tabContents.innerHTML = content;
 }
 
-// 1. FONKSİYONU TANIMLIYORUZ
+// 9 Sekme Arası Geçişi Sağlayan Fonksiyon
 function showLongTabContent(tabKey) {
-  if (!currentGroup || !currentGroup.details) return;
-  const d = currentGroup.details;
-  let content = "";
-
-  switch(tabKey) {
-    case "olusum": content = d.olusum_sureci || "Veri yok."; break;
-    case "amac":   content = d.nihai_hedef || "Veri yok."; break;
-    case "yonetim": content = d.yonetim_yapisi || "Veri yok."; break;
-    case "metot":  content = d.eylem_metotlari || "Veri yok."; break;
-    case "eylem":  content = d.onemli_eylemler || "Veri yok."; break;
-    case "finans": content = d.finansman_kaynaklari || "Veri yok."; break;
-    case "iliski": content = d.grup_iliskileri || "Veri yok."; break;
-    case "diger":  content = d.diger_bilgiler || "Veri yok."; break;
-    case "kaynak": content = d.kaynakca || "Veri yok."; break;
-    default:       content = "İçerik bulunamadı.";
-  }
-
-  const body = document.getElementById("long-detail-body");
-  if(body) {
-    body.innerHTML = `<div class="long-text-content" style="line-height:1.6; color:#ddd; padding:20px; font-size:15px;">${content}</div>`;
-  }
-
-  // Aktif sekme görselini güncelle (Sadece bir kez yazılması yeterli)
-  document.querySelectorAll(".l-tab").forEach(t => {
-    t.classList.toggle("active", t.dataset.ltab === tabKey);
+  // 1. Önce tüm sekmelerden 'active' sınıfını kaldır (Hepsini pasif yap)
+  document.querySelectorAll(".l-tab").forEach(tab => {
+    tab.classList.remove("active");
   });
+
+  // 2. Tıklanan sekmeyi bul ve 'active' yap (Işığını yak)
+  // onclick ile çağırdığımız için event target yerine querySelector ile buluyoruz
+  const activeTab = document.querySelector(`.l-tab[onclick*="'${tabKey}'"]`);
+  if (activeTab) {
+    activeTab.classList.add("active");
+  }
+
+  // 3. İçerik Alanını Hazırla
+  const body = document.getElementById("long-detail-body");
+  
+  // Eğer JSON verisi yüklü değilse veya boşsa hata vermesin diye kontrol:
+  const d = (currentGroup && currentGroup.details) ? currentGroup.details : {};
+
+  // 4. Hangi sekmeye tıklandıysa onun verisini seç
+  let content = "";
+  switch(tabKey) {
+    case "olusum":  content = d.olusum_sureci || "Oluşum süreci bilgisi henüz girilmedi."; break;
+    case "amac":    content = d.nihai_hedef || "Amaç ve hedef bilgisi henüz girilmedi."; break;
+    case "yonetim": content = d.yonetim_yapisi || "Yönetim yapısı bilgisi henüz girilmedi."; break;
+    case "metot":   content = d.eylem_metotlari || "Eylem metotları bilgisi henüz girilmedi."; break;
+    case "eylem":   content = d.onemli_eylemler || "Önemli eylemler bilgisi henüz girilmedi."; break;
+    case "finans":  content = d.finansman_kaynaklari || "Finansman bilgisi henüz girilmedi."; break;
+    case "iliski":  content = d.grup_iliskileri || "İlişki bilgisi henüz girilmedi."; break;
+    case "diger":   content = d.diger_bilgiler || "Diğer bilgiler henüz girilmedi."; break;
+    case "kaynak":  content = d.kaynakca || "Kaynakça henüz girilmedi."; break;
+    default:        content = "Seçim yapılmadı.";
+  }
+
+  // 5. İçeriği Yazdır
+  body.innerHTML = content;
 }
 // 2. TIKLAMA ÖZELLİĞİNİ BAĞLIYORUZ (DOMContentLoaded olmadan da çalışır)
 
